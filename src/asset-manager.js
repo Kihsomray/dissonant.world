@@ -79,7 +79,7 @@ class AssetManager {
 
         // listen for load
         audio.addEventListener("loadeddata", () => {
-            console.log(`Success loading ${aud.src}.`);
+            console.log(`Success loading ${audio.src}.`);
             this.successCount++;
             if (this.isLoaded()) callback();
         });
@@ -100,7 +100,6 @@ class AssetManager {
         // set the src, load, and return
         audio.src = path;
         audio.load();
-
         return audio;
     }
 
@@ -186,4 +185,5 @@ class AssetManager {
             audio.play();
         });
     };
+    
 };
