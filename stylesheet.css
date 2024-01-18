@@ -1,0 +1,25 @@
+body {
+    display: flex;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    height: 100vh
+}
+
+p,
+h1 {
+    margin: 0;
+    padding: 10px;
+}
+
+#container {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+#game {
+    padding: 0;
+    background: rgb(65, 52, 52);
+    border: 1px solid black;
+}

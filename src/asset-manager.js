@@ -1,5 +1,11 @@
 class AssetManager {
 
+    #successCount
+    #errorCount
+    #downloadQueue
+    #images
+    #audio
+
     constructor() {
         this.successCount = 0;
         this.errorCount = 0;
