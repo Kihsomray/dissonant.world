@@ -25,11 +25,9 @@ class AssetManager {
         return this.downloadQueue.length === this.successCount + this.errorCount;
     };
 
-    download(name, path) {
+    #download(name, path, callback) {
 
-        // pull the object out of the queue
-        const object = this.downloadQueue[i];
-        const {name, path} = object;
+        // print the object out
         console.log(`Downloading ${name} @ ${path}`);
 
         // pull out the extension
@@ -40,19 +38,19 @@ class AssetManager {
 
             case 'jpg':
             case 'png':
-                this.images[name] = downloadImage(path, callback);
+                this.images[name] = this.#downloadImage(path, callback);
                 break;
 
             case 'wav':
             case 'mp3':
             case 'mp4':
-                this.audio[name] = downloadAudio(path, callback);
+                this.audio[name] = this.#downloadAudio(path, callback);
                 break;
 
         }
     }
 
-    dowloadImage(path, callback) {
+    #downloadImage(path, callback) {
 
         // new image object
         const image = new Image();
@@ -73,12 +71,11 @@ class AssetManager {
 
         // set the src, load, and return
         image.src = path;
-        image.load();
         return image;
 
     }
 
-    downloadAudio(path, callback) {
+    #downloadAudio(path, callback) {
 
         // new audio object
         const audio = new Audio();
@@ -119,7 +116,7 @@ class AssetManager {
 
             // destructure it
             const {name, path} = this.downloadQueue[i];
-            this.download(name, path);
+            this.#download(name, path, callback);
         }
     };
 
