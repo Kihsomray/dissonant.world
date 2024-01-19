@@ -71,9 +71,9 @@ class MapManager{
         for (let i = 0; i < this.tileWidth; i++) {
             const arr = []
             for (let j = 0; j < this.tileLength; j++) {
-                const x = Math.floor(Math.random() * 2);
+                const moving = Math.floor(Math.random() * 2) + 1;
                 const y = Math.floor(Math.random() * 4);
-                arr.push(new Animator(ASSET_MANAGER.getImage("t/forest"), 16 * (10), 16 * (1 + y), 16, 16, 2, 1, 1, false, true));
+                arr.push(new Animator(ASSET_MANAGER.getImage("t/forest"), 16 * 10, 16 * (1 + y), 16, 16, moving, (Math.random() * 200 + 200) / 100, 1, false, true));
             }
             this.tiles.push(arr);
         }
