@@ -1,3 +1,12 @@
+@font-face {
+    font-family: "BitByBit";
+    src: url("font/BitByBit_.eot");
+    src: url("font/BitByBit_.eot?#iefix") format("embedded-opentype"),
+        url("font/BitByBit_.woff2") format("woff2"),
+        url("font/BitByBit_.woff") format("woff"),
+        url("font/BitByBit_.svg#bitByBit_") format("svg");
+}
+
 body {
     display: flex;
     margin: 0;
@@ -8,8 +17,21 @@ body {
 
 p,
 h1 {
+    font-family: "BitByBit";
+    /*color: #fff;  Text color */
     margin: 0;
     padding: 10px;
+}
+
+h1 {
+    color: burlywood;
+    text-shadow: -4px -4px 0 #000, 4px -4px 0 #000, -4px 4px 0 #000, 4px 4px 0 #000;
+}
+
+p {
+    font-size: 14px;
+    color: burlywood;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 #container {
