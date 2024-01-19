@@ -1,15 +1,15 @@
 class Cat {
     constructor(game) {
+
         this.game = game;
-        this.animator = new Animator(ASSET_MANAGER.getImage("entity/cat"), 0, 0, 551, 244, 11, 0.12, true, true);
+        this.animator = new Animator(ASSET_MANAGER.getImage("e/cat"), 0, 0, 551, 244, 11, 0.12, true, true);
 
         this.x = 0;
-        this.y = 674;
+        this.y = 374;
         this.speed = 180;
         this.counter = 0;
         this.pause = false;
 
-        ctx.drawImage(ASSET_MANAGER.getImage("entity/cat"), 0, 0);
     }
 
     update() {
@@ -21,7 +21,7 @@ class Cat {
     }
 
     draw(context) {
-        this.animator.drawFrame(this.game.clockTick, context, this.x, this.y, 5);
+        this.animator.drawFrame(this.game.clockTick, context, this.x, this.y, 0.2);
         //context.drawImage(ASSET_MANAGER.getAsset("./cat.png"), 0, 0);
     }
 

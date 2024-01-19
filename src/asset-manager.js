@@ -1,11 +1,5 @@
 class AssetManager {
 
-    #successCount
-    #errorCount
-    #downloadQueue
-    #images
-    #audio
-
     constructor() {
         this.successCount = 0;
         this.errorCount = 0;
@@ -146,7 +140,7 @@ class AssetManager {
 
         // mute all audio
         for (let name in this.images) {
-            muteAudio(name, mute);
+            this.muteAudio(name, mute);
         }
     };
 
@@ -183,7 +177,7 @@ class AssetManager {
     autoRepeat(name) {
 
         // auto repeat audio
-        const audio = this.audio[path];
+        const audio = this.audio[name];
         audio.addEventListener("ended", () => {
             audio.play();
         });

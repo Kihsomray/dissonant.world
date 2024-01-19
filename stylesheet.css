@@ -19,7 +19,6 @@ h1 {
 }
 
 #game {
-    padding: 0;
-    background: rgb(65, 52, 52);
-    border: 1px solid black;
+    background: white;
+    border: 1px solid black
 }
