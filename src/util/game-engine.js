@@ -8,9 +8,9 @@ class GameEngine {
         "d": false,
         "s": false,
         "a": false,
-        "Shift": false,
+        "shift": false,
         "Alt": false,
-        "E": false,
+        "e": false,
         "1": false,
         "2": false,
         "3": false,
@@ -61,8 +61,8 @@ class GameEngine {
 
         this.ctx.canvas.addEventListener("wheel", e => e.preventDefault());
 
-        window.addEventListener("keydown", event => this.keyClick[event.key] = true);
-        window.addEventListener("keyup", event => this.keyClick[event.key] = false);
+        window.addEventListener("keydown", event => this.keyClick[event.key.toLowerCase()] = true);
+        window.addEventListener("keyup", event => this.keyClick[event.key.toLowerCase()] = false);
     };
 
     addEntity(entity) {
