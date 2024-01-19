@@ -32,6 +32,7 @@ class Animator {
             this.width * scaleBy,
             this.height * scaleBy
         );
+        //ctx.setTransform(1, 0, 0, 1, 0, 0);
     };
 
     currentFrame() {
