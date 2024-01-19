@@ -1,11 +1,11 @@
 @font-face {
     font-family: "BitByBit";
-    src: url("./font/BitByBit_.eot");
-    src: url("./font/BitByBit_.eot?#iefix") format("embedded-opentype"),
-        url("./font/BitByBit_.woff2") format("woff2"),
-        url("./font/BitByBit_.woff") format("woff"),
-        url("./font/BitByBit_.ttf")  format("truetype"),
-        url("./font/BitByBit_.svg#bitByBit_") format("svg");
+    src: url("./res/font/BitByBit_.eot");
+    src: url("./res/font/BitByBit_.eot?#iefix") format("embedded-opentype"),
+        url("./res/font/BitByBit_.woff2") format("woff2"),
+        url("./res/font/BitByBit_.woff") format("woff"),
+        url("./res/font/BitByBit_.ttf")  format("truetype"),
+        url("./res/font/BitByBit_.svg#bitByBit_") format("svg");
 }
 
 body {
