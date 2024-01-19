@@ -2,7 +2,7 @@ class Cat {
     constructor(game) {
 
         this.game = game;
-        this.animator = new Animator(ASSET_MANAGER.getImage("e/cat"), 0, 0, 551, 244, 11, 0.12, true, true);
+        this.animator = new Animator(ASSET_MANAGER.getImage("e/cat"), 0, 0, 551, 244, 11, 0.12, 1, true, true);
 
         this.x = 0;
         this.y = 374;
