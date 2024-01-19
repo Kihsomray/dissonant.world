@@ -2,7 +2,6 @@ class MapManager{
 
     tiles = [];
 
-
     tileScale = 1;
     tileWidth = 32;
     tileLength = 18;
@@ -71,9 +70,9 @@ class MapManager{
         for (let i = 0; i < this.tileWidth; i++) {
             const arr = []
             for (let j = 0; j < this.tileLength; j++) {
-                const moving = Math.floor(Math.random() * 2) + 1;
-                const y = Math.floor(Math.random() * 4);
-                arr.push(new Animator(ASSET_MANAGER.getImage("t/forest"), 16 * 10, 16 * (1 + y), 16, 16, moving, (Math.random() * 200 + 200) / 100, 1, false, true));
+                const tile = new BiomeTile(this.biome[4], BiomeTile.randomize(), i, j);
+                arr.push(tile);
+                ENGINE.addEntity(tile);
             }
             this.tiles.push(arr);
         }
@@ -85,6 +84,7 @@ class MapManager{
     }
 
     draw(ctx) {
+
         for (let i = 0; i < this.tileWidth; i++) {
             for (let j = 0; j < this.tileLength; j++) {
                 this.tiles[i][j].drawFrame(
@@ -94,6 +94,14 @@ class MapManager{
                     j * 16 * this.tileScale,
                     this.tileScale
                 );
+            }
+        }
+    }
+
+    forAllTiles(func) {
+        for (let i = 0; i < this.tileWidth; i++) {
+            for (let j = 0; j < this.tileLength; j++) {
+                func(i, j);
             }
         }
     }

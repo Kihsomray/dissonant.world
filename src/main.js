@@ -4,6 +4,8 @@ const ASSET_MANAGER = new AssetManager();
 
 const MAP_MANAGER = new MapManager();
 
+const LOCATION = new Location();
+
 ASSET_MANAGER.queueDownload("e/cat", "./res/cat.png");
 
 ASSET_MANAGER.downloadAll(() => {
@@ -17,7 +19,8 @@ ASSET_MANAGER.downloadAll(() => {
 	ctx.scale(2, 2);
 
 	ENGINE.addEntity(new Cat());
-	ENGINE.addEntity(MAP_MANAGER.init())
+	ENGINE.addEntity(LOCATION);
+	MAP_MANAGER.init();
 
 	ENGINE.init(ctx);
 	ENGINE.start();

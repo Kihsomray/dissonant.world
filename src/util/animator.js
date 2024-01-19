@@ -1,5 +1,8 @@
 class Animator {
 
+    xOffset = 0;
+    yOffset = 0;
+
     constructor(spritesheet, xStart, yStart, width, height, frameCount, frameDuration, frameLines, reverse, loop) {
         Object.assign(this, { spritesheet, xStart, yStart, width, height, frameCount, frameDuration, frameLines, reverse, loop });
 
@@ -23,7 +26,7 @@ class Animator {
 
         ctx.drawImage(
             this.spritesheet,
-            this.xStart + this.width * frameX,
+            this.xStart + this.width * frameX + this.xOffset * Math.floor(frame % (this.frameCount / this.frameLines)),
             this.yStart + this.height * frameY,
             this.width,
             this.height,
