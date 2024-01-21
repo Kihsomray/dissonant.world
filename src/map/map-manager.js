@@ -106,5 +106,17 @@ class MapManager{
         }
     }
 
+    randomMethod() {
+
+        // 5 = tundra, number 0-999 (psuedo-random), no more params if empty chunk
+        // params= what to spawn and the tile coordinates of the top left corner (0-31),
+        // if igloo is 3 wide, dont spawn it at x = 31 or it will be outta bounds in another biome
+        // for ice, have a top left (and bottom right corner?)
+        return {
+            2: [519, {"igloo": [0, 0]}, {"ice": [[1, 4], [3, 8]]}]
+        }
+
+    }
+
 
 }

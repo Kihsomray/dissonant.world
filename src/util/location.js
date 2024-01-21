@@ -3,7 +3,7 @@ class Location {
     speed = 2;
     corner_speed = Math.sqrt(this.speed * this.speed / 2);
 
-    multiplier = 1.5;
+    multiplier = 3.5;
 
     constructor() {
         this.x = 0;
