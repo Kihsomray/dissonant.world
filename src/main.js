@@ -6,7 +6,7 @@ const MAP_MANAGER = new MapManager();
 
 const LOCATION = new Location();
 
-ASSET_MANAGER.queueDownload("e/cat", "./res/cat.png");
+ASSET_MANAGER.queueDownload("e/player", "./res/player.png");
 
 ASSET_MANAGER.downloadAll(() => {
 	
@@ -17,11 +17,11 @@ ASSET_MANAGER.downloadAll(() => {
 	ctx.webkitImageSmoothingEnabled = false;
 	ctx.mozImageSmoothingEnabled = false;
 	ctx.scale(2, 2);
-
-	ENGINE.addEntity(new Cat());
+	
+	ENGINE.addEntity(new PlayerCharacter());
 	ENGINE.addEntity(LOCATION);
-	MAP_MANAGER.init();
 
+	MAP_MANAGER.init();
 	ENGINE.init(ctx);
 	ENGINE.start();
 
