@@ -12,16 +12,12 @@ ASSET_MANAGER.downloadAll(() => {
 	
 	const canvas = document.getElementById("game");
 	const ctx = canvas.getContext("2d");
-
-	ctx.imageSmoothingEnabled = false;
-	ctx.webkitImageSmoothingEnabled = false;
-	ctx.mozImageSmoothingEnabled = false;
-	ctx.scale(2, 2);
+	//ctx.scale(2, 2);
 	
 	ENGINE.addEntity(new PlayerCharacter());
 	ENGINE.addEntity(LOCATION);
 
-	MAP_MANAGER.init();
+	MAP_MANAGER.init(ctx);
 	ENGINE.init(ctx);
 	ENGINE.start();
 

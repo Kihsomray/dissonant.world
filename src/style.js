@@ -13,11 +13,23 @@ const canvas = $("#game")[0];
 
 // Resize the canvas
 function resizeCanvas() {
+
+    const canvas = document.getElementById("game");
+	const ctx = canvas.getContext("2d");
+
     const width = $("#container").width() - 16;
     const height = $("#container").height() - $("#header").height() - $("#footer").height() - 16;
 
     canvas.width = Math.max(Math.min(width, maxWidth), minWidth);
     canvas.height = Math.max(Math.min(height, maxHeight), minHeight);
+
+    ctx.scale(2, 2);
+    ctx.imageSmoothingEnabled = false;
+	ctx.webkitImageSmoothingEnabled = false;
+	ctx.mozImageSmoothingEnabled = false;
+    ctx.msImageSmoothingEnabled = false;
+    ctx.oImageSmoothingEnabled = false;
+    
 }
 
 // Center the canvas on window resize

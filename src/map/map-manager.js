@@ -92,7 +92,10 @@ class MapManager{
 
     };
 
-    init() {
+    init(ctx) {
+
+        ctx.save();
+        ctx.translate(0, 0);
 
         this.generatorMap = new MapGenerator(SEED, CLUSTER_WIDTH, CLUSTER_LENGTH).generate();
 
