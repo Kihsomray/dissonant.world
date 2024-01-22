@@ -94,7 +94,7 @@ class MapManager{
 
     init() {
 
-        this.generatorMap = new MapGenerator(this.seed, CLUSTER_WIDTH, CLUSTER_LENGTH).generate();
+        this.generatorMap = new MapGenerator(SEED, CLUSTER_WIDTH, CLUSTER_LENGTH).generate();
 
         //console.log(this.generatorMap);
         for (let i = 0; i < CLUSTER_WIDTH; i++) {
