@@ -1,43 +1,47 @@
 class Location {
 
-    speed = 2;
+    speed = 4.25;
     corner_speed = Math.sqrt(this.speed * this.speed / 2);
 
-    multiplier = 3.5;
+    multiplier = 1.4;
 
     constructor() {
         this.x = 0;
         this.y = 0;
     }
 
-
     update() {
         const boost = ENGINE.keyClick["shift"] ? this.multiplier : 1;
 
+        const corner = Math.round(this.corner_speed * boost * 2) / 2;
+        const straight = Math.round(this.speed * boost * 2) / 2;
+
         if (ENGINE.keyClick["w"] && ENGINE.keyClick["d"]) {
-            this.y -= this.corner_speed * boost;
-            this.x += this.corner_speed * boost;
+            this.y -= corner;
+            this.x += corner;
         }
         else if (ENGINE.keyClick["w"] && ENGINE.keyClick["a"]) {
-            this.y -= this.corner_speed * boost;
-            this.x -= this.corner_speed * boost;
+            this.y -= corner;
+            this.x -= corner;
         }
         else if (ENGINE.keyClick["s"] && ENGINE.keyClick["d"]) {
-            this.y += this.corner_speed * boost;
-            this.x += this.corner_speed * boost;
+            this.y += corner;
+            this.x += corner;
         }
         else if (ENGINE.keyClick["s"] && ENGINE.keyClick["a"]) {
-            this.y += this.corner_speed * boost;
-            this.x -= this.corner_speed * boost;
+            this.y += corner;
+            this.x -= corner;
         }
 
-        else if (ENGINE.keyClick["w"]) this.y -= this.speed * boost;
-        else if (ENGINE.keyClick["d"]) this.x += this.speed * boost;
-        else if (ENGINE.keyClick["s"]) this.y += this.speed * boost;
-        else if (ENGINE.keyClick["a"]) this.x -= this.speed * boost;
+        else if (ENGINE.keyClick["w"]) this.y -= straight;
+        else if (ENGINE.keyClick["d"]) this.x += straight;
+        else if (ENGINE.keyClick["s"]) this.y += straight;
+        else if (ENGINE.keyClick["a"]) this.x -= straight;
+
+        console.log(this.x, this.y);
     }
 
-    draw(ctx) {
+    draw(_) {
 
     }
 
