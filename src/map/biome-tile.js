@@ -17,18 +17,18 @@ class BiomeTile {
     BIOME_TILESET = {
 
         "b-0": { x: 1, y: 1 },
-        "b-1-1": { x: 9, y: 0 },
-        "b-1-2": { x: 9, y: 1 },
-        "b-1-3": { x: 9, y: 2 },
-        "b-1-4": { x: 9, y: 3 },
-        "b-1-5": { x: 10, y: 0 },
-        "b-1-6": { x: 10, y: 1 },
-        "b-1-7": { x: 10, y: 2 },
-        "b-1-8": { x: 10, y: 3 },
-        "b-2-1": { x: 7, y: 0 },
-        "b-2-2": { x: 7, y: 1 },
-        "b-2-3": { x: 8, y: 0 },
-        "b-2-4": { x: 8, y: 1 },
+        "b-1-0": { x: 9, y: 0 },
+        "b-1-1": { x: 9, y: 1 },
+        "b-1-2": { x: 9, y: 2 },
+        "b-1-3": { x: 9, y: 3 },
+        "b-1-4": { x: 10, y: 0 },
+        "b-1-5": { x: 10, y: 1 },
+        "b-1-6": { x: 10, y: 2 },
+        "b-1-7": { x: 10, y: 3 },
+        "b-2-0": { x: 7, y: 0 },
+        "b-2-1": { x: 7, y: 1 },
+        "b-2-2": { x: 8, y: 0 },
+        "b-2-3": { x: 8, y: 1 },
 
 
         // biome-biome corner tiles
@@ -141,14 +141,14 @@ class BiomeTile {
     static chance_type_1 = 0.25;
     static chance_type_2 = 0.05;
 
-    static randomize(num) {
+    static randomize(num, tileSeed) {
         if (num < this.chance_regular) {
             return "b-0";
         }
         if (num < this.chance_regular + this.chance_type_1) {
-            return "b-1-" + (Math.floor(Math.random() * 8) + 1);
+            return `b-1-${parseInt(tileSeed / 125)}`;
         }
-        return "b-2-" + (Math.floor(Math.random() * 4) + 1);
+        return `b-2-${parseInt(tileSeed / 250)}`;
     }
 
 }

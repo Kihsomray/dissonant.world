@@ -40,15 +40,15 @@ class Chunk {
             const arr = [];
             for (let j = 0; j < CHUNK_LENGTH; j++) {
 
-                this.multiplier = (this.multiplier + 1) % (this.MULTIPLIERS.length - 1);
+                const multiplier = this.MULTIPLIERS[this.multiplier = (this.multiplier + 1) % (this.MULTIPLIERS.length - 1)];
 
-                const val = this.updatedSeed * this.MULTIPLIERS[this.multiplier];
+                const val = this.updatedSeed * multiplier;
 
                 this.updatedSeed = val / 27;
 
                 const tile = new BiomeTile(
                     BIOMES[this.biome],
-                    BiomeTile.randomize((val % 10) / 10),
+                    BiomeTile.randomize((val % 10) / 10, Math.floor((val * multiplier * 2) % 1000)),
                     this.chunkX,
                     this.chunkY,
                     i,
