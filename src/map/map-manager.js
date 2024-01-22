@@ -11,8 +11,8 @@ const TILE_LENGTH = 16;
 const CHUNK_WIDTH = 32;
 const CHUNK_LENGTH = 32;
 
-const CLUSTER_WIDTH = 6;
-const CLUSTER_LENGTH = 6;
+const CLUSTER_WIDTH = 1;
+const CLUSTER_LENGTH = 1;
 
 const BIOMES = [
     "cave",
@@ -100,68 +100,11 @@ class MapManager{
         for (let i = 0; i < CLUSTER_WIDTH; i++) {
             const arr = [];
             for (let j = 0; j < CLUSTER_LENGTH; j++) {
-                //console.log(Object.keys(this.generatorMap[i][j])[0]);
-                arr.push(this.generateChunk(Math.floor(Object.keys(this.generatorMap[i][j])[0]), i, j));
+                arr.push(new Chunk(i, j, Math.floor(Object.keys(this.generatorMap[i][j])[0]), this.generatorMap[i][j]).generate());
             }
             this.chunks.push(arr);
         }
 
-    }
-
-    update() {
-
-    }
-
-    draw(ctx) {
-
-        for (let i = 0; i < CLUSTER_WIDTH; i++) {
-            for (let j = 0; j < CLUSTER_LENGTH; j++) {
-                this.updateChunk(ctx, i, j);
-            }
-        }
-
-    }
-
-    generateChunk(biomeIndex, chunkX, chunkY) {
-        console.log(BIOMES[biomeIndex]);
-        const tiles = [];
-        for (let i = 0; i < CHUNK_WIDTH; i++) {
-            //console.log("yuh2");
-            const arr = []
-            for (let j = 0; j < CHUNK_LENGTH; j++) {
-                //console.log("yuh3");
-                //console.log(CHUNK_WIDTH * this.tileWidth * chunkX + i);
-                //console.log(CHUNK_LENGTH * this.tileLength * chunkY + j);
-                const tile = new BiomeTile(
-                    BIOMES[biomeIndex],
-                    BiomeTile.randomize(),
-                    chunkX,
-                    chunkY,
-                    i,
-                    j
-                );
-                arr.push(tile);
-                ENGINE.addEntity(tile);
-            }
-            tiles.push(arr);
-        }
-        return this;
-    }
-
-    updateChunk(ctx, chunkX, chunkY) {
-        tiles = this.chunks[chunkX][chunkY];
-        console.log("@ " + chunkX + ", " + chunkY)
-        forAllTiles((i, j) => {
-            tiles[i][j].draw(ctx, chunkX, chunkY);
-        });
-    }
-
-    forAllTiles(func) {
-        for (let i = 0; i < CHUNK_WIDTH; i++) {
-            for (let j = 0; j < CHUNK_LENGTH; j++) {
-                func(i, j);
-            }
-        }
     }
 
 }

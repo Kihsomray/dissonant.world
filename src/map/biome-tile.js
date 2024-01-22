@@ -104,7 +104,6 @@ class BiomeTile {
             );
             this.holder.xOffset = this.animated_distance;
         } else {
-            console.log(`t/${biome}`)
             this.holder = ASSET_MANAGER.getImage(`t/${biome}`);
         }
 
@@ -121,9 +120,10 @@ class BiomeTile {
                 ctx,
                 this.tileX * 16 - LOCATION.x,
                 this.tileY * 16 - LOCATION.y,
-                1)
-            ;
+                1
+            );
         } else {
+            console.log(this.biome)
             ctx.drawImage(
                 this.holder,
                 (this.BIOME_TILESET[this.selected].x + 1) * 16,
@@ -142,8 +142,7 @@ class BiomeTile {
     static chance_type_1 = 0.25;
     static chance_type_2 = 0.05;
 
-    static randomize() {
-        const num = Math.random();
+    static randomize(num) {
         if (num < this.chance_regular) {
             return "b-0";
         }
