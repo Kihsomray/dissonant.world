@@ -3,21 +3,21 @@ class MapGenerator {
     seed;
     height;
     width;
+    rng;
 
     constructor(seed, height, width) {
 
         this.seed = seed;
-        this.height = height;
-        this.width = width;
+        this.height = height + 2;
+        this.width = width + 2;
+        this.rng = this.random(this.seed);
 
     }
 
     generate() {
-
-        let rng = random(seed);
         
-        for (let i = 0; i < Math.round(rng() * 1000); i++) {
-            rng();
+        for (let i = 0; i < Math.round(this.rng() * 1000); i++) {
+            this.rng();
         }
         
         let grid = new Array(this.height);
@@ -28,20 +28,20 @@ class MapGenerator {
         
         for (let i = 0; i < this.height; i++) {
             for (let j = 0; j < this.width; j++) {
-                grid[i][j] = Math.floor(rng() * 256);
+                grid[i][j] = Math.floor(this.rng() * 256);
             }
         }
         
         //Try smoothing the array
-        grid = smooth(grid, this.height, this.width);
-        grid = smooth(grid, this.height, this.width);
-        grid = smooth(grid, this.height, this.width);
-        grid = smooth(grid, this.height, this.width);
-        grid = smooth(grid, this.height, this.width);
+        grid = this.smooth(grid, this.height, this.width);
+        grid = this.smooth(grid, this.height, this.width);
+        grid = this.smooth(grid, this.height, this.width);
+        grid = this.smooth(grid, this.height, this.width);
+        grid = this.smooth(grid, this.height, this.width);
         
         for (let i = 0; i < this.height; i++) {
             for (let j = 0; j < this.width; j++) {
-                process.stdout.write(grid[i][j] + "\t");
+                console.log(grid[i][j], "");
             }
             console.log();
         }
@@ -96,7 +96,7 @@ class MapGenerator {
         console.log("tundra : " + tundra);
         
         
-        exportedGrid = exportGrid(grid);
+        const exportedGrid = this.exportGrid(grid);
         
         for (let i = 0; i < this.height - 2; i++) {
             for (let j = 0; j < this.width - 2; j++) {
@@ -104,6 +104,7 @@ class MapGenerator {
             }
         }
 
+        return exportedGrid;
 
     }
 
@@ -169,9 +170,9 @@ class MapGenerator {
     
         for (let i = 1; i < this.height - 1; i++) {
             for (let j = 1; j < this.width - 1; j++) {
-                let biome = getBiome(grid[i][j]);
+                let biome = this.getBiome(grid[i][j]);
                 let map = {};
-                map[biome] = [Math.floor(rng() * 1000)];
+                map[biome] = [Math.floor(this.rng() * 1000)];
     
                 outGrid[i - 1][j - 1] = map;
             }

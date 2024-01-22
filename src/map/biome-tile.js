@@ -79,11 +79,13 @@ class BiomeTile {
 
     }
 
-    constructor(biome, selection, tileX, tileY) {
+    constructor(biome, selection, chunkX, chunkY, tileX, tileY) {
 
         this.biome = biome;
         this.selected = selection;
         this.animated = selection.charAt(2) == "w";
+        this.chunkX = chunkX;
+        this.chunkY = chunkY;
         this.tileX = tileX;
         this.tileY = tileY;
 
@@ -102,7 +104,8 @@ class BiomeTile {
             );
             this.holder.xOffset = this.animated_distance;
         } else {
-            this.holder = ASSET_MANAGER.getImage(`t/${this.biome}`);
+            console.log(`t/${biome}`)
+            this.holder = ASSET_MANAGER.getImage(`t/${biome}`);
         }
 
     }
@@ -127,8 +130,8 @@ class BiomeTile {
                 (this.BIOME_TILESET[this.selected].y + 1) * 16,
                 16,
                 16,
-                this.tileX * 16 - LOCATION.x,
-                this.tileY * 16 - LOCATION.y,
+                this.chunkX * 32 * 16 + this.tileX * 16 - LOCATION.x,
+                this.chunkY * 32 * 16 + this.tileY * 16 - LOCATION.y,
                 16,
                 16
             );
