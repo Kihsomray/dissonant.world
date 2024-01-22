@@ -123,7 +123,6 @@ class BiomeTile {
                 1
             );
         } else {
-            console.log(this.biome)
             ctx.drawImage(
                 this.holder,
                 (this.BIOME_TILESET[this.selected].x + 1) * 16,

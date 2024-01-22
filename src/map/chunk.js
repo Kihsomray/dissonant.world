@@ -12,13 +12,14 @@ class Chunk {
 
     // prime numbers
     MULTIPLIERS = [
-        13,
+        4,
         17,
         23,
-        29,
-        37,
+        30,
+        44,
         59,
-        83
+        83,
+        97,
     ]
 
 
@@ -27,6 +28,7 @@ class Chunk {
         this.chunkY = chunkY;
         this.biome = biome;
         this.chunkSeed = chunkSeed;
+        this.updatedSeed = chunkSeed;
 
         this.multiplier = 0;
     }
@@ -38,8 +40,11 @@ class Chunk {
             const arr = [];
             for (let j = 0; j < CHUNK_LENGTH; j++) {
 
-                const val = this.updatedSeed * this.MULTIPLIERS[this.multiplier++ % this.MULTIPLIERS.length];
-                this.updatedSeed = val / 10 + this.MULTIPLIERS[this.multiplier];
+                this.multiplier = (this.multiplier + 1) % (this.MULTIPLIERS.length - 1);
+
+                const val = this.updatedSeed * this.MULTIPLIERS[this.multiplier];
+
+                this.updatedSeed = val / 27;
 
                 const tile = new BiomeTile(
                     BIOMES[this.biome],

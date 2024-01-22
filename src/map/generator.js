@@ -39,12 +39,12 @@ class MapGenerator {
         grid = this.smooth(grid, this.height, this.width);
         grid = this.smooth(grid, this.height, this.width);
         
-        for (let i = 0; i < this.height; i++) {
-            for (let j = 0; j < this.width; j++) {
-                console.log(grid[i][j], "");
-            }
-            console.log();
-        }
+        // for (let i = 0; i < this.height; i++) {
+        //     for (let j = 0; j < this.width; j++) {
+        //         console.log(grid[i][j], "");
+        //     }
+        //     console.log();
+        // }
 
         // Count up the different values
         let count = new Array(255);
@@ -57,9 +57,9 @@ class MapGenerator {
             }
         }
         
-        for (let i = 0; i < count.length; i++) {
-            console.log(i + " : " + count[i]);
-        }
+        // for (let i = 0; i < count.length; i++) {
+        //     console.log(i + " : " + count[i]);
+        // }
         
         
         let cave = 0;
@@ -98,11 +98,11 @@ class MapGenerator {
         
         const exportedGrid = this.exportGrid(grid);
         
-        for (let i = 0; i < this.height - 2; i++) {
-            for (let j = 0; j < this.width - 2; j++) {
-                console.log(exportedGrid[i][j]);
-            }
-        }
+        // for (let i = 0; i < this.height - 2; i++) {
+        //     for (let j = 0; j < this.width - 2; j++) {
+        //         console.log(exportedGrid[i][j]);
+        //     }
+        // }
 
         return exportedGrid;
 

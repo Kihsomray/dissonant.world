@@ -11,8 +11,8 @@ const TILE_LENGTH = 16;
 const CHUNK_WIDTH = 32;
 const CHUNK_LENGTH = 32;
 
-const CLUSTER_WIDTH = 1;
-const CLUSTER_LENGTH = 1;
+const CLUSTER_WIDTH = 6;
+const CLUSTER_LENGTH = 6;
 
 const BIOMES = [
     "cave",
@@ -100,7 +100,14 @@ class MapManager{
         for (let i = 0; i < CLUSTER_WIDTH; i++) {
             const arr = [];
             for (let j = 0; j < CLUSTER_LENGTH; j++) {
-                arr.push(new Chunk(i, j, Math.floor(Object.keys(this.generatorMap[i][j])[0]), this.generatorMap[i][j]).generate());
+                arr.push(
+                    new Chunk(
+                        i,
+                        j,
+                        Object.keys(this.generatorMap[i][j])[0],
+                        Object.values(this.generatorMap[i][j])[0]
+                    ).generate()
+                );
             }
             this.chunks.push(arr);
         }
