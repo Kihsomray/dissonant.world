@@ -6,7 +6,6 @@ const MAP_MANAGER = new MapManager();
 
 const LOCATION = new Location();
 
-ASSET_MANAGER.queueDownload("e/cat", "./res/cat.png");
 ASSET_MANAGER.queueDownload("e/player", "./res/player.png");
 
 ASSET_MANAGER.downloadAll(() => {
