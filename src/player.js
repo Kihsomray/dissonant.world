@@ -53,10 +53,10 @@ class PlayerCharacter {
 
         // Turning animation for state = 3.
         // Facing right = 0.
-        this.animations[3][0] = new Animator(this.spritesheet, 0, 72, 24, 24, 4, 0.1, 1, false, false)
+        this.animations[3][0] = new Animator(this.spritesheet, 0, 72, 24, 24, 4, 0.1, 1, false, true)
 
         // Facing left = 1.
-        this.animations[3][1] = new Animator(this.spritesheet, 96, 72, 24, 24, 4, 0.1, 1, false, false)
+        this.animations[3][1] = new Animator(this.spritesheet, 96, 72, 24, 24, 4, 0.1, 1, false, true)
 
 
         // Player damaged animation for state = 4.
@@ -69,10 +69,10 @@ class PlayerCharacter {
 
         // Player death animation for state = 5.
         // Facing right = 0.
-        this.animations[5][0] = new Animator(this.spritesheet, 0, 120, 24, 24, 4, 0.33, 1, false, false)
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 120, 24, 24, 4, 0.33, 1, false, true)
 
         // Facing left = 1.
-        this.animations[5][1] = new Animator(this.spritesheet, 96, 120, 24, 24, 4, 0.33, 1, false, false)
+        this.animations[5][1] = new Animator(this.spritesheet, 96, 120, 24, 24, 4, 0.33, 1, false, true)
     }
 
     update() {

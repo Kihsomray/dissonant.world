@@ -105,7 +105,7 @@ class BiomeTile {
             //this.holder.xOffset = this.animated_distance;
         } else {
             this.holder = ASSET_MANAGER.getImage(`t/${biome}`);
-            console.log(ASSET_MANAGER.getImage(`t/${biome}`));
+            //console.log(ASSET_MANAGER.getImage(`t/${biome}`));
         }
 
     }
@@ -142,7 +142,7 @@ class BiomeTile {
     }
 
     isLoaded(ctx) {
-        const xInner = CLUSTER_WIDTH * CHUNK_WIDTH * TILE_WIDTH / 2 - ctx.canvas.width / 2 / 2
+        const xInner = CLUSTER_WIDTH * CHUNK_WIDTH * TILE_WIDTH / 2 - ctx.canvas.width / 2 / 2;
     }
 
     static chance_regular = 0.7;

@@ -3,7 +3,7 @@ class Location {
     speed = 4.25;
     corner_speed = Math.sqrt(this.speed * this.speed / 2);
 
-    multiplier = 1.4;
+    multiplier = 1.4 * 10;
 
     constructor() {
         this.x = 0;
@@ -13,8 +13,8 @@ class Location {
     update() {
         const boost = ENGINE.keyClick["shift"] ? this.multiplier : 1;
 
-        const corner = Math.round(this.corner_speed * boost * 2) / 2;
-        const straight = Math.round(this.speed * boost * 2) / 2;
+        const corner = Math.round(this.corner_speed * boost * 2 * ENGINE.clockTick * 50) / 2;
+        const straight = Math.round(this.speed * boost * 2 * ENGINE.clockTick * 50) / 2;
 
         if (ENGINE.keyClick["w"] && ENGINE.keyClick["d"]) {
             this.y -= corner;

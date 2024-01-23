@@ -1,4 +1,4 @@
-const SEED = 0;
+const SEED = 1;
 
 // terminology:
 // tile: a tile containing data (dimensions in pixels)
@@ -11,10 +11,10 @@ const TILE_LENGTH = 16;
 const CHUNK_WIDTH = 32;
 const CHUNK_LENGTH = 32;
 
-const CLUSTER_WIDTH = 4;
-const CLUSTER_LENGTH = 4;
+const CLUSTER_WIDTH = 6;
+const CLUSTER_LENGTH = 6;
 
-const RENDER_DISTANCE = 3
+const RENDER_DISTANCE = 3;
 
 const BIOMES = [
     "cave",
@@ -48,7 +48,6 @@ const BIOME_TYPES_EXTRA = [
 
 class MapManager{
 
-    seed = 0;
     generatorMap;
     chunks = [];
 

@@ -10,7 +10,6 @@ class Chunk {
 
     tiles = [];
 
-    // prime numbers
     MULTIPLIERS = [
         4,
         17,
