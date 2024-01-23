@@ -102,9 +102,10 @@ class BiomeTile {
                 false,
                 true
             );
-            this.holder.xOffset = this.animated_distance;
+            //this.holder.xOffset = this.animated_distance;
         } else {
             this.holder = ASSET_MANAGER.getImage(`t/${biome}`);
+            console.log(ASSET_MANAGER.getImage(`t/${biome}`));
         }
 
     }
@@ -114,6 +115,7 @@ class BiomeTile {
     }
 
     draw(ctx) {
+
         if (this.animated) {
             this.holder.drawFrame(
                 ENGINE.clockTick,
@@ -123,18 +125,24 @@ class BiomeTile {
                 1
             );
         } else {
+            ///console.log(this.holder + "");
+
             ctx.drawImage(
                 this.holder,
-                (this.BIOME_TILESET[this.selected].x + 1) * 16,
-                (this.BIOME_TILESET[this.selected].y + 1) * 16,
-                16,
-                16,
-                this.chunkX * 32 * 16 + this.tileX * 16 - LOCATION.x,
-                this.chunkY * 32 * 16 + this.tileY * 16 - LOCATION.y,
-                16,
-                16
+                (this.BIOME_TILESET[this.selected].x + 1) * TILE_WIDTH,
+                (this.BIOME_TILESET[this.selected].y + 1) * TILE_LENGTH,
+                TILE_WIDTH,
+                TILE_LENGTH,
+                this.chunkX * CHUNK_WIDTH * TILE_WIDTH + this.tileX * TILE_WIDTH - LOCATION.x - X_OFFSET,
+                this.chunkY * CHUNK_LENGTH * TILE_LENGTH + this.tileY * TILE_LENGTH - LOCATION.y - Y_OFFSET,
+                TILE_WIDTH,
+                TILE_LENGTH
             );
         }
+    }
+
+    isLoaded(ctx) {
+        const xInner = CLUSTER_WIDTH * CHUNK_WIDTH * TILE_WIDTH / 2 - ctx.canvas.width / 2 / 2
     }
 
     static chance_regular = 0.7;

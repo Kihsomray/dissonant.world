@@ -37,8 +37,6 @@ class Location {
         else if (ENGINE.keyClick["d"]) this.x += straight;
         else if (ENGINE.keyClick["s"]) this.y += straight;
         else if (ENGINE.keyClick["a"]) this.x -= straight;
-
-        console.log(this.x, this.y);
     }
 
     draw(_) {

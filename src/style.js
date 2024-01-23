@@ -6,7 +6,8 @@ const maxHeight = 540;
 const minWidth = 480;
 const minHeight = 270;
 
-
+let X_OFFSET = 0;
+let Y_OFFSET = 0;
 
 // Get the canvas element
 const canvas = $("#game")[0];
@@ -29,6 +30,9 @@ function resizeCanvas() {
 	ctx.mozImageSmoothingEnabled = false;
     ctx.msImageSmoothingEnabled = false;
     ctx.oImageSmoothingEnabled = false;
+
+    X_OFFSET = CLUSTER_WIDTH * CHUNK_WIDTH * TILE_WIDTH / 2 - ctx.canvas.width / 2 / 2;
+    Y_OFFSET = CLUSTER_LENGTH * CHUNK_LENGTH * TILE_LENGTH / 2 - ctx.canvas.height / 2 / 2;
     
 }
 

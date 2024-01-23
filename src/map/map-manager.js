@@ -11,8 +11,10 @@ const TILE_LENGTH = 16;
 const CHUNK_WIDTH = 32;
 const CHUNK_LENGTH = 32;
 
-const CLUSTER_WIDTH = 6;
-const CLUSTER_LENGTH = 6;
+const CLUSTER_WIDTH = 4;
+const CLUSTER_LENGTH = 4;
+
+const RENDER_DISTANCE = 3
 
 const BIOMES = [
     "cave",
@@ -92,10 +94,7 @@ class MapManager{
 
     };
 
-    init(ctx) {
-
-        ctx.save();
-        ctx.translate(0, 0);
+    init() {
 
         this.generatorMap = new MapGenerator(SEED, CLUSTER_WIDTH, CLUSTER_LENGTH).generate();
 

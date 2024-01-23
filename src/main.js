@@ -17,8 +17,9 @@ ASSET_MANAGER.downloadAll(() => {
 	ENGINE.addEntity(new PlayerCharacter());
 	ENGINE.addEntity(LOCATION);
 
-	MAP_MANAGER.init(ctx);
 	ENGINE.init(ctx);
 	ENGINE.start();
+
+	MAP_MANAGER.init();
 
 });
