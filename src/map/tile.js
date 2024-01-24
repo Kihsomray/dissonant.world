@@ -117,7 +117,13 @@ class BiomeTile {
     draw(ctx) {
 
         const current = LOCATION.getCurrentChunk();
-        if (current.x != this.chunkX || current.y != this.chunkY) return;
+
+        if (
+            current.x + RENDER_DISTANCE < this.chunkX ||
+            current.x - RENDER_DISTANCE > this.chunkX ||
+            current.y + RENDER_DISTANCE < this.chunkY ||
+            current.y - RENDER_DISTANCE > this.chunkY
+        ) return;
 
         if (this.animated) {
             this.holder.drawFrame(

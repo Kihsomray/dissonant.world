@@ -4,6 +4,7 @@ class Chunk {
     chunkY;
     biome;
     chunkSeed;
+    
     updatedSeed;
 
     multiplier;

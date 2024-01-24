@@ -11,10 +11,10 @@ const TILE_LENGTH = 16;
 const CHUNK_WIDTH = 32;
 const CHUNK_LENGTH = 32;
 
-const CLUSTER_WIDTH = 6;
-const CLUSTER_LENGTH = 6;
+const CLUSTER_WIDTH = 2047;
+const CLUSTER_LENGTH = 2047;
 
-const RENDER_DISTANCE = 3;
+const RENDER_DISTANCE = 2;
 
 const BIOMES = [
     "cave",
@@ -55,7 +55,7 @@ class MapManager{
 
         // load all assets for all biomes
         this.#loadAssets();
-    }
+    };
 
     #loadAssets() {
 
@@ -95,24 +95,45 @@ class MapManager{
 
     init() {
 
+        // put current time millis in a variable
+        const time1 = Date.now();
         this.generatorMap = new MapGenerator(SEED, CLUSTER_WIDTH, CLUSTER_LENGTH).generate();
+        console.log(`Generated map in ${Date.now() - time1}ms`);
 
-        //console.log(this.generatorMap);
+            
+        // allocate new array for the cluster
+        this.chunk = new Array(CLUSTER_WIDTH);
         for (let i = 0; i < CLUSTER_WIDTH; i++) {
-            const arr = [];
-            for (let j = 0; j < CLUSTER_LENGTH; j++) {
-                arr.push(
-                    new Chunk(
-                        i,
-                        j,
-                        Object.keys(this.generatorMap[i][j])[0],
-                        Object.values(this.generatorMap[i][j])[0]
-                    ).generate()
-                );
-            }
-            this.chunks.push(arr);
+            this.chunk[i] = new Array(CLUSTER_LENGTH);
         }
 
-    }
+        // generate chunks around the player
+        const currChunk = LOCATION.getCurrentChunk();
+        for (let i = currChunk.x - RENDER_DISTANCE; i <= currChunk.x + RENDER_DISTANCE; i++) {
+            for (let j = currChunk.y - RENDER_DISTANCE; j <= currChunk.y + RENDER_DISTANCE; j++) {
+                this.generateChunk(i, j);
+            }
+        }
+
+    };
+
+    generateChunk(i, j) {
+        this.chunk[i][j] = new Chunk(
+            i,
+            j,
+            Object.keys(this.generatorMap[i][j])[0],
+            Object.values(this.generatorMap[i][j])[0]
+        ).generate();
+    };
+
+    update() {
+        const currChunk = LOCATION.getCurrentChunk();
+        for (let i = currChunk.x - RENDER_DISTANCE; i <= currChunk.x + RENDER_DISTANCE; i++) {
+            for (let j = currChunk.y - RENDER_DISTANCE; j <= currChunk.y + RENDER_DISTANCE; j++) {
+                console.log(this.chunk[i][j]);
+                if (!this.chunk[i][j]) this.generateChunk(i, j);
+            }
+        }
+    };
 
 }

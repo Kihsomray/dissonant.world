@@ -40,7 +40,9 @@ class Location {
         else if (ENGINE.keyClick["s"]) this.y += straight;
         else if (ENGINE.keyClick["a"]) this.x -= straight;
 
-        console.log(this.getCurrentChunk());
+        //console.log(this.getCurrentChunk());
+
+        MAP_MANAGER.update();
     }
 
     draw(_) {
