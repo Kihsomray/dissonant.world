@@ -2,8 +2,10 @@ class Location {
 
     speed = 4.25;
     corner_speed = Math.sqrt(this.speed * this.speed / 2);
-
     multiplier = 1.4 * 10;
+
+    x;
+    y;
 
     constructor() {
         this.x = 0;
@@ -37,11 +39,20 @@ class Location {
         else if (ENGINE.keyClick["d"]) this.x += straight;
         else if (ENGINE.keyClick["s"]) this.y += straight;
         else if (ENGINE.keyClick["a"]) this.x -= straight;
+
+        console.log(this.getCurrentChunk());
     }
 
     draw(_) {
 
     }
+
+    getCurrentChunk() {
+        return {
+            x: Math.floor((this.x + X_OFFSET + WIDTH / 2) / (CHUNK_WIDTH * TILE_WIDTH)),
+            y: Math.floor((this.y + Y_OFFSET + LENGTH / 2) / (CHUNK_LENGTH * TILE_LENGTH))
+        };
+    };
 
 
 }

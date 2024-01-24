@@ -1,4 +1,4 @@
-const SEED = 1;
+const SEED = 0;
 
 // terminology:
 // tile: a tile containing data (dimensions in pixels)

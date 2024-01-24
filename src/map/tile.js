@@ -116,6 +116,9 @@ class BiomeTile {
 
     draw(ctx) {
 
+        const current = LOCATION.getCurrentChunk();
+        if (current.x != this.chunkX || current.y != this.chunkY) return;
+
         if (this.animated) {
             this.holder.drawFrame(
                 ENGINE.clockTick,
@@ -139,10 +142,6 @@ class BiomeTile {
                 TILE_LENGTH
             );
         }
-    }
-
-    isLoaded(ctx) {
-        const xInner = CLUSTER_WIDTH * CHUNK_WIDTH * TILE_WIDTH / 2 - ctx.canvas.width / 2 / 2;
     }
 
     static chance_regular = 0.7;
