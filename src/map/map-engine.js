@@ -118,6 +118,7 @@ class MapManager{
     };
 
     generateChunk(i, j) {
+        if (!this.generatorMap[i][j]) return;
         this.chunk[i][j] = new Chunk(
             i,
             j,
@@ -137,6 +138,7 @@ class MapManager{
                 currChunk.y + RENDER_DISTANCE < j ||
                 currChunk.y - RENDER_DISTANCE > j)
             {
+                if (!this.chunk[i][j]) return;
                 this.chunk[i][j].unload();
                 this.chunk[i][j] = undefined;
             }
