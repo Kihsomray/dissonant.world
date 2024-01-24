@@ -4,7 +4,7 @@ class Chunk {
     chunkY;
     biome;
     chunkSeed;
-    
+
     updatedSeed;
 
     multiplier;
@@ -55,11 +55,19 @@ class Chunk {
                     j
                 );
                 arr.push(tile);
-                ENGINE.addEntity(tile);
+                ENGINE.addTile(tile);
             }
             this.tiles.push(arr);
         }
         return this;
-    }
+    };
+
+    unload() {
+        for (let i = 0; i < this.tiles.length; i++) {
+            for (let j = 0; j < this.tiles[i].length; j++) {
+                ENGINE.removeTile(this.tiles[i][j]);
+            }
+        }
+    };
 
 }

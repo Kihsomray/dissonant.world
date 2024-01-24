@@ -50,6 +50,7 @@ class MapManager{
 
     generatorMap;
     chunks = [];
+    prevChunk;
 
     constructor() {
 
@@ -109,11 +110,10 @@ class MapManager{
 
         // generate chunks around the player
         const currChunk = LOCATION.getCurrentChunk();
-        for (let i = currChunk.x - RENDER_DISTANCE; i <= currChunk.x + RENDER_DISTANCE; i++) {
-            for (let j = currChunk.y - RENDER_DISTANCE; j <= currChunk.y + RENDER_DISTANCE; j++) {
-                this.generateChunk(i, j);
-            }
-        }
+        this.forChunks(currChunk.x, currChunk.y, (i, j) => {
+            this.generateChunk(i, j);
+        });
+        this.prevChunk = currChunk;
 
     };
 
@@ -128,12 +128,38 @@ class MapManager{
 
     update() {
         const currChunk = LOCATION.getCurrentChunk();
-        for (let i = currChunk.x - RENDER_DISTANCE; i <= currChunk.x + RENDER_DISTANCE; i++) {
-            for (let j = currChunk.y - RENDER_DISTANCE; j <= currChunk.y + RENDER_DISTANCE; j++) {
-                console.log(this.chunk[i][j]);
-                if (!this.chunk[i][j]) this.generateChunk(i, j);
+
+
+
+        this.forChunks(this.prevChunk.x, this.prevChunk.y, (i, j) => {
+            if (currChunk.x + RENDER_DISTANCE < i ||
+                currChunk.x - RENDER_DISTANCE > i ||
+                currChunk.y + RENDER_DISTANCE < j ||
+                currChunk.y - RENDER_DISTANCE > j)
+            {
+                this.chunk[i][j].unload();
+                this.chunk[i][j] = undefined;
+            }
+        });
+
+
+
+        this.forChunks(currChunk.x, currChunk.y, (i, j) => {
+            if (currChunk.x + RENDER_DISTANCE < i ||
+                currChunk.x - RENDER_DISTANCE > i ||
+                currChunk.y + RENDER_DISTANCE < j ||
+                currChunk.y - RENDER_DISTANCE > j) return;
+            if (!this.chunk[i][j]) this.generateChunk(i, j);
+        });
+        this.prevChunk = currChunk;
+    };
+
+    forChunks(x, y, func) {
+        for (let i = x - RENDER_DISTANCE; i <= x + RENDER_DISTANCE; i++) {
+            for (let j = y - RENDER_DISTANCE; j <= y + RENDER_DISTANCE; j++) {
+                func(i, j);
             }
         }
-    };
+    }
 
 }
