@@ -98,7 +98,7 @@ class GameEngine {
         this.ctx.fillStyle = "white";
 
         // Draw text on the canvas
-        this.ctx.fillText(`x: ${Math.ceil(LOCATION.x / CHUNK_WIDTH)}, y: ${-Math.floor(LOCATION.y / CHUNK_LENGTH)}`, 2, 10);
+        this.ctx.fillText(`x: ${Math.floor(LOCATION.x / CHUNK_WIDTH)}, y: ${-Math.ceil(LOCATION.y / CHUNK_LENGTH)}`, 2, 10);
 
         this.ctx.fillText("+", this.ctx.canvas.width / 4 - 2, this.ctx.canvas.height / 4 + 2);
 
