@@ -11,10 +11,10 @@ const TILE_LENGTH = 16;
 const CHUNK_WIDTH = 32;
 const CHUNK_LENGTH = 32;
 
-const CLUSTER_WIDTH = 2047;
-const CLUSTER_LENGTH = 2047;
+const CLUSTER_WIDTH = 1023;
+const CLUSTER_LENGTH = 1023;
 
-const RENDER_DISTANCE = 1;
+const RENDER_DISTANCE = 2;
 
 const BIOMES = [
     "cave",
@@ -119,18 +119,18 @@ class MapManager{
 
     generateChunk(i, j) {
         if (!this.generatorMap[i][j]) return;
-        this.chunk[i][j] = new Chunk(
+        const chunk = new Chunk(
             i,
             j,
             Object.keys(this.generatorMap[i][j])[0],
             Object.values(this.generatorMap[i][j])[0]
-        ).generate();
+        );
+        chunk.generate();
+        this.chunk[i][j] = chunk;
     };
 
     update() {
         const currChunk = LOCATION.getCurrentChunk();
-
-
 
         this.forChunks(this.prevChunk.x, this.prevChunk.y, (i, j) => {
             if (currChunk.x + RENDER_DISTANCE < i ||
@@ -143,8 +143,6 @@ class MapManager{
                 this.chunk[i][j] = undefined;
             }
         });
-
-
 
         this.forChunks(currChunk.x, currChunk.y, (i, j) => {
             if (currChunk.x + RENDER_DISTANCE < i ||

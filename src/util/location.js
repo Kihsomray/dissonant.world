@@ -13,6 +13,9 @@ class Location {
     }
 
     update() {
+        const x = this.x;
+        const y = this.y;
+
         const boost = ENGINE.keyClick["shift"] ? this.multiplier : 1;
 
         const corner = Math.round(this.corner_speed * boost * 2 * ENGINE.clockTick * 50) / 2;
@@ -42,7 +45,7 @@ class Location {
 
         //console.log(this.getCurrentChunk());
 
-        MAP_MANAGER.update();
+        if (this.x != x || this.y != y) MAP_MANAGER.update();
     }
 
     draw(_) {

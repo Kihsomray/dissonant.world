@@ -94,6 +94,14 @@ class GameEngine {
             this.entities[i].draw(this.ctx, this);
         }
 
+        this.ctx.font = "10px Arial";
+        this.ctx.fillStyle = "white";
+
+        // Draw text on the canvas
+        this.ctx.fillText(`x: ${Math.ceil(LOCATION.x / CHUNK_WIDTH)}, y: ${-Math.floor(LOCATION.y / CHUNK_LENGTH)}`, 2, 10);
+
+        this.ctx.fillText("+", this.ctx.canvas.width / 4 - 2, this.ctx.canvas.height / 4 + 2);
+
         //this.camera.draw(this.ctx);
     };
 
