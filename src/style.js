@@ -40,11 +40,11 @@ function resizeCanvas() {
     WIDTH = ctx.canvas.width / 2;
     LENGTH = ctx.canvas.height / 2;
 
-    X_OFFSET = CLUSTER_WIDTH * CHUNK_WIDTH * TILE_WIDTH / 2 - WIDTH / 2;
-    Y_OFFSET = CLUSTER_LENGTH * CHUNK_LENGTH * TILE_LENGTH / 2 - LENGTH / 2;
+    X_CENTER = width / 2;
+    Y_CENTER = height / 2;
 
-    X_CENTER = width / 6 + 12;
-    Y_CENTER = height / 16 + 32;
+    X_OFFSET = CLUSTER_WIDTH * CHUNK_WIDTH * TILE_WIDTH / 2 - this.X_CENTER;
+    Y_OFFSET = CLUSTER_LENGTH * CHUNK_LENGTH * TILE_LENGTH / 2 - this.Y_CENTER;
     
 }
 
