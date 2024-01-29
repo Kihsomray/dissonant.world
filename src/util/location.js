@@ -2,7 +2,7 @@ class Location {
 
     speed = 4.25;
     corner_speed = Math.sqrt(this.speed * this.speed / 2);
-    multiplier = 1.4 * 1.5;
+    multiplier = 1.4;
 
     x;
     y;
