@@ -10,8 +10,8 @@ class PlayerCharacter {
         this.spritesheet = ASSET_MANAGER.getImage("e/player");
 
         // Initial Variables for player's state.
-        this.x = X_CENTER;
-        this.y = Y_CENTER;
+        this.x = X_CENTER - 18;
+        this.y = Y_CENTER - 24;
         this.speed = 0;
         this.counter = 0;
         this.pause = false;
@@ -76,8 +76,8 @@ class PlayerCharacter {
 
     update() {
 
-        this.x = X_CENTER;
-        this.y = Y_CENTER;
+        this.x = X_CENTER - 18;
+        this.y = Y_CENTER - 24;
 
         if (this.counter++ % 10 == 0) this.pause = !this.pause;
         const location = ENGINE.clockTick * (this.speed + (this.pause ? 0 : 0));
@@ -87,8 +87,8 @@ class PlayerCharacter {
     }
 
     draw(context) {
-        this.x = X_CENTER;
-        this.y = Y_CENTER;
+        this.x = X_CENTER - 18;
+        this.y = Y_CENTER - 24;
 
         /*
          * Movement Legend:

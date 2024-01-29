@@ -1,6 +1,6 @@
 class Location {
 
-    speed = 4.25;
+    speed = 4.25 / 2;
     corner_speed = Math.sqrt(this.speed * this.speed / 2);
     multiplier = 1.4;
 
@@ -75,8 +75,8 @@ class Location {
 
     getCurrentChunk() {
         return {
-            x: Math.floor((this.x + X_OFFSET + WIDTH / 2) / (CHUNK_WIDTH * TILE_WIDTH)),
-            y: Math.floor((this.y + Y_OFFSET + LENGTH / 2) / (CHUNK_LENGTH * TILE_LENGTH))
+            x: Math.floor((this.x + X_OFFSET + X_CENTER) / (CHUNK_WIDTH * TILE_WIDTH)),
+            y: Math.floor((this.y + Y_OFFSET + Y_CENTER) / (CHUNK_LENGTH * TILE_LENGTH))
         };
     };
 
