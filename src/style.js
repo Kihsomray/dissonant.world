@@ -9,6 +9,9 @@ const minHeight = 270;
 let X_OFFSET = 0;
 let Y_OFFSET = 0;
 
+let X_CENTER = 0;
+let Y_CENTER = 0;
+
 let WIDTH = 0;
 let LENGTH = 0;
 
@@ -39,6 +42,9 @@ function resizeCanvas() {
 
     X_OFFSET = CLUSTER_WIDTH * CHUNK_WIDTH * TILE_WIDTH / 2 - WIDTH / 2;
     Y_OFFSET = CLUSTER_LENGTH * CHUNK_LENGTH * TILE_LENGTH / 2 - LENGTH / 2;
+
+    X_CENTER = width / 6 + 12;
+    Y_CENTER = height / 16 + 32;
     
 }
 

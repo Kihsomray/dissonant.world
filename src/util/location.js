@@ -2,7 +2,7 @@ class Location {
 
     speed = 4.25;
     corner_speed = Math.sqrt(this.speed * this.speed / 2);
-    multiplier = 1.4 * 10;
+    multiplier = 1.4 * 1.5;
 
     x;
     y;
@@ -21,32 +21,53 @@ class Location {
         const corner = Math.round(this.corner_speed * boost * 2 * ENGINE.clockTick * 50) / 2;
         const straight = Math.round(this.speed * boost * 2 * ENGINE.clockTick * 50) / 2;
 
+        
         if (ENGINE.keyClick["w"] && ENGINE.keyClick["d"]) {
             this.y -= corner;
             this.x += corner;
+            IS_FACING_RIGHT = true;
         }
         else if (ENGINE.keyClick["w"] && ENGINE.keyClick["a"]) {
             this.y -= corner;
             this.x -= corner;
+            IS_FACING_RIGHT = false;
         }
         else if (ENGINE.keyClick["s"] && ENGINE.keyClick["d"]) {
             this.y += corner;
             this.x += corner;
+            IS_FACING_RIGHT = true;
         }
         else if (ENGINE.keyClick["s"] && ENGINE.keyClick["a"]) {
             this.y += corner;
             this.x -= corner;
+            IS_FACING_RIGHT = false;
         }
 
         else if (ENGINE.keyClick["w"]) this.y -= straight;
-        else if (ENGINE.keyClick["d"]) this.x += straight;
+        else if (ENGINE.keyClick["d"]) {
+            this.x += straight;
+            IS_FACING_RIGHT = true;
+            STATE = 1;
+        }
         else if (ENGINE.keyClick["s"]) this.y += straight;
-        else if (ENGINE.keyClick["a"]) this.x -= straight;
+        else if (ENGINE.keyClick["a"]) {
+            this.x -= straight;
+            IS_FACING_RIGHT = false;
+            STATE = 1;
+        }
+        else {
+            STATE = 0;
+        }
 
+        if (ENGINE.keyClick["shift"]) {
+            STATE = 2;
+        }
+        
         //console.log(this.getCurrentChunk());
 
         if (this.x != x || this.y != y) MAP_MANAGER.update();
     }
+    
 
     draw(_) {
 
