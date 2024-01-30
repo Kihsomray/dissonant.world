@@ -134,7 +134,7 @@ class BiomeTile {
                 1
             );
         } else {
-            ///console.log(this.holder + "");
+            //console.log(this.holder + " " + this.selected + " " + this.chunkX + " " + this.chunkY + " " + this.tileX + " " + this.tileY + " " + LOCATION.x + " " + LOCATION.y + " " + X_OFFSET + " " + Y_OFFSET);
 
             ctx.drawImage(
                 this.holder,

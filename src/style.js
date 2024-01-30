@@ -29,7 +29,7 @@ function resizeCanvas() {
     canvas.width = Math.max(Math.min(width, maxWidth), minWidth);
     canvas.height = Math.max(Math.min(height, maxHeight), minHeight);
 
-    ctx.scale(2, 2);
+    ctx.scale(SCALE, SCALE);
     ctx.imageSmoothingEnabled = false;
 	ctx.webkitImageSmoothingEnabled = false;
 	ctx.mozImageSmoothingEnabled = false;

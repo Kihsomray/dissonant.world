@@ -2,7 +2,7 @@
 class GameEngine {
 
     entities = [];
-    tiles = [];
+    chunks = new Set();
 
     // Clicked: esc, w, d, s, a, shift, alt, e
     keyClick = {
@@ -28,8 +28,6 @@ class GameEngine {
 
     // Constructor
     constructor() {
-        this.entities = [];
-        this.tiles = [];
         this.ctx = null;
         this.surfaceWidth = null;
         this.surfaceHeight = null;
@@ -73,21 +71,19 @@ class GameEngine {
         this.entities.push(entity);
     };
 
-    addTile(tile) {
-        this.tiles.push(tile);
+    addChunk(chunk) {
+        this.chunks.add(chunk);
     };
 
-    removeTile(tile) {
-        this.tiles.splice(this.tiles.indexOf(tile), 1);
+    removeChunk(chunk) {
+        this.chunks.delete(chunk);
     }
 
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         
-        for (let i = this.tiles.length - 1; i >= 0; i--) {
-            this.tiles[i].draw(this.ctx);
-        }
+        this.chunks.forEach(chunk => chunk.draw(this.ctx));
         
         // Draw latest things first
         for (let i = this.entities.length - 1; i >= 0; i--) {

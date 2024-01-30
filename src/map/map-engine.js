@@ -126,7 +126,7 @@ class MapManager{
             Object.values(this.generatorMap[i][j])[0]
         );
         chunk.generate();
-        this.chunk[i][j] = chunk;
+        ENGINE.addChunk(this.chunk[i][j] = chunk);
     };
 
     update() {
@@ -139,7 +139,7 @@ class MapManager{
                 currChunk.y - RENDER_DISTANCE > j)
             {
                 if (!this.chunk[i][j]) return;
-                this.chunk[i][j].unload();
+                ENGINE.removeChunk(this.chunk[i][j]);
                 this.chunk[i][j] = undefined;
             }
         });
@@ -149,7 +149,9 @@ class MapManager{
                 currChunk.x - RENDER_DISTANCE > i ||
                 currChunk.y + RENDER_DISTANCE < j ||
                 currChunk.y - RENDER_DISTANCE > j) return;
-            if (!this.chunk[i][j]) this.generateChunk(i, j);
+            if (!this.chunk[i][j]) {
+                this.generateChunk(i, j);
+            }
         });
         this.prevChunk = currChunk;
     };

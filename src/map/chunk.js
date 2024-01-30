@@ -35,7 +35,7 @@ class Chunk {
 
 
 
-    generate() {
+    async generate() {
         for (let i = 0; i < CHUNK_WIDTH; i++) {
             const arr = [];
             for (let j = 0; j < CHUNK_LENGTH; j++) {
@@ -55,17 +55,16 @@ class Chunk {
                     j
                 );
                 arr.push(tile);
-                ENGINE.addTile(tile);
             }
             this.tiles.push(arr);
         }
         return this;
     };
 
-    unload() {
+    draw(ctx) {
         for (let i = 0; i < this.tiles.length; i++) {
             for (let j = 0; j < this.tiles[i].length; j++) {
-                ENGINE.removeTile(this.tiles[i][j]);
+                this.tiles[i][j].draw(ctx);
             }
         }
     };
