@@ -67,6 +67,10 @@ class GameEngine {
         window.addEventListener("keyup", event => this.keyClick[event.key.toLowerCase()] = false);
     };
 
+    getEntities() {
+        return this.entities;
+    }
+
     addEntity(entity) {
         this.entities.push(entity);
     };
