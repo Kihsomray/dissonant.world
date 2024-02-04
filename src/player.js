@@ -16,6 +16,8 @@ class PlayerCharacter {
         this.counter = 0;
         this.pause = false;
 
+        this.updateBB();
+
         // All of the player's animations.
         this.animations = [];
         this.loadAnimations();
@@ -24,7 +26,7 @@ class PlayerCharacter {
 
     loadAnimations() {
 
-        for (var i = 0; i < 6; i++) { // 6 total states for player.
+        for (var i = 0; i < 7; i++) { // 6 total states for player.
             this.animations[i] = [];
             for (var j = 0; j < 2; j++) { // Two directions
                 this.animations[i][j]; 
@@ -33,17 +35,11 @@ class PlayerCharacter {
 
         // Idling animation for state = 0.
         // Facing right = 0.
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 0, 24, 24, 4, 0.25, 1, false, true)
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 1, 24, 25, 4, 0.25, 1, false, true)
         // Facing left = 1.
-        this.animations[0][1] = new Animator(this.spritesheet, 96, 0, 24, 24, 4, 0.25, 1, false, true)
+        this.animations[0][1] = new Animator(this.spritesheet, 96, 1, 24, 25, 4, 0.25, 1, false, true)
 
-
-        // Walking animation for state = 1. (Subject to be changed to a dodge roll instead.
-        // // Facing right = 0.
-        // this.animations[1][0] = new Animator(this.spritesheet, 0, 25, 24, 24, 4, 0.2, 1, false, true)
-        // // Facing left = 1.
-        // this.animations[1][1] = new Animator(this.spritesheet, 96, 25, 24, 24, 4, 0.2, 1, false, true)
-
+        // Walking animation for state = 1.
         // Facing right = 0.
         this.animations[1][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.125, 1, false, true)
         // Facing left = 1.
@@ -77,6 +73,13 @@ class PlayerCharacter {
         // Facing left = 1.
         this.animations[5][1] = new Animator(this.spritesheet, 96, 121, 24, 24, 4, 0.33, 1, false, true)
 
+
+        // // Dodge roll/jump animation for state = 1.
+        // // Facing right = 0.
+        // this.animations[6][0] = new Animator(this.spritesheet, 0, 25, 24, 24, 4, 0.2, 1, false, true)
+        // // Facing left = 1.
+        // this.animations[6][1] = new Animator(this.spritesheet, 96, 25, 24, 24, 4, 0.2, 1, false, true)
+
     }
 
     update() {
@@ -91,11 +94,24 @@ class PlayerCharacter {
 
     }
 
+    updateBB() {
+
+        // Requires other entities to be added before logic can be written.
+        // this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+
+    }
+
     draw(context) {
+
         this.x = X_CENTER - 18;
         this.y = Y_CENTER - 24;
 
-        /*
+        // // VIEW BOUNDING BOX BELOW
+        // const ctx = canvas.getContext("2d");
+        // ctx.strokeStyle = "red";
+        // ctx.strokeRect(this.x + 8, this.y + 7, 20, 28);
+
+        /*d
          * Movement Legend:
          * [0][0] = Idle Right      [0][1] = Idle left
          * [1][0] = Walk Right      [1][1] = Walk Left
@@ -118,11 +134,17 @@ class PlayerCharacter {
         else if (!IS_FACING_RIGHT && STATE == 1) { // Walking right
             this.animations[1][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
         }
-        else if (IS_FACING_RIGHT && STATE == 2) { // Walking left
+        else if (IS_FACING_RIGHT && STATE == 2) { // Running left
             this.animations[2][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
         }
-        else if (!IS_FACING_RIGHT && STATE == 2) { // Walking right
+        else if (!IS_FACING_RIGHT && STATE == 2) { // Running right
             this.animations[2][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+        }
+        else if (IS_FACING_RIGHT && STATE == 3) { // Walking right
+            this.animations[3][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+        }
+        else if (!IS_FACING_RIGHT && STATE == 3) { // Walking right
+            this.animations[3][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
         }
 
     }
