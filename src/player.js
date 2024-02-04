@@ -39,10 +39,15 @@ class PlayerCharacter {
 
 
         // Walking animation for state = 1. (Subject to be changed to a dodge roll instead.
+        // // Facing right = 0.
+        // this.animations[1][0] = new Animator(this.spritesheet, 0, 25, 24, 24, 4, 0.2, 1, false, true)
+        // // Facing left = 1.
+        // this.animations[1][1] = new Animator(this.spritesheet, 96, 25, 24, 24, 4, 0.2, 1, false, true)
+
         // Facing right = 0.
-        this.animations[1][0] = new Animator(this.spritesheet, 0, 25, 24, 24, 4, 0.2, 1, false, true)
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.125, 1, false, true)
         // Facing left = 1.
-        this.animations[1][1] = new Animator(this.spritesheet, 96, 25, 24, 24, 4, 0.2, 1, false, true)
+        this.animations[1][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.125, 1, false, true)
 
         
         // Running animation for state = 2.
