@@ -43,13 +43,19 @@ class Location {
             IS_FACING_RIGHT = false;
         }
 
-        else if (ENGINE.keyClick["w"]) this.y -= straight;
+        else if (ENGINE.keyClick["w"]) {
+            this.y -= straight;
+            STATE = 1;
+        }
         else if (ENGINE.keyClick["d"]) {
             this.x += straight;
             IS_FACING_RIGHT = true;
             STATE = 1;
         }
-        else if (ENGINE.keyClick["s"]) this.y += straight;
+        else if (ENGINE.keyClick["s"]) {
+            this.y += straight;
+            STATE = 1;
+        }
         else if (ENGINE.keyClick["a"]) {
             this.x -= straight;
             IS_FACING_RIGHT = false;
@@ -59,7 +65,7 @@ class Location {
             STATE = 0;
         }
 
-        if (ENGINE.keyClick["shift"]) {
+        if (ENGINE.keyClick["shift"] && STATE == 1) {
             STATE = 2;
         }
         

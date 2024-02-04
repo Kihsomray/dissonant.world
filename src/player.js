@@ -24,7 +24,7 @@ class PlayerCharacter {
 
     loadAnimations() {
 
-        for (var i = 0; i < 6; i++) { // 6 total states for player.
+        for (var i = 0; i < 7; i++) { // 6 total states for player.
             this.animations[i] = [];
             for (var j = 0; j < 2; j++) { // Two directions
                 this.animations[i][j]; 
@@ -37,12 +37,6 @@ class PlayerCharacter {
         // Facing left = 1.
         this.animations[0][1] = new Animator(this.spritesheet, 96, 0, 24, 24, 4, 0.25, 1, false, true)
 
-
-        // Walking animation for state = 1. (Subject to be changed to a dodge roll instead.
-        // // Facing right = 0.
-        // this.animations[1][0] = new Animator(this.spritesheet, 0, 25, 24, 24, 4, 0.2, 1, false, true)
-        // // Facing left = 1.
-        // this.animations[1][1] = new Animator(this.spritesheet, 96, 25, 24, 24, 4, 0.2, 1, false, true)
 
         // Facing right = 0.
         this.animations[1][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.125, 1, false, true)
@@ -76,6 +70,13 @@ class PlayerCharacter {
         this.animations[5][0] = new Animator(this.spritesheet, 0, 121, 24, 24, 4, 0.33, 1, false, true)
         // Facing left = 1.
         this.animations[5][1] = new Animator(this.spritesheet, 96, 121, 24, 24, 4, 0.33, 1, false, true)
+
+
+        // Dodge roll/jump animation for state = 1. (Subject to be changed to a dodge roll instead.
+        // Facing right = 0.
+        this.animations[6][0] = new Animator(this.spritesheet, 0, 25, 24, 24, 4, 0.2, 1, false, true)
+        // Facing left = 1.
+        this.animations[6][1] = new Animator(this.spritesheet, 96, 25, 24, 24, 4, 0.2, 1, false, true)
 
     }
 
