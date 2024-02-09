@@ -3,7 +3,7 @@
 //let STATE = 0;
 
 // General class to extend when creating enemies
-class Enemy {
+class followEnemy {
     constructor(x, y) {
 
         // ENGINE.PlayerCharacter = this;
@@ -95,8 +95,21 @@ class Enemy {
         this.x = this.globalX - LOCATION.x;
         this.y = this.globalY - LOCATION.y;
 
-        // console.log("The players coords are " + ENGINE.PlayerCharacter.x + ", " + ENGINE.PlayerCharacter.y);
-        // console.log("My coords are " + this.x + ", " + this.y);
+        console.log("The players coords are " + ENGINE.PlayerCharacter.x + ", " + ENGINE.PlayerCharacter.y);
+        console.log("My coords are " + this.x + ", " + this.y);
+
+
+        if (this.x < ENGINE.PlayerCharacter.x) {
+            this.globalX++;
+        } else if (this.x > ENGINE.PlayerCharacter.x) {
+            this.globalX--;
+        } 
+        
+        if (this.y < ENGINE.PlayerCharacter.y) {
+            this.globalY++;
+        } if (this.y > ENGINE.PlayerCharacter.y) {
+            this.globalY--;
+        } 
 
 
         // if (this.counter++ % 10 == 0) this.pause = !this.pause;

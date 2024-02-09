@@ -21,6 +21,8 @@ ASSET_MANAGER.downloadAll(() => {
 	ENGINE.addEntity(new Enemy(120, 110));
 	ENGINE.addEntity(new Enemy(360, 110));
 
+	ENGINE.addEntity(new followEnemy(0, 0));
+
 	ENGINE.addEntity(LOCATION);
 	MAP_MANAGER.init();
 
