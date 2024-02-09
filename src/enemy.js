@@ -4,11 +4,14 @@
 
 // General class to extend when creating enemies
 class Enemy {
-    constructor() {
+    constructor(x, y) {
 
         // ENGINE.PlayerCharacter = this;
 
         this.spritesheet = ASSET_MANAGER.getImage("e/player");
+
+        this.globalX = x;
+        this.globalY = y;
 
         this.x = LOCATION.x; //X_CENTER;
         this.y = LOCATION.y; //Y_CENTER;
@@ -89,8 +92,8 @@ class Enemy {
 
     update() {
 
-        this.x = 0 - LOCATION.x;
-        this.y = 0 - LOCATION.y;
+        this.x = this.globalX - LOCATION.x;
+        this.y = this.globalY - LOCATION.y;
 
         console.log("The players coords are " + ENGINE.PlayerCharacter.x + ", " + ENGINE.PlayerCharacter.y);
         console.log("My coords are " + this.x + ", " + this.y);
