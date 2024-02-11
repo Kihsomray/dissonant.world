@@ -7,7 +7,14 @@ class PlayerCharacter {
 
         ENGINE.PlayerCharacter = this;
 
-        this.spritesheet = ASSET_MANAGER.getImage("e/player");
+      
+        if (Math.floor(Math.random() * 10) % 2 == 0) {
+            this.spritesheet = ASSET_MANAGER.getImage("e/player-male");
+        }
+        else {
+            this.spritesheet = ASSET_MANAGER.getImage("e/player-female");
+        }
+        
 
         // Initial Variables for player's state.
         this.x = X_CENTER - 18;

@@ -4,14 +4,28 @@
 
 // General class to extend when creating enemies
 class Enemy {
-    constructor(x, y) {
+    constructor(name, x, y) {
 
         // ENGINE.PlayerCharacter = this;
-
-        this.spritesheet = ASSET_MANAGER.getImage("e/player");
-
+        this.name = name;
         this.globalX = x;
         this.globalY = y;
+
+        if (name == "goblin") {
+            this.spritesheet = ASSET_MANAGER.getImage("e/goblin");
+        } 
+        else if (name == "orc") {
+            this.spritesheet = ASSET_MANAGER.getImage("e/orc");
+        }
+        else if (name == "oni") {
+            this.spritesheet = ASSET_MANAGER.getImage("e/oni");
+        }
+        else if (name == "hobgoblin") {
+            this.spritesheet = ASSET_MANAGER.getImage("e/hobgoblin");
+        }
+        else if (name == "knight") {
+            this.spritesheet = ASSET_MANAGER.getImage("e/knight");
+        }
 
         this.x = LOCATION.x; //X_CENTER;
         this.y = LOCATION.y; //Y_CENTER;
@@ -80,13 +94,6 @@ class Enemy {
         this.animations[5][0] = new Animator(this.spritesheet, 0, 121, 24, 24, 4, 0.33, 1, false, true)
         // Facing left = 1.
         this.animations[5][1] = new Animator(this.spritesheet, 96, 121, 24, 24, 4, 0.33, 1, false, true)
-
-
-        // // Dodge roll/jump animation for state = 1.
-        // // Facing right = 0.
-        // this.animations[6][0] = new Animator(this.spritesheet, 0, 25, 24, 24, 4, 0.2, 1, false, true)
-        // // Facing left = 1.
-        // this.animations[6][1] = new Animator(this.spritesheet, 96, 25, 24, 24, 4, 0.2, 1, false, true)
 
     }
 
