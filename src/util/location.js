@@ -21,7 +21,7 @@ class Location {
         const corner = Math.round(this.corner_speed * boost * 2 * ENGINE.clockTick * 50) / 2;
         const straight = Math.round(this.speed * boost * 2 * ENGINE.clockTick * 50) / 2;
 
-        
+
         if (ENGINE.keyClick["w"] && ENGINE.keyClick["d"]) {
             this.y -= corner;
             this.x += corner;
@@ -68,12 +68,12 @@ class Location {
         if (ENGINE.keyClick["shift"] && STATE == 1) {
             STATE = 2;
         }
-        
+
         //console.log(this.getCurrentChunk());
 
         if (this.x != x || this.y != y) MAP_MANAGER.update();
     }
-    
+
 
     draw(_) {
 

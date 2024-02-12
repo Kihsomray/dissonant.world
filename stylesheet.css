@@ -43,5 +43,6 @@ p {
 
 #game {
     background: white;
-    border: 1px solid black
+    border: 1px solid black;
+    cursor: none;
 }

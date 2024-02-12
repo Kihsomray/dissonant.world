@@ -1,11 +1,3 @@
-INVENTORY_TOOLS = 2;
-INVENTORY_GENERAL = 4;
-
-INVENTORY_ROWS = 3;
-INVENTORY_COLUMNS = 9;
-
-ITEM_PX = 24;
-
 ITEMS = {
 
     0: {
@@ -17,9 +9,6 @@ ITEMS = {
 
         attack_damage: 3.0,
         attack_cooldown: 0.8, // attack speed, seconds
-
-        break_damage: 0.5, // if 1, do not need to specify
-        break_cooldown: 1.0, // if 1, do not need to specify
 
         location: [1, 5],
         size: [16, 40]
@@ -87,10 +76,7 @@ ITEMS = {
         health: 250,
 
         attack_damage: 4.0,
-        attack_cooldown: 1.0,
-
-        break_damage: 1.0,
-        break_cooldown: 1.0,
+        attack_cooldown: 1.2,
 
         location: [73, 1],
         size: [16, 48]
@@ -118,14 +104,12 @@ ITEMS = {
         display_name: "Iron Shovel",
         name: "iron_shovel",
         type: ["tool"],
+        specialty: "digging",
 
         health: 150,
 
-        attack_damage: 2.0,
-        attack_cooldown: 1.0,
-
-        break_damage: 2.0,
-        break_cooldown: 1.0,
+        break_damage: 5.0,
+        break_cooldown: 0.5,
 
         location: [149, 1],
         size: [12, 48]
@@ -141,9 +125,6 @@ ITEMS = {
         attack_damage: 2.0,
         attack_cooldown: 0.75,
 
-        break_damage: 1.0,
-        break_cooldown: 1.0,
-
         location: [175, 11],
         size: [8, 28]
     },
@@ -158,9 +139,6 @@ ITEMS = {
         attack_damage: 3.5,
         attack_cooldown: 1,
 
-        break_damage: 0.5,
-        break_cooldown: 1.0,
-
         location: [195, 5],
         size: [16, 40]
     },
@@ -170,13 +148,7 @@ ITEMS = {
         name: "shield",
         type: ["general"],
 
-        health: 300,
-
-        attack_damage: 0.5,
-        attack_cooldown: 1.0,
-
-        break_damage: 0.5,
-        break_cooldown: 1.0,
+        health: 500,
 
         location: [219, 13],
         size: [16, 24]
@@ -187,13 +159,7 @@ ITEMS = {
         name: "bow",
         type: ["weapon"],
 
-        health: 100,
-
-        attack_damage: 1.0,
-        attack_cooldown: 1.0,
-
-        break_damage: 1.0,
-        break_cooldown: 1.0,
+        health: 200,
 
         location: [245, 5],
         size: [12, 40]
@@ -209,9 +175,6 @@ ITEMS = {
         attack_damage: 2.25,
         attack_cooldown: 1.75,
 
-        break_damage: 0.5,
-        break_cooldown: 0.5,
-
         location: [271, 11],
         size: [8, 28]
     },
@@ -220,14 +183,6 @@ ITEMS = {
         display_name: "Stick",
         name: "stick",
         type: ["general"],
-
-        health: 50,
-
-        attack_damage: 1.0,
-        attack_cooldown: 1.0,
-
-        break_damage: 1.0,
-        break_cooldown: 1.0,
 
         location: [295, 1],
         size: [8, 48]
@@ -243,9 +198,6 @@ ITEMS = {
         attack_damage: 4.0,
         attack_cooldown: 0.9,
 
-        break_damage: 1.0,
-        break_cooldown: 1.0,
-
         location: [317, 5],
         size: [16, 40]
     },
@@ -260,150 +212,133 @@ ITEMS = {
         attack_damage: 3.0,
         attack_cooldown: 1.2,
 
-        break_damage: 1.0,
-        break_cooldown: 1.0,
-
         location: [341, 1],
         size: [12, 48]
     },
+
+    15: {
+        display_name: "Iron Labrys",
+        name: "iron_labrys",
+        type: ["weapon", "tool"],
+        specialty: "chopping",
+
+        health: 220,
+
+        attack_damage: 2.8,
+        attack_cooldown: 1.9,
+
+        break_damage: 4.5,
+        break_cooldown: 1.0,
+
+        location: [467, 21],
+        size: [24, 48]
+    },
+
+
 
     20: {
         display_name: "Iron Ore",
         name: "iron_ore",
         type: ["ore"],
 
-        health: 100,
-
-        break_damage: 1.0,
-        break_cooldown: 1.0,
-
-        location: [260, 5],
-        size: [20, 40]
+        location: [67, 97],
+        size: [16, 20]
     },
-    
+
     21: {
         display_name: "Gold Ore",
         name: "gold_ore",
         type: ["ore"],
-        health: 100,
-        break_damage: 2.0,
-        break_cooldown: 1.0,
-        location: [290, 5],
-        size: [20, 40]
+
+        location: [99, 97],
+        size: [16, 20]
     },
     22: {
         display_name: "Azurite Ore",
         name: "azurite_ore",
         type: ["ore"],
-        health: 120,
-        break_damage: 2.5,
-        break_cooldown: 1.2,
-        location: [320, 5],
-        size: [20, 40]
+
+        location: [131, 97],
+        size: [16, 20]
     },
     23: {
+        display_name: "Diamond Ore",
+        name: "diamond_ore",
+        type: ["ore"],
+
+        location: [323, 161],
+        size: [16, 20]
+    },
+
+
+
+    24: {
         display_name: "Iron Ingot",
         name: "iron_ingot",
         type: ["ingot"],
-        health: 100,
-        break_damage: 2.0,
-        break_cooldown: 1.0,
-        location: [350, 5],
-        size: [20, 40]
+
+        location: [161, 99],
+        size: [20, 16]
     },
-    24: {
+    25: {
         display_name: "Gold Ingot",
         name: "gold_ingot",
         type: ["ingot"],
-        health: 100,
-        break_damage: 2.0,
-        break_cooldown: 1.0,
-        location: [380, 5],
-        size: [20, 40]
+
+        location: [193, 99],
+        size: [20, 16]
     },
-    25: {
+    26: {
         display_name: "Azurite Ingot",
         name: "azurite_ingot",
         type: ["ingot"],
-        health: 120,
-        break_damage: 2.5,
-        break_cooldown: 1.2,
-        location: [410, 5],
-        size: [20, 40]
+
+        location: [225, 99],
+        size: [20, 16]
     },
+    27: {
+        display_name: "Diamond",
+        name: "diamond",
+        type: ["gem"],
+
+        location: [355, 161],
+        size: [16, 20]
+    },
+
+
 
     30: {
-        display_name: "Oak Sapling",
-        name: "oak_sapling",
+        display_name: "Maple Sapling",
+        name: "maple_sapling",
         type: ["sapling"],
-        health: 50,
-        break_damage: 0.5,
-        break_cooldown: 0.5,
-        location: [320, 5],
-        size: [20, 40]
+
+        location: [291, 95],
+        size: [16, 24]
     },
     31: {
-        display_name: "Orange Sapling",
-        name: "orange_sapling",
+        display_name: "Orange Maple Sapling",
+        name: "orange_maple_sapling",
         type: ["sapling"],
-        health: 50,
-        break_damage: 0.5,
-        break_cooldown: 0.5,
-        location: [350, 5],
-        size: [20, 40]
+
+        location: [323, 95],
+        size: [16, 24]
     },
     32: {
-        display_name: "Orange Sapling",
-        name: "orange_sapling",
+        display_name: "Redbud Sapling",
+        name: "redbud_sapling",
         type: ["sapling"],
-        health: 50,
-        break_damage: 0.5,
-        break_cooldown: 0.5,
-        location: [380, 5],
-        size: [20, 40]
+
+        location: [353, 95],
+        size: [20, 24]
     },
     33: {
-        display_name: "Pink Sapling",
-        name: "pink_sapling",
+        display_name: "Cedar Sapling",
+        name: "cedar_sapling",
         type: ["sapling"],
-        health: 50,
-        break_damage: 0.5,
-        break_cooldown: 0.5,
-        location: [410, 5],
-        size: [20, 40]
-    },
-    34: {
-        display_name: "Spruce Sapling",
-        name: "spruce_sapling",
-        type: ["sapling"],
-        health: 50,
-        break_damage: 0.5,
-        break_cooldown: 0.5,
-        location: [440, 5],
-        size: [20, 40]
+
+        location: [387, 95],
+        size: [16, 24]
     }
-
-
-}
-
-class PlayerInventory {
-
-    hotbar_tools = new Array(INVENTORY_TOOLS);
-    hotbar_general = new Array(INVENTORY_GENERAL);
-
-    inventory = new Array(INVENTORY_ROWS); // number of rows
-
-    constructor() {
-
-        // fill each row with an array of columns
-        for (let i = 0; i < INVENTORY_ROWS; i++) {
-            this.inventory[i] = new Array(INVENTORY_COLUMNS);
-        }
-
-    }
-
-    // add item to inventory
-
 
 
 }
