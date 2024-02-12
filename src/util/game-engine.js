@@ -31,6 +31,30 @@ class GameEngine {
         this.ctx = null;
         this.surfaceWidth = null;
         this.surfaceHeight = null;
+
+        document.addEventListener("visibilitychange", function () {
+
+            if (document["hidden"]) {
+
+                ENGINE.keyClick = {
+                    "Escape": false,
+                    "w": false,
+                    "d": false,
+                    "s": false,
+                    "a": false,
+                    "shift": false,
+                    "Alt": false,
+                    "e": false,
+                    "1": false,
+                    "2": false,
+                    "3": false,
+                    "4": false
+                };
+
+            }
+
+            
+        });
     };
 
     init(ctx) { // called after page has loaded
