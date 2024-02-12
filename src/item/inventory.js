@@ -17,6 +17,9 @@ HOTBAR_ASSET_SIZE = [308, 60];
 
 INVENTORY_SCALE = SCALE / 4;
 
+INVENTORY_SELECTED_LOCATION = [371, 481];
+INVENTORY_SELECTED_SIZE = [48, 48];
+
 class PlayerInventory {
 
     openedInventory = false;
@@ -27,6 +30,8 @@ class PlayerInventory {
     inventory = new Array(INVENTORY_ROWS); // number of rows
 
     cursorItem = 0;
+
+    hoveringInventory = [0, 0];
 
     constructor() {
 
@@ -117,11 +122,19 @@ class PlayerInventory {
 
         });
 
-
-
-
-
-
+        window.addEventListener("mousemove", (e) => {
+            const m = ENGINE.mouseLocation;
+            if (!this.openedInventory) return;
+            for (let i = 0; i < INVENTORY_ROWS; i++) {
+                for (let j = 0; j < INVENTORY_COLUMNS; j++) {
+                    const x = X_CENTER - INVENTORY_ASSET_SIZE[0] / 2 * INVENTORY_SCALE + (10 + j * (INVENTORY_SLOT_SIZE[0] + 8)) * INVENTORY_SCALE;
+                    const y = Y_CENTER - (INVENTORY_ASSET_SIZE[1] + HOTBAR_ASSET_SIZE[1]) / 2 * INVENTORY_SCALE + (34 + i * (INVENTORY_SLOT_SIZE[1] + 6)) * INVENTORY_SCALE;
+                    if (m.x > x && m.x < x + INVENTORY_SLOT_SIZE[0] * INVENTORY_SCALE && m.y > y && m.y < y + INVENTORY_SLOT_SIZE[1] * INVENTORY_SCALE) {
+                        this.hoveringInventory = [i, j];
+                    }
+                }
+            }
+        });
 
     }
 
@@ -191,9 +204,16 @@ class PlayerInventory {
 
         for (let i = 0; i < INVENTORY_ROWS; i++) {
             for (let j = 0; j < INVENTORY_COLUMNS; j++) {
-                this.#drawInventorySlot(this.inventory[i][j], 10 + j * (INVENTORY_SLOT_SIZE[0] + 8), 34 + i * (INVENTORY_SLOT_SIZE[1] + 6), ctx);
+                this.#drawInventorySlot(ITEMS[this.inventory[i][j]], 10 + j * (INVENTORY_SLOT_SIZE[0] + 8), 34 + i * (INVENTORY_SLOT_SIZE[1] + 6), ctx);
             }
         }
+
+        this.#drawInventorySlot(
+            {
+                location: INVENTORY_SELECTED_LOCATION,
+                size: INVENTORY_SELECTED_SIZE
+            }, 10 + this.hoveringInventory[1] * (INVENTORY_SLOT_SIZE[0] + 8), 34 + this.hoveringInventory[0] * (INVENTORY_SLOT_SIZE[1] + 6), ctx);
+
     }
 
 
@@ -214,8 +234,7 @@ class PlayerInventory {
 
     }
 
-    #drawInventorySlot(itemID, x, y, ctx) {
-        const itemData = ITEMS[itemID];
+    #drawInventorySlot(itemData, x, y, ctx) {
 
         ctx.drawImage(
             this.spritesheet,
