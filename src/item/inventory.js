@@ -38,8 +38,11 @@ class PlayerInventory {
         }
     
         window.addEventListener("keydown", event => {
-            if (event.key.toLowerCase() === "e") {
+            const key = event.key.toLowerCase();
+            if (key === "e") {
                 this.openedInventory = !this.openedInventory;
+            } else if (key === "escape") {
+                this.openedInventory = false;
             }
         });
 
@@ -64,6 +67,7 @@ class PlayerInventory {
         window.addEventListener("mousedown", (e) => {
 
             const m = ENGINE.mouseLocation;
+
             for (let i = 0; i < INVENTORY_TOOLS; i++) {
                 const x = X_CENTER - HOTBAR_ASSET_SIZE[0] / 2 * INVENTORY_SCALE + INVENTORY_TOOLS_LOCATIONS[i][0] * INVENTORY_SCALE;
                 const y = Y_CENTER * 2 - HOTBAR_ASSET_SIZE[1] * INVENTORY_SCALE + INVENTORY_TOOLS_LOCATIONS[i][1] * INVENTORY_SCALE;
