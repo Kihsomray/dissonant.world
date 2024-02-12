@@ -26,21 +26,25 @@ class Location {
             this.y -= corner;
             this.x += corner;
             IS_FACING_RIGHT = true;
+            STATE = 1;
         }
         else if (ENGINE.keyClick["w"] && ENGINE.keyClick["a"]) {
             this.y -= corner;
             this.x -= corner;
             IS_FACING_RIGHT = false;
+            STATE = 1;
         }
         else if (ENGINE.keyClick["s"] && ENGINE.keyClick["d"]) {
             this.y += corner;
             this.x += corner;
             IS_FACING_RIGHT = true;
+            STATE = 1;
         }
         else if (ENGINE.keyClick["s"] && ENGINE.keyClick["a"]) {
             this.y += corner;
             this.x -= corner;
             IS_FACING_RIGHT = false;
+            STATE = 1;
         }
 
         else if (ENGINE.keyClick["w"]) {
