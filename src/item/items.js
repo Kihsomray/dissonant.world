@@ -1,6 +1,14 @@
 ITEMS = {
 
     0: {
+        display_name: "",
+        name: "air",
+        type: ["general"],
+        location: [0, 0],
+        size: [0, 0]
+    },
+
+    1: {
         display_name: "Iron Sword",
         name: "iron_sword",
         type: ["weapon"],
@@ -14,7 +22,7 @@ ITEMS = {
         size: [16, 40]
     },
 
-    1: {
+    2: {
         display_name: "Iron Hammer",
         name: "iron_hammer",
         type: ["weapon", "tool"],
@@ -32,7 +40,7 @@ ITEMS = {
         size: [20, 40]
     },
 
-    2: {
+    3: {
         display_name: "Iron Axe",
         name: "iron_axe",
         type: ["weapon", "tool"],
@@ -50,7 +58,7 @@ ITEMS = {
         size: [18, 40]
     },
 
-    3: {
+    4: {
         display_name: "Iron Pickaxe",
         name: "iron_pickaxe",
         type: ["weapon", "tool"],
@@ -64,11 +72,11 @@ ITEMS = {
         break_damage: 3.0,
         break_cooldown: 1.0,
 
-        location: [140, 5],
-        size: [20, 40]
+        location: [95, 5],
+        size: [24, 40]
     },
 
-    4: {
+    5: {
         display_name: "Upgraded Staff",
         name: "upgraded_staff",
         type: ["weapon"],
@@ -82,7 +90,7 @@ ITEMS = {
         size: [16, 48]
     },
 
-    5: {
+    6: {
         display_name: "Kanabo",
         name: "kanabo",
         type: ["weapon"],
@@ -100,7 +108,7 @@ ITEMS = {
     },
 
     // need to update coordinates on the following:
-    6: {
+    7: {
         display_name: "Iron Shovel",
         name: "iron_shovel",
         type: ["tool"],
@@ -115,7 +123,7 @@ ITEMS = {
         size: [12, 48]
     },
 
-    7: {
+    8: {
         display_name: "Knife",
         name: "knife",
         type: ["weapon"],
@@ -129,7 +137,7 @@ ITEMS = {
         size: [8, 28]
     },
 
-    8: {
+    9: {
         display_name: "Pirate Iron Sword",
         name: "pirate_iron_sword",
         type: ["weapon"],
@@ -143,7 +151,7 @@ ITEMS = {
         size: [16, 40]
     },
 
-    9: {
+    10: {
         display_name: "Shield",
         name: "shield",
         type: ["general"],
@@ -154,7 +162,7 @@ ITEMS = {
         size: [16, 24]
     },
 
-    10: {
+    11: {
         display_name: "Bow",
         name: "bow",
         type: ["weapon"],
@@ -165,7 +173,7 @@ ITEMS = {
         size: [12, 40]
     },
 
-    11: {
+    12: {
         display_name: "Arrow",
         name: "arrow",
         type: ["weapon"],
@@ -179,7 +187,7 @@ ITEMS = {
         size: [8, 28]
     },
 
-    12: {
+    13: {
         display_name: "Stick",
         name: "stick",
         type: ["general"],
@@ -188,7 +196,7 @@ ITEMS = {
         size: [8, 48]
     },
 
-    13: {
+    14: {
         display_name: "Gold Sword",
         name: "gold_sword",
         type: ["weapon"],
@@ -202,7 +210,7 @@ ITEMS = {
         size: [16, 40]
     },
 
-    14: {
+    15: {
         display_name: "Staff",
         name: "staff",
         type: ["weapon"],
@@ -216,7 +224,7 @@ ITEMS = {
         size: [12, 48]
     },
 
-    15: {
+    16: {
         display_name: "Iron Labrys",
         name: "iron_labrys",
         type: ["weapon", "tool"],
