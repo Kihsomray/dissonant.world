@@ -24,13 +24,37 @@ class GameEngine {
     mouseClick = [false, false, false];
 
     // Mouse location: x, y
-    mouseLocation = { x: 0, y: 0 };
+    mouseLocation = { x: X_CENTER, y: Y_CENTER };
 
     // Constructor
     constructor() {
         this.ctx = null;
         this.surfaceWidth = null;
         this.surfaceHeight = null;
+
+        document.addEventListener("visibilitychange", function () {
+
+            if (document["hidden"]) {
+
+                ENGINE.keyClick = {
+                    "Escape": false,
+                    "w": false,
+                    "d": false,
+                    "s": false,
+                    "a": false,
+                    "shift": false,
+                    "Alt": false,
+                    "e": false,
+                    "1": false,
+                    "2": false,
+                    "3": false,
+                    "4": false
+                };
+
+            }
+
+        });
+
     };
 
     init(ctx) { // called after page has loaded
@@ -42,8 +66,8 @@ class GameEngine {
     };
 
     #updateMouseLocation = e => (this.mouseLocation = {
-        x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
-        y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
+        x: (e.clientX - this.ctx.canvas.getBoundingClientRect().left) / SCALE,
+        y: (e.clientY - this.ctx.canvas.getBoundingClientRect().top) / SCALE
     });
 
     start() {
@@ -86,9 +110,9 @@ class GameEngine {
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        
+
         this.chunks.forEach(chunk => chunk.draw(this.ctx));
-        
+
         // Draw latest things first
         for (let i = this.entities.length - 1; i >= 0; i--) {
             this.entities[i].draw(this.ctx, this);
@@ -100,7 +124,7 @@ class GameEngine {
         // Draw text on the canvas
         this.ctx.fillText(`x: ${Math.floor(LOCATION.x / CHUNK_WIDTH * SCALE)}, y: ${-Math.ceil(LOCATION.y / CHUNK_LENGTH * SCALE)}`, 2, 10);
 
-        this.ctx.fillText("+", this.ctx.canvas.width / 4 - 3, this.ctx.canvas.height / 4 + 3);
+        this.ctx.fillText("+", this.mouseLocation.x - 3, this.mouseLocation.y + 3);
 
         //this.camera.draw(this.ctx);
     };

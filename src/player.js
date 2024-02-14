@@ -30,6 +30,8 @@ class PlayerCharacter {
         this.animations = [];
         this.loadAnimations();
 
+        this.inventory = new PlayerInventory();
+
     }
 
     loadAnimations() {
@@ -155,6 +157,8 @@ class PlayerCharacter {
         else if (!IS_FACING_RIGHT && STATE == 3) { // Walking right
             this.animations[3][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
         }
+
+        this.inventory.draw(context);
 
     }
 
