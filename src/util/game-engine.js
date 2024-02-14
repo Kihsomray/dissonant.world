@@ -24,7 +24,7 @@ class GameEngine {
     mouseClick = [false, false, false];
 
     // Mouse location: x, y
-    mouseLocation = { x: X_CENTER, y: Y_CENTER };
+    mouseLocation = { x: env.X_CENTER, y: env.Y_CENTER };
 
     // Constructor
     constructor() {
@@ -66,15 +66,15 @@ class GameEngine {
     };
 
     #updateMouseLocation = e => (this.mouseLocation = {
-        x: (e.clientX - this.ctx.canvas.getBoundingClientRect().left) / SCALE,
-        y: (e.clientY - this.ctx.canvas.getBoundingClientRect().top) / SCALE
+        x: (e.clientX - this.ctx.canvas.getBoundingClientRect().left) / env.SCALE,
+        y: (e.clientY - this.ctx.canvas.getBoundingClientRect().top) / env.SCALE
     });
 
     start() {
         this.running = true;
         const gameLoop = () => {
             this.loop();
-            requestAnimFrame(gameLoop, this.ctx.canvas);
+            window.requestAnimationFrame(gameLoop, this.ctx.canvas);
         };
         gameLoop();
     };
@@ -122,7 +122,7 @@ class GameEngine {
         this.ctx.fillStyle = "white";
 
         // Draw text on the canvas
-        this.ctx.fillText(`x: ${Math.floor(LOCATION.x / CHUNK_WIDTH * SCALE)}, y: ${-Math.ceil(LOCATION.y / CHUNK_LENGTH * SCALE)}`, 2, 10);
+        this.ctx.fillText(`x: ${Math.floor(LOCATION.x / CHUNK_WIDTH * env.SCALE)}, y: ${-Math.ceil(LOCATION.y / CHUNK_LENGTH * env.SCALE)}`, 2, 10);
 
         this.ctx.fillText("+", this.mouseLocation.x - 3, this.mouseLocation.y + 3);
 
