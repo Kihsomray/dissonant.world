@@ -9,8 +9,8 @@ function resizeCanvas() {
     const canvas = document.getElementById("game");
 	const ctx = canvas.getContext("2d");
 
-    const width = $("#container").width() - 16;
-    const height = $("#container").height() - $("#header").height() - $("#footer").height() - 16;
+    const width = $("#container").width() - 36;
+    const height = $("#container").height() - $("#header").height() - $("#footer").height() - 36;
 
     canvas.width = Math.max(Math.min(width, env.MAX_WIDTH), env.MIN_WIDTH);
     canvas.height = Math.max(Math.min(height, env.MAX_HEIGHT), env.MIN_HEIGHT);
