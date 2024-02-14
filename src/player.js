@@ -23,7 +23,8 @@ class PlayerCharacter {
         this.counter = 0;
         this.pause = false;
 
-        this.updateBB();
+        // this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+        // this.updateBB();
 
         // All of the player's animations.
         this.animations = [];
@@ -93,6 +94,7 @@ class PlayerCharacter {
 
         this.x = X_CENTER - 18;
         this.y = Y_CENTER - 24;
+        
 
         if (this.counter++ % 10 == 0) this.pause = !this.pause;
         const location = ENGINE.clockTick * (this.speed + (this.pause ? 0 : 0));
@@ -104,7 +106,7 @@ class PlayerCharacter {
     updateBB() {
 
         // Requires other entities to be added before logic can be written.
-        // this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+        this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
 
     }
 
@@ -114,9 +116,9 @@ class PlayerCharacter {
         this.y = Y_CENTER - 24;
 
         // // VIEW BOUNDING BOX BELOW
-        // const ctx = canvas.getContext("2d");
-        // ctx.strokeStyle = "red";
-        // ctx.strokeRect(this.x + 8, this.y + 7, 20, 28);
+        const ctx = canvas.getContext("2d");
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(this.x + 8, this.y + 7, 20, 28);
 
         /*d
          * Movement Legend:

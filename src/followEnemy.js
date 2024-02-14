@@ -139,9 +139,9 @@ class followEnemy {
         //this.y = Y_CENTER;
 
         // // VIEW BOUNDING BOX BELOW
-        // const ctx = canvas.getContext("2d");
-        // ctx.strokeStyle = "red";
-        // ctx.strokeRect(this.x + 8, this.y + 7, 20, 28);
+        const ctx = canvas.getContext("2d");
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(this.x + 8, this.y + 7, 20, 28);
 
         /*d
          * Movement Legend:
