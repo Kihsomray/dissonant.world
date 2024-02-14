@@ -1,40 +1,52 @@
 // State Global Variables (Temporary Addition)
-let IS_FACING_RIGHT = false;
-let STATE = 0;
+//let IS_FACING_RIGHT = false;
+//let STATE = 0;
 
-class PlayerCharacter {
-    constructor() {
+// General class to extend when creating enemies
+class followEnemy {
+    constructor(name, x, y) {
 
-        ENGINE.PlayerCharacter = this;
+        // ENGINE.PlayerCharacter = this;
+        this.name = name;
+        this.globalX = x;
+        this.globalY = y;
 
-      
-        if (Math.floor(Math.random() * 10) % 2 == 0) {
-            this.spritesheet = ASSET_MANAGER.getImage("e/player-male");
+        if (name == "goblin") {
+            this.spritesheet = ASSET_MANAGER.getImage("e/goblin");
+        } 
+        else if (name == "orc") {
+            this.spritesheet = ASSET_MANAGER.getImage("e/orc");
         }
-        else {
-            this.spritesheet = ASSET_MANAGER.getImage("e/player-female");
+        else if (name == "oni") {
+            this.spritesheet = ASSET_MANAGER.getImage("e/oni");
         }
-        
+        else if (name == "hobgoblin") {
+            this.spritesheet = ASSET_MANAGER.getImage("e/hobgoblin");
+        }
+        else if (name == "knight") {
+            this.spritesheet = ASSET_MANAGER.getImage("e/knight");
+        }
 
-        // Initial Variables for player's state.
-        this.x = X_CENTER - 18;
-        this.y = Y_CENTER - 24;
+        this.x = LOCATION.x; //X_CENTER;
+        this.y = LOCATION.y; //Y_CENTER;
         this.speed = 0;
         this.counter = 0;
         this.pause = false;
 
-        // this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
-        // this.updateBB();
+        this.updateBB();
 
-        // All of the player's animations.
+        // All of the enemies's animations.
         this.animations = [];
         this.loadAnimations();
-
-        this.inventory = new PlayerInventory();
 
     }
 
     loadAnimations() {
+
+        // TODO add the animations
+        // It shouldn't matter for this class since its general but this should be overloaded for each enemy
+
+
 
         for (var i = 0; i < 7; i++) { // 6 total states for player.
             this.animations[i] = [];
@@ -83,39 +95,48 @@ class PlayerCharacter {
         // Facing left = 1.
         this.animations[5][1] = new Animator(this.spritesheet, 96, 121, 24, 24, 4, 0.33, 1, false, true)
 
-
-        // // Dodge roll/jump animation for state = 1.
-        // // Facing right = 0.
-        // this.animations[6][0] = new Animator(this.spritesheet, 0, 25, 24, 24, 4, 0.2, 1, false, true)
-        // // Facing left = 1.
-        // this.animations[6][1] = new Animator(this.spritesheet, 96, 25, 24, 24, 4, 0.2, 1, false, true)
-
     }
 
     update() {
 
-        this.x = X_CENTER - 18;
-        this.y = Y_CENTER - 24;
-        
+        this.x = this.globalX - LOCATION.x;
+        this.y = this.globalY - LOCATION.y;
 
-        if (this.counter++ % 10 == 0) this.pause = !this.pause;
-        const location = ENGINE.clockTick * (this.speed + (this.pause ? 0 : 0));
-        this.x += location;
-        if (this.x > 1024) this.x = -200;
+        console.log("The players coords are " + ENGINE.PlayerCharacter.x + ", " + ENGINE.PlayerCharacter.y);
+        console.log("My coords are " + this.x + ", " + this.y);
+
+
+        if (this.x < ENGINE.PlayerCharacter.x) {
+            this.globalX++;
+        } else if (this.x > ENGINE.PlayerCharacter.x) {
+            this.globalX--;
+        } 
+        
+        if (this.y < ENGINE.PlayerCharacter.y) {
+            this.globalY++;
+        } if (this.y > ENGINE.PlayerCharacter.y) {
+            this.globalY--;
+        } 
+
+
+        // if (this.counter++ % 10 == 0) this.pause = !this.pause;
+        // const location = ENGINE.clockTick * (this.speed + (this.pause ? 0 : 0));
+        // //this.x += location;
+        // if (this.x > 1024) this.x = -200;
 
     }
 
     updateBB() {
 
         // Requires other entities to be added before logic can be written.
-        this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+        // this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
 
     }
 
     draw(context) {
 
-        this.x = X_CENTER - 18;
-        this.y = Y_CENTER - 24;
+        //this.x = X_CENTER;
+        //this.y = Y_CENTER;
 
         // // VIEW BOUNDING BOX BELOW
         const ctx = canvas.getContext("2d");
@@ -157,8 +178,6 @@ class PlayerCharacter {
         else if (!IS_FACING_RIGHT && STATE == 3) { // Walking right
             this.animations[3][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
         }
-
-        this.inventory.draw(context);
 
     }
 
