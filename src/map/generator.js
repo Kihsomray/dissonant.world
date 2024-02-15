@@ -108,24 +108,7 @@ class MapGenerator {
 
     }
 
-    // Input a random seed from 1 to 4294967296, 2^32 - 1
-    // Utilizing the Park-Millar random number generator
-    // This function returns a random number from 0 to 1 exclusively(probably).
-    random(seed) {
-        // if (seed <= 0) {
-        //     seed + ;
-        // }
     
-        let cur = seed % 4294967296; // This is the number inputted but made sure its with in the range
-        if (cur <= 0) {
-            cur = cur + 4294967295;
-        }
-    
-        return () => {
-            cur = cur * 48271 % 4294967296;
-            return (cur - 1) / 4294967296;
-        };
-    }
 
     // Smooth the grid based off each 3x3 
     // This algorithm skips over the edges.
@@ -172,14 +155,49 @@ class MapGenerator {
             for (let j = 1; j < this.width - 1; j++) {
                 let biome = this.getBiome(grid[i][j]);
                 let map = {};
-                map[biome] = [Math.floor(this.rng() * 1000)];
-    
+                map[biome] = Math.floor(this.rng() * 1000);
+                //console.log(map[biome]);
+                map = this.getEnemies(map);
+                //console.log(map[biome]);
                 outGrid[i - 1][j - 1] = map;
+                
             }
         }
     
         return outGrid;
-    
+    }
+
+    getEnemies(map) {
+        let newMap = {};
+        let biome = Object.keys(map)[0];
+
+        let randomNum = Object.values(map[biome]);
+        let randGen = this.random(randomNum);
+
+        let numOfEnemies = Math.floor(10 * randGen()); // Generate a random number for the number of enemies in a chunk from 0 to 9
+
+        let taken = new Set(); // Create a set of coords that are already taken
+
+        
+        newMap[biome] = Object.values(map);
+        let next = newMap[biome];
+        //next.push(21);
+        
+        for (let i = 0; i < numOfEnemies; i++) { // Each chunk is 32 by 32 so set all of the enemies into random tiles on the chunk x = (0-31), y = (0,31)
+            let x; let y; let hash;
+            
+            do { // Generate a random coordinate but also make sure it doesn't exist yet 
+                x = Math.floor(32 * randGen());
+                y = Math.floor(32 * randGen());
+                hash = x + y * 100;
+            } while (taken.has(hash)) 
+            taken.add(hash);
+
+            next.push({"enemy" : [x, y]});
+            //newMap[biome].push({"enemy" : [x, y]});
+        }
+        newMap[biome] = next;
+        return newMap;  
     }
 
     getBiome(num) {
@@ -233,6 +251,26 @@ class MapGenerator {
             }
         }
         return smoothedGrid;
+    }
+
+
+    // Input a random seed from 1 to 4294967296, 2^32 - 1
+    // Utilizing the Park-Millar random number generator
+    // This function returns a random number from 0 to 1 exclusively(probably).
+    random(seed) {
+        // if (seed <= 0) {
+        //     seed + ;
+        // }
+    
+        let cur = seed % 4294967296; // This is the number inputted but made sure its with in the range
+        if (cur <= 0) {
+            cur = cur + 4294967295;
+        }
+    
+        return () => {
+            cur = cur * 48271 % 4294967296;
+            return (cur - 1) / 4294967296;
+        };
     }
 
 }
