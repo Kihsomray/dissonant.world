@@ -42,7 +42,21 @@ p {
 }
 
 #game {
-    background: white;
-    border: 1px solid black;
+    background-color: black;
+    border: 8px solid black;
+    border-radius: 4px;
     cursor: none;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+html {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: url("res/background/ai_generated_1.jpg") center/cover no-repeat;
 }

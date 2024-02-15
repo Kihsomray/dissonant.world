@@ -134,7 +134,7 @@ class BiomeTile {
                 1
             );
         } else {
-            //console.log(this.holder + " " + this.selected + " " + this.chunkX + " " + this.chunkY + " " + this.tileX + " " + this.tileY + " " + LOCATION.x + " " + LOCATION.y + " " + X_OFFSET + " " + Y_OFFSET);
+            //console.log(this.holder + " " + this.selected + " " + this.chunkX + " " + this.chunkY + " " + this.tileX + " " + this.tileY + " " + LOCATION.x + " " + LOCATION.y + " " + env.X_OFFSET + " " + env.Y_OFFSET);
 
             ctx.drawImage(
                 this.holder,
@@ -142,8 +142,8 @@ class BiomeTile {
                 (this.BIOME_TILESET[this.selected].y + 1) * TILE_LENGTH,
                 TILE_WIDTH,
                 TILE_LENGTH,
-                this.chunkX * CHUNK_WIDTH * TILE_WIDTH + this.tileX * TILE_WIDTH - LOCATION.x - X_OFFSET,
-                this.chunkY * CHUNK_LENGTH * TILE_LENGTH + this.tileY * TILE_LENGTH - LOCATION.y - Y_OFFSET,
+                this.chunkX * CHUNK_WIDTH * TILE_WIDTH + this.tileX * TILE_WIDTH - LOCATION.x - env.X_OFFSET,
+                this.chunkY * CHUNK_LENGTH * TILE_LENGTH + this.tileY * TILE_LENGTH - LOCATION.y - env.Y_OFFSET,
                 TILE_WIDTH,
                 TILE_LENGTH
             );

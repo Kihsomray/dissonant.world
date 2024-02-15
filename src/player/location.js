@@ -85,8 +85,8 @@ class Location {
 
     getCurrentChunk() {
         return {
-            x: Math.floor((this.x + X_OFFSET + X_CENTER) / (CHUNK_WIDTH * TILE_WIDTH)),
-            y: Math.floor((this.y + Y_OFFSET + Y_CENTER) / (CHUNK_LENGTH * TILE_LENGTH))
+            x: Math.floor((this.x + env.X_OFFSET + env.X_CENTER) / (CHUNK_WIDTH * TILE_WIDTH)),
+            y: Math.floor((this.y + env.Y_OFFSET + env.Y_CENTER) / (CHUNK_LENGTH * TILE_LENGTH))
         };
     };
 

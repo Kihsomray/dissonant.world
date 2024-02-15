@@ -15,7 +15,7 @@ INVENTORY_ASSET_SIZE = [204, 176];
 HOTBAR_ASSET_LOCATION = [365, 537];
 HOTBAR_ASSET_SIZE = [308, 60];
 
-INVENTORY_SCALE = SCALE / 4;
+INVENTORY_SCALE = env.SCALE / 4;
 
 INVENTORY_SELECTED_LOCATION = [371, 481];
 INVENTORY_SELECTED_SIZE = [48, 48];
@@ -74,8 +74,8 @@ class PlayerInventory {
             const m = ENGINE.mouseLocation;
 
             for (let i = 0; i < INVENTORY_TOOLS; i++) {
-                const x = X_CENTER - HOTBAR_ASSET_SIZE[0] / 2 * INVENTORY_SCALE + INVENTORY_TOOLS_LOCATIONS[i][0] * INVENTORY_SCALE;
-                const y = Y_CENTER * 2 - HOTBAR_ASSET_SIZE[1] * INVENTORY_SCALE + INVENTORY_TOOLS_LOCATIONS[i][1] * INVENTORY_SCALE;
+                const x = env.X_CENTER - HOTBAR_ASSET_SIZE[0] / 2 * INVENTORY_SCALE + INVENTORY_TOOLS_LOCATIONS[i][0] * INVENTORY_SCALE;
+                const y = env.Y_CENTER * 2 - HOTBAR_ASSET_SIZE[1] * INVENTORY_SCALE + INVENTORY_TOOLS_LOCATIONS[i][1] * INVENTORY_SCALE;
                 if (m.x > x && m.x < x + INVENTORY_SLOT_SIZE[0] * INVENTORY_SCALE && m.y > y && m.y < y + INVENTORY_SLOT_SIZE[1] * INVENTORY_SCALE) {
                     
                     console.log("clicked on tool slot " + i);
@@ -89,8 +89,8 @@ class PlayerInventory {
             }
 
             for (let i = 0; i < INVENTORY_GENERAL; i++) {
-                const x = X_CENTER - HOTBAR_ASSET_SIZE[0] / 2 * INVENTORY_SCALE + INVENTORY_GENERAL_LOCATIONS[i][0] * INVENTORY_SCALE;
-                const y = Y_CENTER * 2 - HOTBAR_ASSET_SIZE[1] * INVENTORY_SCALE + INVENTORY_GENERAL_LOCATIONS[i][1] * INVENTORY_SCALE;
+                const x = env.X_CENTER - HOTBAR_ASSET_SIZE[0] / 2 * INVENTORY_SCALE + INVENTORY_GENERAL_LOCATIONS[i][0] * INVENTORY_SCALE;
+                const y = env.Y_CENTER * 2 - HOTBAR_ASSET_SIZE[1] * INVENTORY_SCALE + INVENTORY_GENERAL_LOCATIONS[i][1] * INVENTORY_SCALE;
                 if (m.x > x && m.x < x + INVENTORY_SLOT_SIZE[0] * INVENTORY_SCALE && m.y > y && m.y < y + INVENTORY_SLOT_SIZE[1] * INVENTORY_SCALE) {
                     console.log("clicked on general slot " + i);
                     if (this.hotbar_general[i] == 0 && this.cursorItem == 0) return;
@@ -106,8 +106,8 @@ class PlayerInventory {
 
             for (let i = 0; i < INVENTORY_ROWS; i++) {
                 for (let j = 0; j < INVENTORY_COLUMNS; j++) {
-                    const x = X_CENTER - INVENTORY_ASSET_SIZE[0] / 2 * INVENTORY_SCALE + (10 + j * (INVENTORY_SLOT_SIZE[0] + 8)) * INVENTORY_SCALE;
-                    const y = Y_CENTER - (INVENTORY_ASSET_SIZE[1] + HOTBAR_ASSET_SIZE[1]) / 2 * INVENTORY_SCALE + (34 + i * (INVENTORY_SLOT_SIZE[1] + 6)) * INVENTORY_SCALE;
+                    const x = env.X_CENTER - INVENTORY_ASSET_SIZE[0] / 2 * INVENTORY_SCALE + (10 + j * (INVENTORY_SLOT_SIZE[0] + 8)) * INVENTORY_SCALE;
+                    const y = env.Y_CENTER - (INVENTORY_ASSET_SIZE[1] + HOTBAR_ASSET_SIZE[1]) / 2 * INVENTORY_SCALE + (34 + i * (INVENTORY_SLOT_SIZE[1] + 6)) * INVENTORY_SCALE;
                     if (m.x > x && m.x < x + INVENTORY_SLOT_SIZE[0] * INVENTORY_SCALE && m.y > y && m.y < y + INVENTORY_SLOT_SIZE[1] * INVENTORY_SCALE) {
                         console.log("clicked on inventory slot " + i + " " + j);
                         if (this.inventory[i][j] == 0 && this.cursorItem == 0) return;
@@ -127,8 +127,8 @@ class PlayerInventory {
             if (!this.openedInventory) return;
             for (let i = 0; i < INVENTORY_ROWS; i++) {
                 for (let j = 0; j < INVENTORY_COLUMNS; j++) {
-                    const x = X_CENTER - INVENTORY_ASSET_SIZE[0] / 2 * INVENTORY_SCALE + (10 + j * (INVENTORY_SLOT_SIZE[0] + 8)) * INVENTORY_SCALE;
-                    const y = Y_CENTER - (INVENTORY_ASSET_SIZE[1] + HOTBAR_ASSET_SIZE[1]) / 2 * INVENTORY_SCALE + (34 + i * (INVENTORY_SLOT_SIZE[1] + 6)) * INVENTORY_SCALE;
+                    const x = env.X_CENTER - INVENTORY_ASSET_SIZE[0] / 2 * INVENTORY_SCALE + (10 + j * (INVENTORY_SLOT_SIZE[0] + 8)) * INVENTORY_SCALE;
+                    const y = env.Y_CENTER - (INVENTORY_ASSET_SIZE[1] + HOTBAR_ASSET_SIZE[1]) / 2 * INVENTORY_SCALE + (34 + i * (INVENTORY_SLOT_SIZE[1] + 6)) * INVENTORY_SCALE;
                     if (m.x > x && m.x < x + INVENTORY_SLOT_SIZE[0] * INVENTORY_SCALE && m.y > y && m.y < y + INVENTORY_SLOT_SIZE[1] * INVENTORY_SCALE) {
                         this.hoveringInventory = [i, j];
                     }
@@ -171,8 +171,8 @@ class PlayerInventory {
             HOTBAR_ASSET_LOCATION[1],
             HOTBAR_ASSET_SIZE[0],
             HOTBAR_ASSET_SIZE[1],
-            X_CENTER - HOTBAR_ASSET_SIZE[0] / 2 * INVENTORY_SCALE,
-            Y_CENTER * 2 - HOTBAR_ASSET_SIZE[1] * INVENTORY_SCALE,
+            env.X_CENTER - HOTBAR_ASSET_SIZE[0] / 2 * INVENTORY_SCALE,
+            env.Y_CENTER * 2 - HOTBAR_ASSET_SIZE[1] * INVENTORY_SCALE,
             HOTBAR_ASSET_SIZE[0] * INVENTORY_SCALE,
             HOTBAR_ASSET_SIZE[1] * INVENTORY_SCALE
         );
@@ -196,8 +196,8 @@ class PlayerInventory {
             INVENTORY_ASSET_LOCATION[1],
             INVENTORY_ASSET_SIZE[0],
             INVENTORY_ASSET_SIZE[1],
-            X_CENTER - INVENTORY_ASSET_SIZE[0] / 2 * INVENTORY_SCALE,
-            Y_CENTER - (INVENTORY_ASSET_SIZE[1] + HOTBAR_ASSET_SIZE[1]) / 2 * INVENTORY_SCALE,
+            env.X_CENTER - INVENTORY_ASSET_SIZE[0] / 2 * INVENTORY_SCALE,
+            env.Y_CENTER - (INVENTORY_ASSET_SIZE[1] + HOTBAR_ASSET_SIZE[1]) / 2 * INVENTORY_SCALE,
             INVENTORY_ASSET_SIZE[0] * INVENTORY_SCALE,
             INVENTORY_ASSET_SIZE[1] * INVENTORY_SCALE
         );
@@ -226,8 +226,8 @@ class PlayerInventory {
             itemData.location[1],
             itemData.size[0],
             itemData.size[1],
-            X_CENTER - HOTBAR_ASSET_SIZE[0] / 2 * INVENTORY_SCALE + (x + INVENTORY_SLOT_SIZE[0] / 2 - itemData.size[0] / 2) * INVENTORY_SCALE,
-            Y_CENTER * 2 - HOTBAR_ASSET_SIZE[1] * INVENTORY_SCALE + (y + INVENTORY_SLOT_SIZE[1] / 2 - itemData.size[1] / 2) * INVENTORY_SCALE,
+            env.X_CENTER - HOTBAR_ASSET_SIZE[0] / 2 * INVENTORY_SCALE + (x + INVENTORY_SLOT_SIZE[0] / 2 - itemData.size[0] / 2) * INVENTORY_SCALE,
+            env.Y_CENTER * 2 - HOTBAR_ASSET_SIZE[1] * INVENTORY_SCALE + (y + INVENTORY_SLOT_SIZE[1] / 2 - itemData.size[1] / 2) * INVENTORY_SCALE,
             itemData.size[0] * INVENTORY_SCALE,
             itemData.size[1] * INVENTORY_SCALE
         );
@@ -242,8 +242,8 @@ class PlayerInventory {
             itemData.location[1],
             itemData.size[0],
             itemData.size[1],
-            X_CENTER - INVENTORY_ASSET_SIZE[0] / 2 * INVENTORY_SCALE + (x + INVENTORY_SLOT_SIZE[0] / 2 - itemData.size[0] / 2) * INVENTORY_SCALE,
-            Y_CENTER - (INVENTORY_ASSET_SIZE[1] + HOTBAR_ASSET_SIZE[1]) / 2 * INVENTORY_SCALE + (y + INVENTORY_SLOT_SIZE[1] / 2 - itemData.size[1] / 2) * INVENTORY_SCALE,
+            env.X_CENTER - INVENTORY_ASSET_SIZE[0] / 2 * INVENTORY_SCALE + (x + INVENTORY_SLOT_SIZE[0] / 2 - itemData.size[0] / 2) * INVENTORY_SCALE,
+            env.Y_CENTER - (INVENTORY_ASSET_SIZE[1] + HOTBAR_ASSET_SIZE[1]) / 2 * INVENTORY_SCALE + (y + INVENTORY_SLOT_SIZE[1] / 2 - itemData.size[1] / 2) * INVENTORY_SCALE,
             itemData.size[0] * INVENTORY_SCALE,
             itemData.size[1] * INVENTORY_SCALE
         );
