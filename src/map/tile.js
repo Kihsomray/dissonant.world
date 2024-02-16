@@ -294,7 +294,8 @@ class BiomeTile {
         if (this.biome == "cave" || neighborBiome == "cave" || this.biome == neighborBiome) return;
         const transitionSection = this.BIOME_TRANSITION_TILES[this.biome][neighborBiome];
         const transitionTile = this.BIOME_TRANSITION_TILES[`bcb:${direction}`];
-        const rev = (this.BIOME_TRANSITION_TILES[this.biome][neighborBiome].reverse ? -1 : 1);      
+        const rev = (this.BIOME_TRANSITION_TILES[this.biome][neighborBiome].reverse ? -1 : 1);  
+        if (rev) this.biome = neighborBiome;   
 
         this.selected = {
             x: (1 + transitionSection.x * 3 + rev * transitionTile.x),

@@ -14,7 +14,7 @@ const CHUNK_LENGTH = 32;
 const CLUSTER_WIDTH = 1024 / 2 - 1;
 const CLUSTER_LENGTH = 1024 / 2 - 1;
 
-const RENDER_DISTANCE = 1;
+const RENDER_DISTANCE = 2;
 
 const BIOMES = [
     "cave",

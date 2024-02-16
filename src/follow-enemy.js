@@ -3,13 +3,17 @@
 //let STATE = 0;
 
 // General class to extend when creating enemies
-class followEnemy {
+class FollowEnemy {
+
+    x;
+    y;
+
     constructor(name, x, y) {
 
         // ENGINE.PlayerCharacter = this;
         this.name = name;
-        this.globalX = x;
-        this.globalY = y;
+        this.x = x;
+        this.y = y;
 
         if (name == "goblin") {
             this.spritesheet = ASSET_MANAGER.getImage("e/goblin");
@@ -99,23 +103,20 @@ class followEnemy {
 
     update() {
 
-        this.x = this.globalX - LOCATION.x;
-        this.y = this.globalY - LOCATION.y;
-
         //console.log("The players coords are " + ENGINE.PlayerCharacter.x + ", " + ENGINE.PlayerCharacter.y);
         //console.log("My coords are " + this.x + ", " + this.y);
 
 
-        if (this.x < ENGINE.PlayerCharacter.x) {
-            this.globalX++;
-        } else if (this.x > ENGINE.PlayerCharacter.x) {
-            this.globalX--;
+        if (this.x < LOCATION.x) {
+            this.x++;
+        } else if (this.x > LOCATION.x) {
+            this.x--;
         } 
         
-        if (this.y < ENGINE.PlayerCharacter.y) {
-            this.globalY++;
-        } if (this.y > ENGINE.PlayerCharacter.y) {
-            this.globalY--;
+        if (this.y < LOCATION.y) {
+            this.y++;
+        } if (this.y > LOCATION.y) {
+            this.y--;
         } 
 
 
@@ -153,30 +154,33 @@ class followEnemy {
          * [5][0] = Dead Right      [5][1] = Dead Left
          */
 
+        const x = this.x + env.X_CENTER - LOCATION.x - env.X_OFFSET;
+        const y = this.y + env.Y_CENTER - LOCATION.y - env.Y_OFFSET;
+
         // IN PROGRESS, WORKING ON GETTING LOGIC RIGHT
         if (!IS_FACING_RIGHT && STATE == 0) { // Idle right
-            this.animations[0][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+            this.animations[0][1].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
         }
         else if (IS_FACING_RIGHT && STATE == 0) { // Idle left
-            this.animations[0][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+            this.animations[0][0].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
         }
         else if (IS_FACING_RIGHT && STATE == 1) { // Walking left
-            this.animations[1][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+            this.animations[1][0].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
         }
         else if (!IS_FACING_RIGHT && STATE == 1) { // Walking right
-            this.animations[1][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+            this.animations[1][1].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
         }
         else if (IS_FACING_RIGHT && STATE == 2) { // Running left
-            this.animations[2][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+            this.animations[2][0].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
         }
         else if (!IS_FACING_RIGHT && STATE == 2) { // Running right
-            this.animations[2][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+            this.animations[2][1].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
         }
         else if (IS_FACING_RIGHT && STATE == 3) { // Walking right
-            this.animations[3][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+            this.animations[3][1].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
         }
         else if (!IS_FACING_RIGHT && STATE == 3) { // Walking right
-            this.animations[3][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+            this.animations[3][1].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
         }
 
     }
