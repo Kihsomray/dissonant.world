@@ -94,6 +94,10 @@ class Chunk {
             // ensure it doesnt go too much inward or outward.
             offsetWest = Math.max(Math.min(val + offsetWest, CHUNK_WIDTH / 4), -CHUNK_WIDTH / 4);
 
+            if (i == CHUNK_WIDTH - 2) offsetWest = Math.max(Math.min(offsetWest, CHUNK_WIDTH / 32), -CHUNK_WIDTH / 32) ;
+            else if (i == CHUNK_WIDTH - 3) offsetWest = Math.max(Math.min(offsetWest, CHUNK_WIDTH / 16), -CHUNK_WIDTH / 16);
+            else if (i == CHUNK_WIDTH - 4) offsetWest = Math.max(Math.min(offsetWest, CHUNK_WIDTH / 8), -CHUNK_WIDTH / 8);
+
         }
 
         rando = MAP_MANAGER.generator.random(this.chunkSeed + 1);
@@ -120,6 +124,11 @@ class Chunk {
 
             // ensure it doesnt go too much inward or outward.
             offsetNorth = Math.max(Math.min(val + offsetNorth, CHUNK_LENGTH / 4), -CHUNK_LENGTH / 4);
+
+            if (i == CHUNK_LENGTH - 2) offsetNorth = Math.max(Math.min(offsetNorth, CHUNK_LENGTH / 32), -CHUNK_LENGTH / 32) ;
+            if (i == CHUNK_LENGTH - 3) offsetNorth = Math.max(Math.min(offsetNorth, CHUNK_LENGTH / 16), -CHUNK_LENGTH / 16);
+            if (i == CHUNK_LENGTH - 4) offsetNorth = Math.max(Math.min(offsetNorth, CHUNK_LENGTH / 8), -CHUNK_LENGTH / 8);
+
 
         }
 
