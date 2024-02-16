@@ -154,8 +154,8 @@ class FollowEnemy {
          * [5][0] = Dead Right      [5][1] = Dead Left
          */
 
-        const x = this.x + env.X_CENTER - LOCATION.x - env.X_OFFSET;
-        const y = this.y + env.Y_CENTER - LOCATION.y - env.Y_OFFSET;
+        const x = this.x + env.X_CENTER - LOCATION.x - env.CANVAS_X_OFFSET;
+        const y = this.y + env.Y_CENTER - LOCATION.y - env.CANVAS_Y_OFFSET;
 
         // IN PROGRESS, WORKING ON GETTING LOGIC RIGHT
         if (!IS_FACING_RIGHT && STATE == 0) { // Idle right

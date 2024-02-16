@@ -17,8 +17,8 @@ class PlayerCharacter {
         
 
         // Initial Variables for player's state.
-        this.x = env.X_CENTER - env.X_OFFSET;
-        this.y = env.Y_CENTER - env.Y_OFFSET;
+        this.x = env.X_CENTER - env.CANVAS_X_OFFSET;
+        this.y = env.Y_CENTER - env.CANVAS_Y_OFFSET;
         this.speed = 0;
         this.counter = 0;
         this.pause = false;
@@ -94,8 +94,8 @@ class PlayerCharacter {
 
     update() {
 
-        this.x = env.X_CENTER - env.X_OFFSET;
-        this.y = env.Y_CENTER - env.Y_OFFSET;
+        this.x = env.X_CENTER - env.CANVAS_X_OFFSET;
+        this.y = env.Y_CENTER - env.CANVAS_Y_OFFSET;
         
 
         if (this.counter++ % 10 == 0) this.pause = !this.pause;
@@ -114,8 +114,8 @@ class PlayerCharacter {
 
     draw(context) {
 
-        this.x = env.X_CENTER - env.X_OFFSET;
-        this.y = env.Y_CENTER - env.Y_OFFSET;
+        this.x = env.X_CENTER - env.CANVAS_X_OFFSET;
+        this.y = env.Y_CENTER - env.CANVAS_Y_OFFSET;
 
         // // VIEW BOUNDING BOX BELOW
         const ctx = canvas.getContext("2d");

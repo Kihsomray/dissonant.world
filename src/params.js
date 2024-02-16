@@ -1,8 +1,8 @@
 const env = {
 
     // canvas offset
-    X_OFFSET: 18,
-    Y_OFFSET: 24,
+    CANVAS_X_OFFSET: 18,
+    CANVAS_Y_OFFSET: 24,
 
     // Max width and height of the canvas
     MAX_WIDTH: 960 * 1.5,
