@@ -27,9 +27,9 @@ class followEnemy {
             this.spritesheet = ASSET_MANAGER.getImage("e/knight");
         }
 
-        this.x = LOCATION.x; //X_CENTER;
-        this.y = LOCATION.y; //Y_CENTER;
-        this.speed = 0;
+        this.x = LOCATION.x; // X_CENTER;
+        this.y = LOCATION.y; // Y_CENTER;
+        this.speed = 100; // speed of the enemy;
         this.counter = 0;
         this.pause = false;
 
@@ -99,23 +99,25 @@ class followEnemy {
 
     update() {
 
-        this.x = this.globalX - LOCATION.x;
-        this.y = this.globalY - LOCATION.y;
+        this.x = Math.round(this.globalX - LOCATION.x);
+        this.y = Math.round(this.globalY - LOCATION.y);
 
-        console.log("The players coords are " + ENGINE.PlayerCharacter.x + ", " + ENGINE.PlayerCharacter.y);
-        console.log("My coords are " + this.x + ", " + this.y);
+        //console.log("The players coords are " + ENGINE.PlayerCharacter.x + ", " + ENGINE.PlayerCharacter.y);
+        //console.log("My coords are " + this.x + ", " + this.y);
 
+        let playerX = Math.floor(ENGINE.PlayerCharacter.x);
+        let playerY = Math.floor(ENGINE.PlayerCharacter.y);
 
-        if (this.x < ENGINE.PlayerCharacter.x) {
-            this.globalX++;
-        } else if (this.x > ENGINE.PlayerCharacter.x) {
-            this.globalX--;
+        if (Math.floor(this.x) < playerX) {
+            this.globalX += Math.round(ENGINE.clockTick * this.speed);
+        } else if (Math.floor(this.x) > playerX) {
+            this.globalX -= Math.round(ENGINE.clockTick * this.speed);
         } 
         
-        if (this.y < ENGINE.PlayerCharacter.y) {
-            this.globalY++;
-        } if (this.y > ENGINE.PlayerCharacter.y) {
-            this.globalY--;
+        if (Math.floor(this.y) < playerY) {
+            this.globalY += Math.round(ENGINE.clockTick * this.speed);
+        } if (Math.floor(this.y) > playerY) {
+            this.globalY -= Math.round(ENGINE.clockTick * this.speed);
         } 
 
 

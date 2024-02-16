@@ -155,9 +155,9 @@ class MapGenerator {
             for (let j = 1; j < this.width - 1; j++) {
                 let biome = this.getBiome(grid[i][j]);
                 let map = {};
-                map[biome] = Math.floor(this.rng() * 1000);
+                map[biome] = [Math.floor(this.rng() * 1000)]; // Having this wrapped in brackets is really ugly but idk how to fix it
                 //console.log(map[biome]);
-                map = this.getEnemies(map);
+                //map = this.getEnemies(map);
                 //console.log(map[biome]);
                 outGrid[i - 1][j - 1] = map;
                 
