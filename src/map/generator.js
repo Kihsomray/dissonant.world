@@ -156,9 +156,9 @@ class MapGenerator {
                 let biome = this.getBiome(grid[i][j]);
                 let map = {};
                 map[biome] = [Math.floor(this.rng() * 1000)]; // Having this wrapped in brackets is really ugly but idk how to fix it
-                //console.log(map[biome]);
+                console.log(map[biome]);
                 map = this.getEnemies(map);
-                //console.log(map[biome]);
+                console.log(map[biome]);
                 outGrid[i - 1][j - 1] = map;
                 
             }
@@ -182,8 +182,8 @@ class MapGenerator {
         
         newMap[biome] = Object.values(map);
         let next = newMap[biome];
-        next.push(21);
-        next.push({"enemy" : [2, 2]});
+        //next.push(21);
+        //next.push({"enemy" : [2, 2]});
         
         for (let i = 0; i < numOfEnemies; i++) { // Each chunk is 32 by 32 so set all of the enemies into random tiles on the chunk x = (0-31), y = (0,31)
             let x; let y; let hash;

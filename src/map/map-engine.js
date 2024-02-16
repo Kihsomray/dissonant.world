@@ -11,8 +11,8 @@ const TILE_LENGTH = 16;
 const CHUNK_WIDTH = 32;
 const CHUNK_LENGTH = 32;
 
-const CLUSTER_WIDTH = 1023;
-const CLUSTER_LENGTH = 1023;
+const CLUSTER_WIDTH = 16;
+const CLUSTER_LENGTH = 16;
 
 const RENDER_DISTANCE = 1;
 
@@ -123,10 +123,14 @@ class MapManager{
             i,
             j,
             Object.keys(this.generatorMap[i][j])[0],
-            Object.values(this.generatorMap[i][j])[0]
+            Object.values(this.generatorMap[i][j])[0][0]
         );
         chunk.generate();
         ENGINE.addChunk(this.chunk[i][j] = chunk);
+
+
+        // For each enemy add entity(Gbolin )
+        
     };
 
     update() {
@@ -140,6 +144,11 @@ class MapManager{
             {
                 if (!this.chunk[i][j]) return;
                 ENGINE.removeChunk(this.chunk[i][j]);
+                // Save entities back into mapGrid
+                // For each enemy in that chunk remove entity
+
+                
+
                 this.chunk[i][j] = undefined;
             }
         });

@@ -4,6 +4,15 @@
 
 // General class to extend when creating enemies
 class followEnemy {
+
+    x;
+    y;
+    name;
+    globalX;
+    globalY;
+    speed;
+
+
     constructor(name, x, y) {
 
         // ENGINE.PlayerCharacter = this;
@@ -182,5 +191,12 @@ class followEnemy {
         }
 
     }
+
+    getCurrentChunk() {
+        return {
+            x: Math.floor((this.x + env.X_OFFSET + env.X_CENTER) / (CHUNK_WIDTH * TILE_WIDTH)),
+            y: Math.floor((this.y + env.Y_OFFSET + env.Y_CENTER) / (CHUNK_LENGTH * TILE_LENGTH))
+        };
+    };
 
 }
