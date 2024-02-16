@@ -7,7 +7,7 @@ class BiomeTile {
     biome;
     type;
     direction;
-    animated;
+    animated = false;
     tileX;
     tileY;
 
@@ -79,11 +79,136 @@ class BiomeTile {
 
     }
 
-    constructor(biome, selection, chunkX, chunkY, tileX, tileY) {
+    BIOME_TRANSITION_TILES = {
+
+
+        "bcb:ne": { x: -1, y: -1 },
+        "bcb:n": { x: 0, y: -1 },
+        "bcb:nw": { x: 1, y: -1 },
+        "bcb:e": { x: -1, y: 0 },
+        "bcb:w": { x: 1, y: 0 },
+        "bcb:se": { x: -1, y: 1 },
+        "bcb:s": { x: 0, y: 1 },
+        "bcb:sw": { x: 1, y: 1 },
+
+        "desert": {
+            "forest": {
+                x: 4,
+                y: 0,
+                reverse: false
+            },
+            "taiga": {
+                x: 4,
+                y: 1,
+                reverse: false
+            },
+            "swamp": {
+                x: 2,
+                y: 1,
+                reverse: false
+            },
+            "tundra": {
+                x: 3,
+                y: 0,
+                reverse: false
+            }
+        },
+        "forest": {
+            "desert": {
+                x: 4,
+                y: 0,
+                reverse: true
+            },
+            "taiga": {
+                x: 3,
+                y: 1,
+                reverse: false
+            },
+            "swamp": {
+                x: 1,
+                y: 1,
+                reverse: false
+            },
+            "tundra": {
+                x: 2,
+                y: 0,
+                reverse: false
+            }
+        },
+        "taiga": {
+            "desert": {
+                x: 4,
+                y: 1,
+                reverse: true
+            },
+            "forest": {
+                x: 3,
+                y: 1,
+                reverse: true
+            },
+            "swamp": {
+                x: 0,
+                y: 1,
+                reverse: false
+            },
+            "tundra": {
+                x: 1,
+                y: 0,
+                reverse: false
+            }
+        },
+        "swamp": {
+            "desert": {
+                x: 2,
+                y: 1,
+                reverse: true
+            },
+            "forest": {
+                x: 1,
+                y: 1,
+                reverse: true
+            },
+            "taiga": {
+                x: 0,
+                y: 1,
+                reverse: true
+            },
+            "tundra": {
+                x: 0,
+                y: 0,
+                reverse: false
+            }
+        },
+        "tundra": {
+            "desert": {
+                x: 3,
+                y: 0,
+                reverse: true
+            },
+            "forest": {
+                x: 2,
+                y: 0,
+                reverse: true
+            },
+            "taiga": {
+                x: 1,
+                y: 0,
+                reverse: true
+            },
+            "swamp": {
+                x: 0,
+                y: 0,
+                reverse: true
+            }
+        }
+
+    }
+
+    constructor(biome, tileSeed, oneTenth, chunkX, chunkY, tileX, tileY) {
 
         this.biome = biome;
-        this.selected = selection;
-        this.animated = selection.charAt(2) == "w";
+        this.tileSeed = tileSeed;
+        this.chance = (oneTenth % 10) / 10;
         this.chunkX = chunkX;
         this.chunkY = chunkY;
         this.tileX = tileX;
@@ -138,8 +263,8 @@ class BiomeTile {
 
             ctx.drawImage(
                 this.holder,
-                (this.BIOME_TILESET[this.selected].x + 1) * TILE_WIDTH,
-                (this.BIOME_TILESET[this.selected].y + 1) * TILE_LENGTH,
+                (this.selected.x + 1) * TILE_WIDTH,
+                (this.selected.y + 1) * TILE_LENGTH,
                 TILE_WIDTH,
                 TILE_LENGTH,
                 this.chunkX * CHUNK_WIDTH * TILE_WIDTH + this.tileX * TILE_WIDTH - LOCATION.x - env.X_OFFSET,
@@ -150,18 +275,36 @@ class BiomeTile {
         }
     }
 
-    static chance_regular = 0.7;
-    static chance_type_1 = 0.25;
-    static chance_type_2 = 0.05;
+    chance_regular = 0.7;
+    chance_type_1 = 0.25;
+    chance_type_2 = 0.05;
 
-    static randomize(num, tileSeed) {
-        if (num < this.chance_regular) {
-            return "b-0";
-        }
-        if (num < this.chance_regular + this.chance_type_1) {
-            return `b-1-${parseInt(tileSeed / 125)}`;
-        }
-        return `b-2-${parseInt(tileSeed / 250)}`;
+    setRandomized() {
+        this.holder = ASSET_MANAGER.getImage(`t/${this.biome}`);
+        if (this.chance < this.chance_regular) {
+            this.selected = this.BIOME_TILESET["b-0"];
+        } else if (this.chance < this.chance_regular + this.chance_type_1) {
+            this.selected = this.BIOME_TILESET[`b-1-${parseInt(this.tileSeed / 125)}`];
+        } else this.selected = this.BIOME_TILESET[`b-2-${parseInt(this.tileSeed / 250)}`];
+        this.holder = ASSET_MANAGER.getImage(`t/${this.biome}`);
+    }
+
+    setTransition(neighborBiome, direction) {
+        neighborBiome = BIOMES[neighborBiome];
+        //console.log(this.biome + " " + neighborBiome + " " + direction)
+        if (this.biome == "cave" || neighborBiome == "cave" || this.biome == neighborBiome) return;
+        this.holder = ASSET_MANAGER.getImage(`t/transitions`);
+        const transitionSection = this.BIOME_TRANSITION_TILES[this.biome][neighborBiome];
+        const transitionTile = this.BIOME_TRANSITION_TILES[`bcb:${direction}`];
+        //console.log("coords: " + transitionSection.x + "-" + transitionSection.y + " " + transitionTile.x + "-" + transitionTile.y)
+        const rev = (this.BIOME_TRANSITION_TILES[this.biome][neighborBiome].reverse ? -1 : 1);
+        //console.log(`x: ${2 + transitionSection.x * 3 + rev * transitionTile.x}, section: ${2 + transitionSection.y * 3 + rev * transitionTile.y} ${this.biome} ${BIOMES[neighborBiome]}`)
+        
+        this.selected = {
+            x: (1 + transitionSection.x * 3 + rev * transitionTile.x),
+            y: (1 + transitionSection.y * 3 + rev * transitionTile.y)
+        };
+
     }
 
 }

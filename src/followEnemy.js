@@ -102,8 +102,8 @@ class followEnemy {
         this.x = this.globalX - LOCATION.x;
         this.y = this.globalY - LOCATION.y;
 
-        console.log("The players coords are " + ENGINE.PlayerCharacter.x + ", " + ENGINE.PlayerCharacter.y);
-        console.log("My coords are " + this.x + ", " + this.y);
+        //console.log("The players coords are " + ENGINE.PlayerCharacter.x + ", " + ENGINE.PlayerCharacter.y);
+        //console.log("My coords are " + this.x + ", " + this.y);
 
 
         if (this.x < ENGINE.PlayerCharacter.x) {
