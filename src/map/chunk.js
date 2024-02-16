@@ -92,7 +92,7 @@ class Chunk {
             let val = Math.floor(rando() * 3) - 1;
 
             // ensure it doesnt go too much inward or outward.
-            offsetWest = Math.max(Math.min(val + offsetWest, 2), -2);
+            offsetWest = Math.max(Math.min(val + offsetWest, CHUNK_WIDTH / 4), -CHUNK_WIDTH / 4);
 
         }
 
@@ -106,20 +106,20 @@ class Chunk {
                 this.tiles[CHUNK_WIDTH + offsetNorth][i].setTransition(chunkEast.biome, "w");
                 for (let j = CHUNK_WIDTH + offsetNorth + 1; j < CHUNK_WIDTH; j++) {
                     this.tiles[j][i].biome = BIOMES[chunkEast.biome];
-                    this.tiles[j][i].holder = ASSET_MANAGER.getImage(`t/${BIOMES[chunkEast.biome]}`);
+                    this.tiles[j][i].setRandomized();
                 }
             } else {
                 chunkEast.tiles[offsetNorth][i].setTransition(this.biome, "e");
                 for (let j = 0; j < offsetNorth; j++) {
                     chunkEast.tiles[j][i].biome = BIOMES[this.biome];
-                    chunkEast.tiles[j][i].holder = ASSET_MANAGER.getImage(`t/${BIOMES[this.biome]}`);
+                    chunkEast.tiles[j][i].setRandomized();
                 }
             }
 
             let val = Math.floor(rando() * 3) - 1;
 
             // ensure it doesnt go too much inward or outward.
-            offsetNorth = Math.max(Math.min(val + offsetNorth, 2), -2);
+            offsetNorth = Math.max(Math.min(val + offsetNorth, CHUNK_LENGTH / 4), -CHUNK_LENGTH / 4);
 
         }
 

@@ -280,7 +280,6 @@ class BiomeTile {
     chance_type_2 = 0.05;
 
     setRandomized() {
-        this.holder = ASSET_MANAGER.getImage(`t/${this.biome}`);
         if (this.chance < this.chance_regular) {
             this.selected = this.BIOME_TILESET["b-0"];
         } else if (this.chance < this.chance_regular + this.chance_type_1) {
@@ -293,17 +292,15 @@ class BiomeTile {
         neighborBiome = BIOMES[neighborBiome];
         //console.log(this.biome + " " + neighborBiome + " " + direction)
         if (this.biome == "cave" || neighborBiome == "cave" || this.biome == neighborBiome) return;
-        this.holder = ASSET_MANAGER.getImage(`t/transitions`);
         const transitionSection = this.BIOME_TRANSITION_TILES[this.biome][neighborBiome];
         const transitionTile = this.BIOME_TRANSITION_TILES[`bcb:${direction}`];
-        //console.log("coords: " + transitionSection.x + "-" + transitionSection.y + " " + transitionTile.x + "-" + transitionTile.y)
-        const rev = (this.BIOME_TRANSITION_TILES[this.biome][neighborBiome].reverse ? -1 : 1);
-        //console.log(`x: ${2 + transitionSection.x * 3 + rev * transitionTile.x}, section: ${2 + transitionSection.y * 3 + rev * transitionTile.y} ${this.biome} ${BIOMES[neighborBiome]}`)
-        
+        const rev = (this.BIOME_TRANSITION_TILES[this.biome][neighborBiome].reverse ? -1 : 1);      
+
         this.selected = {
             x: (1 + transitionSection.x * 3 + rev * transitionTile.x),
             y: (1 + transitionSection.y * 3 + rev * transitionTile.y)
         };
+        this.holder = ASSET_MANAGER.getImage("t/transitions");
 
     }
 
