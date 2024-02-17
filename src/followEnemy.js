@@ -1,12 +1,7 @@
-// State Global Variables (Temporary Addition)
-//let IS_FACING_RIGHT = false;
-//let STATE = 0;
-
 // General class to extend when creating enemies
 class followEnemy {
     constructor(name, x, y) {
 
-        // ENGINE.PlayerCharacter = this;
         this.name = name;
         this.globalX = x;
         this.globalY = y;
@@ -128,8 +123,7 @@ class followEnemy {
 
     updateBB() {
 
-        // Requires other entities to be added before logic can be written.
-        // this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+        this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
 
     }
 
@@ -171,12 +165,6 @@ class followEnemy {
         }
         else if (!IS_FACING_RIGHT && STATE == 2) { // Running right
             this.animations[2][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 3) { // Walking right
-            this.animations[3][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (!IS_FACING_RIGHT && STATE == 3) { // Walking right
-            this.animations[3][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
         }
 
     }

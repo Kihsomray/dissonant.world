@@ -1,12 +1,15 @@
 // State Global Variables (Temporary Addition)
 let IS_FACING_RIGHT = false;
 let STATE = 0;
+let BLOCKED_UP = false;
+let BLOCKED_RIGHT = false;
+let BLOCKED_DOWN = false;
+let BLOCKED_LEFT = false;
 
 class PlayerCharacter {
     constructor() {
 
-        ENGINE.PlayerCharacter = this;
-
+        ENGINE.PlayerCharacter = this; 
       
         if (Math.floor(Math.random() * 10) % 2 == 0) {
             this.spritesheet = ASSET_MANAGER.getImage("e/player-male");
@@ -22,9 +25,10 @@ class PlayerCharacter {
         this.speed = 0;
         this.counter = 0;
         this.pause = false;
+        this.BB = new BoundingBox(this.x + 10, this.y + 12, 16, 24);
+        
 
-        // this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
-        // this.updateBB();
+        this.updateBB();
 
         // All of the player's animations.
         this.animations = [];
@@ -94,22 +98,49 @@ class PlayerCharacter {
 
     update() {
 
+        // if (this.counter++ % 10 == 0) this.pause = !this.pause;
+        // const location = ENGINE.clockTick * (this.speed + (this.pause ? 0 : 0));
+        // this.x += location;
+        // if (this.x > 1024) this.x = -200;
+
         this.x = env.X_CENTER - 18;
         this.y = env.Y_CENTER - 24;
-        
 
-        if (this.counter++ % 10 == 0) this.pause = !this.pause;
-        const location = ENGINE.clockTick * (this.speed + (this.pause ? 0 : 0));
-        this.x += location;
-        if (this.x > 1024) this.x = -200;
+        this.updateBB();
+        
+        // Bounding Box Logic. It's gross. It's weird. I know.
+        var that = this;
+        ENGINE.getEntities().forEach(entity => {
+            if ((entity instanceof Enemy || entity instanceof followEnemy) && this.BB.collide(entity.BB)) {
+                if (this.BB.right <= entity.BB.right) {
+                    BLOCKED_RIGHT = true;
+                }
+                else if (this.BB.left <= entity.BB.right) {
+                    BLOCKED_LEFT = true;
+                }
+                if (!(BLOCKED_UP)) {
+                    if (this.BB.bottom >= entity.BB.top) {
+                        BLOCKED_DOWN = true;
+                        console.log("BLOCKED_DOWN");
+                    }
+                    if (this.BB.top <= entity.BB.bottom) {
+                        BLOCKED_UP = true;
+                        console.log("BLOCKED_UP");
+                    }
+                }
+                else if (this.BB.top <= entity.BB.bottom) {
+                    BLOCKED_UP = true;
+                    console.log("BLOCKED_UP");
+                }
+            }
+                
+        });
 
     }
 
+
     updateBB() {
-
-        // Requires other entities to be added before logic can be written.
-        this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
-
+        this.box = new BoundingBox(this.x + 10, this.y + 12, 16, 24);
     }
 
     draw(context) {
@@ -117,10 +148,10 @@ class PlayerCharacter {
         this.x = env.X_CENTER - 18;
         this.y = env.Y_CENTER - 24;
 
-        // // VIEW BOUNDING BOX BELOW
+        // VIEW BOUNDING BOX BELOW
         const ctx = canvas.getContext("2d");
         ctx.strokeStyle = "red";
-        ctx.strokeRect(this.x + 8, this.y + 7, 20, 28);
+        ctx.strokeRect(this.x + 10, this.y + 12, 16, 24);
 
         /*d
          * Movement Legend:

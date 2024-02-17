@@ -6,7 +6,6 @@
 class Enemy {
     constructor(name, x, y) {
 
-        // ENGINE.PlayerCharacter = this;
         this.name = name;
         this.globalX = x;
         this.globalY = y;
@@ -111,12 +110,13 @@ class Enemy {
         // //this.x += location;
         // if (this.x > 1024) this.x = -200;
 
+        this.updateBB();
+
     }
 
     updateBB() {
 
-        // Requires other entities to be added before logic can be written.
-        // this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+        this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
 
     }
 
@@ -125,7 +125,7 @@ class Enemy {
         //this.x = X_CENTER;
         //this.y = Y_CENTER;
 
-        // // VIEW BOUNDING BOX BELOW
+        // VIEW BOUNDING BOX BELOW
         const ctx = canvas.getContext("2d");
         ctx.strokeStyle = "red";
         ctx.strokeRect(this.x + 8, this.y + 7, 20, 28);
@@ -158,12 +158,6 @@ class Enemy {
         }
         else if (!IS_FACING_RIGHT && STATE == 2) { // Running right
             this.animations[2][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 3) { // Walking right
-            this.animations[3][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (!IS_FACING_RIGHT && STATE == 3) { // Walking right
-            this.animations[3][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
         }
 
     }

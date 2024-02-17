@@ -28,7 +28,7 @@ function resizeCanvas() {
     env.X_OFFSET = CLUSTER_WIDTH * CHUNK_WIDTH * TILE_WIDTH / 2 - env.X_CENTER;
     env.Y_OFFSET = CLUSTER_LENGTH * CHUNK_LENGTH * TILE_LENGTH / 2 - env.Y_CENTER;
 
-    console.log(env.X_CENTER)
+    // console.log(env.X_CENTER)
     
 }
 
