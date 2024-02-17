@@ -8,7 +8,7 @@ class BoundingBox {
         this.bottom = this.top + this.height;
     };
 
-    collide(that) {
-        return (this.right > that.left && this.left < that.right && this.top < that.bottom && this.bottom > that.top);
+    collide(other) {
+        return (this.right > other.left && this.left < other.right && this.top < other.bottom && this.bottom > other.top);
     };
 };

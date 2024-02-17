@@ -10,6 +10,8 @@ class Enemy {
         this.globalX = x;
         this.globalY = y;
 
+        this.updateBB();
+
         if (name == "goblin") {
             this.spritesheet = ASSET_MANAGER.getImage("e/goblin");
         } 
@@ -25,6 +27,9 @@ class Enemy {
         else if (name == "knight") {
             this.spritesheet = ASSET_MANAGER.getImage("e/knight");
         }
+        else if (name == "daemon") {
+            this.spritesheet = ASSET_MANAGER.getImage("e/daemon");
+        }
 
         this.x = LOCATION.x; //X_CENTER;
         this.y = LOCATION.y; //Y_CENTER;
@@ -32,11 +37,70 @@ class Enemy {
         this.counter = 0;
         this.pause = false;
 
-        this.updateBB();
+        
 
-        // All of the enemies's animations.
+        // All of the enemy's animations.
         this.animations = [];
-        this.loadAnimations();
+        if (name != "daemon") {
+            this.loadAnimations();
+        }
+        this.loadBossAnimations();
+
+    }
+
+    loadBossAnimations() {
+
+        // TODO add the animations
+        // It shouldn't matter for this class since its general but this should be overloaded for each enemy
+
+
+
+        for (var i = 0; i < 7; i++) { // 6 total states for player.
+            this.animations[i] = [];
+            for (var j = 0; j < 2; j++) { // Two directions
+                this.animations[i][j]; 
+            }
+        }
+
+        // Idling animation for state = 0.
+        // Facing right = 0.
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 1, 56, 56, 4, 0.3, 1, false, true);
+        // Facing left = 1.
+        this.animations[0][1] = new Animator(this.spritesheet, 220, 1, 56, 56, 4, 0.3, 1, false, true);
+
+        // Walking animation for state = 1.
+        // Facing right = 0.
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 56 * 2, 56, 56, 4, 0.15, 1, false, true);
+        // Facing left = 1.
+        this.animations[1][1] = new Animator(this.spritesheet, 220, 56 * 2, 56, 56, 4, 0.15, 1, false, true);
+
+        
+        // Running animation for state = 2.
+        // Facing right = 0.
+        this.animations[2][0] = new Animator(this.spritesheet, 0, 56 * 2, 56, 56, 4, 0.125, 1, false, true);
+        // Facing left = 1.
+        this.animations[2][1] = new Animator(this.spritesheet, 220, 56 * 2, 56, 56, 4, 0.125, 1, false, true);
+
+
+        // // Turning animation for state = 3.
+        // // Facing right = 0.
+        // this.animations[3][0] = new Animator(this.spritesheet, );
+        // // Facing left = 1.
+        // this.animations[3][1] = new Animator(this.spritesheet, );
+
+
+        // Player damaged animation for state = 4.
+        // Facing right = 0.
+        this.animations[4][0] = new Animator(this.spritesheet, 0, 56 * 4, 56, 56, 4, 0.125, 1, false, true);
+        // Facing left = 1.
+        this.animations[4][1] = new Animator(this.spritesheet, 220, 56 * 4, 56, 56, 4, 0.125, 1, false, true);
+
+
+        // Player death animation for state = 5.
+        // Facing right = 0.
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 56 * 5, 56, 56, 4, 0.125, 1, false, true);
+        // Facing left = 1.
+        this.animations[5][1] = new Animator(this.spritesheet, 220, 56 * 5, 56, 56, 4, 0.125, 1, false, true);
 
     }
 
@@ -74,11 +138,11 @@ class Enemy {
         this.animations[2][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.1, 1, false, true)
 
 
-        // Turning animation for state = 3.
-        // Facing right = 0.
-        this.animations[3][0] = new Animator(this.spritesheet, 0, 73, 24, 24, 4, 0.1, 1, false, true)
-        // Facing left = 1.
-        this.animations[3][1] = new Animator(this.spritesheet, 96, 73, 24, 24, 4, 0.1, 1, false, true)
+        // // Turning animation for state = 3.
+        // // Facing right = 0.
+        // this.animations[3][0] = new Animator(this.spritesheet, 0, 73, 24, 24, 4, 0.1, 1, false, true)
+        // // Facing left = 1.
+        // this.animations[3][1] = new Animator(this.spritesheet, 96, 73, 24, 24, 4, 0.1, 1, false, true)
 
 
         // Player damaged animation for state = 4.
@@ -115,8 +179,13 @@ class Enemy {
     }
 
     updateBB() {
-
-        this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+        
+        if (this.name == "daemon") {
+            this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+        }
+        else {
+            this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+        }
 
     }
 
@@ -128,7 +197,13 @@ class Enemy {
         // VIEW BOUNDING BOX BELOW
         const ctx = canvas.getContext("2d");
         ctx.strokeStyle = "red";
-        ctx.strokeRect(this.x + 8, this.y + 7, 20, 28);
+        if (this.name == "daemon") {
+
+        }
+        else {
+            ctx.strokeRect(this.x + 8, this.y + 7, 20, 28);
+        }
+        
 
         /*d
          * Movement Legend:

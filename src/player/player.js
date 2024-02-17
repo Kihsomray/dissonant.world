@@ -1,5 +1,5 @@
 // State Global Variables (Temporary Addition)
-let IS_FACING_RIGHT = false;
+let IS_FACING_RIGHT = true;
 let STATE = 0;
 let BLOCKED_UP = false;
 let BLOCKED_RIGHT = false;
@@ -18,7 +18,6 @@ class PlayerCharacter {
             this.spritesheet = ASSET_MANAGER.getImage("e/player-female");
         }
         
-
         // Initial Variables for player's state.
         this.x = env.X_CENTER - 18;
         this.y = env.Y_CENTER - 24;
@@ -27,10 +26,10 @@ class PlayerCharacter {
         this.pause = false;
         this.BB = new BoundingBox(this.x + 10, this.y + 12, 16, 24);
         
-
         this.updateBB();
 
-        // All of the player's animations.
+        // All of the player's animations and animation variables.
+        
         this.animations = [];
         this.loadAnimations();
 
@@ -55,37 +54,37 @@ class PlayerCharacter {
 
         // Walking animation for state = 1.
         // Facing right = 0.
-        this.animations[1][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.125, 1, false, true)
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 49, 24, 25, 4, 0.125, 1, false, true)
         // Facing left = 1.
-        this.animations[1][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.125, 1, false, true)
+        this.animations[1][1] = new Animator(this.spritesheet, 96, 49, 24, 25, 4, 0.125, 1, false, true)
 
         
         // Running animation for state = 2.
         // Facing right = 0.
-        this.animations[2][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.1, 1, false, true)
+        this.animations[2][0] = new Animator(this.spritesheet, 0, 49, 24, 25, 4, 0.1, 1, false, true)
         // Facing left = 1.
-        this.animations[2][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.1, 1, false, true)
+        this.animations[2][1] = new Animator(this.spritesheet, 96, 49, 24, 25, 4, 0.1, 1, false, true)
 
 
-        // Turning animation for state = 3.
-        // Facing right = 0.
-        this.animations[3][0] = new Animator(this.spritesheet, 0, 73, 24, 24, 4, 0.1, 1, false, true)
-        // Facing left = 1.
-        this.animations[3][1] = new Animator(this.spritesheet, 96, 73, 24, 24, 4, 0.1, 1, false, true)
+        // // Turning animation for state = 3.
+        // // Facing right = 0.
+        // this.animations[3][0] = new Animator(this.spritesheet, 0, 73, 24, 25, 4, 0.1, 1, false, true)
+        // // Facing left = 1.
+        // this.animations[3][1] = new Animator(this.spritesheet, 96, 73, 24, 25, 4, 0.1, 1, false, true)
 
 
         // Player damaged animation for state = 4.
         // Facing right = 0.
-        this.animations[4][0] = new Animator(this.spritesheet, 0, 97, 24, 24, 4, 0.2, 1, false, true)
+        this.animations[4][0] = new Animator(this.spritesheet, 0, 97, 24, 25, 4, 0.2, 1, false, true)
         // Facing left = 1.
-        this.animations[4][1] = new Animator(this.spritesheet, 96, 97, 24, 24, 4, 0.2, 1, false, true)
+        this.animations[4][1] = new Animator(this.spritesheet, 96, 97, 24, 25, 4, 0.2, 1, false, true)
 
 
         // Player death animation for state = 5.
         // Facing right = 0.
-        this.animations[5][0] = new Animator(this.spritesheet, 0, 121, 24, 24, 4, 0.33, 1, false, true)
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 121, 24, 25, 4, 0.33, 1, false, true)
         // Facing left = 1.
-        this.animations[5][1] = new Animator(this.spritesheet, 96, 121, 24, 24, 4, 0.33, 1, false, true)
+        this.animations[5][1] = new Animator(this.spritesheet, 96, 121, 24, 25, 4, 0.33, 1, false, true)
 
 
         // // Dodge roll/jump animation for state = 1.
@@ -108,32 +107,27 @@ class PlayerCharacter {
 
         this.updateBB();
         
-        // Bounding Box Logic. It's gross. It's weird. I know.
+        // Bounding Box Logic
         var that = this;
         ENGINE.getEntities().forEach(entity => {
             if ((entity instanceof Enemy || entity instanceof followEnemy) && this.BB.collide(entity.BB)) {
                 if (this.BB.right <= entity.BB.right) {
                     BLOCKED_RIGHT = true;
+                    console.log("BLOCKED_RIGHT");
                 }
                 else if (this.BB.left <= entity.BB.right) {
                     BLOCKED_LEFT = true;
+                    console.log("BLOCKED_LEFT");
                 }
-                if (!(BLOCKED_UP)) {
-                    if (this.BB.bottom >= entity.BB.top) {
-                        BLOCKED_DOWN = true;
-                        console.log("BLOCKED_DOWN");
-                    }
-                    if (this.BB.top <= entity.BB.bottom) {
-                        BLOCKED_UP = true;
-                        console.log("BLOCKED_UP");
-                    }
+                if (this.BB.bottom >= entity.BB.top) {
+                    BLOCKED_DOWN = true;
+                    console.log("BLOCKED_DOWN");
                 }
                 else if (this.BB.top <= entity.BB.bottom) {
                     BLOCKED_UP = true;
                     console.log("BLOCKED_UP");
                 }
             }
-                
         });
 
     }
