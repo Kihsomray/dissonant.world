@@ -1,6 +1,7 @@
 // This game shell was happily modified from Googler Seth Ladd's "Bad Aliens" game and his Google IO talk in 2011
 class GameEngine {
 
+    player;
     entities = [];
     chunks = new Set();
 
@@ -28,9 +29,6 @@ class GameEngine {
 
     // Constructor
     constructor() {
-        this.ctx = null;
-        this.surfaceWidth = null;
-        this.surfaceHeight = null;
 
         document.addEventListener("visibilitychange", function () {
 
@@ -57,35 +55,32 @@ class GameEngine {
 
     };
 
-    init(ctx) { // called after page has loaded
-        this.ctx = ctx;
-        this.surfaceWidth = this.ctx.canvas.width;
-        this.surfaceHeight = this.ctx.canvas.height;
+    init() {
         this.startInput();
         this.timer = new Timer();
     };
 
     #updateMouseLocation = e => (this.mouseLocation = {
-        x: (e.clientX - this.ctx.canvas.getBoundingClientRect().left) / env.SCALE,
-        y: (e.clientY - this.ctx.canvas.getBoundingClientRect().top) / env.SCALE
+        x: (e.clientX - env.CTX.canvas.getBoundingClientRect().left) / env.SCALE,
+        y: (e.clientY - env.CTX.canvas.getBoundingClientRect().top) / env.SCALE
     });
 
     start() {
         this.running = true;
         const gameLoop = () => {
             this.loop();
-            window.requestAnimationFrame(gameLoop, this.ctx.canvas);
+            window.requestAnimationFrame(gameLoop, env.CTX.canvas);
         };
         gameLoop();
     };
 
     startInput() {
-        this.ctx.canvas.addEventListener("mousemove", this.#updateMouseLocation);
+        env.CTX.canvas.addEventListener("mousemove", this.#updateMouseLocation);
 
-        this.ctx.canvas.addEventListener("mousedown", (e) => this.mouseClick[e.button] = true);
-        this.ctx.canvas.addEventListener("mouseup", (e) => this.mouseClick[e.button] = false);
+        env.CTX.canvas.addEventListener("mousedown", (e) => this.mouseClick[e.button] = true);
+        env.CTX.canvas.addEventListener("mouseup", (e) => this.mouseClick[e.button] = false);
 
-        this.ctx.canvas.addEventListener("wheel", e => e.preventDefault());
+        env.CTX.canvas.addEventListener("wheel", e => e.preventDefault());
 
         window.addEventListener("keydown", event => this.keyClick[event.key.toLowerCase()] = true);
         window.addEventListener("keyup", event => this.keyClick[event.key.toLowerCase()] = false);
@@ -109,24 +104,24 @@ class GameEngine {
 
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
-        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        env.CTX.clearRect(0, 0, env.CTX.canvas.width, env.CTX.canvas.height);
 
-        this.chunks.forEach(chunk => chunk.draw(this.ctx));
+        this.chunks.forEach(chunk => chunk.draw(env.CTX));
 
         // Draw latest things first
         for (let i = this.entities.length - 1; i >= 0; i--) {
-            this.entities[i].draw(this.ctx, this);
+            this.entities[i].draw(env.CTX, this);
         }
 
-        this.ctx.font = "10px Arial";
-        this.ctx.fillStyle = "white";
+        env.CTX.font = "10px Arial";
+        env.CTX.fillStyle = "white";
 
         // Draw text on the canvas
-        this.ctx.fillText(`x: ${Math.floor(LOCATION.x / CHUNK_WIDTH * env.SCALE)}, y: ${-Math.ceil(LOCATION.y / CHUNK_LENGTH * env.SCALE)}`, 2, 10);
+        env.CTX.fillText(`x: ${Math.floor(this.player.x / CHUNK_WIDTH * env.SCALE)}, y: ${-Math.ceil(this.player.y / CHUNK_LENGTH * env.SCALE)}`, 2, 10);
 
-        this.ctx.fillText("+", this.mouseLocation.x - 3, this.mouseLocation.y + 3);
+        env.CTX.fillText("+", this.mouseLocation.x - 3, this.mouseLocation.y + 3);
 
-        //this.camera.draw(this.ctx);
+        //this.camera.draw(env.CTX);
     };
 
     update() {

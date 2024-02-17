@@ -216,7 +216,7 @@ class BiomeTile {
 
         if (this.animated) {
             this.holder = new Animator(
-                ASSET_MANAGER.getImage(`t/${biome}`),
+                ASSETS.getImage(`t/${biome}`),
                 (this.BIOME_TILESET_ANIMATED[selection].x + 1) * 16,
                 (this.BIOME_TILESET_ANIMATED[selection].y + 1) * 16,
                 16,
@@ -229,8 +229,8 @@ class BiomeTile {
             );
             //this.holder.xOffset = this.animated_distance;
         } else {
-            this.holder = ASSET_MANAGER.getImage(`t/${biome}`);
-            //console.log(ASSET_MANAGER.getImage(`t/${biome}`));
+            this.holder = ASSETS.getImage(`t/${biome}`);
+            //console.log(ASSETS.getImage(`t/${biome}`));
         }
 
     }
@@ -239,9 +239,9 @@ class BiomeTile {
         // add logic for player location
     }
 
-    draw(ctx) {
+    draw() {
 
-        const current = LOCATION.getCurrentChunk();
+        const current = getCurrentChunk(GAME.player.x, GAME.player.y)
 
         if (
             current.x + RENDER_DISTANCE < this.chunkX ||
@@ -250,25 +250,30 @@ class BiomeTile {
             current.y - RENDER_DISTANCE > this.chunkY
         ) return;
 
+        const { x, y } = LOCATION.getTrueLocation(
+            this.chunkX * CHUNK_WIDTH * TILE_WIDTH + this.tileX * TILE_WIDTH - env.MAP.OFFSET.x,
+            this.chunkY * CHUNK_LENGTH * TILE_LENGTH + this.tileY * TILE_LENGTH - env.MAP.OFFSET.y,
+        );
+
         if (this.animated) {
             this.holder.drawFrame(
-                ENGINE.clockTick,
-                ctx,
-                this.tileX * 16 - LOCATION.x,
-                this.tileY * 16 - LOCATION.y,
+                GAME.clockTick,
+                env.CTX,
+                this.tileX * 16 - env.CENTER.x,
+                this.tileY * 16 - env.CENTER.x,
                 1
             );
         } else {
             //console.log(this.holder + " " + this.selected + " " + this.chunkX + " " + this.chunkY + " " + this.tileX + " " + this.tileY + " " + LOCATION.x + " " + LOCATION.y + " " + env.X_OFFSET + " " + env.Y_OFFSET);
 
-            ctx.drawImage(
+            env.CTX.drawImage(
                 this.holder,
                 (this.selected.x + 1) * TILE_WIDTH,
                 (this.selected.y + 1) * TILE_LENGTH,
                 TILE_WIDTH,
                 TILE_LENGTH,
-                this.chunkX * CHUNK_WIDTH * TILE_WIDTH + this.tileX * TILE_WIDTH - LOCATION.x - env.X_OFFSET,
-                this.chunkY * CHUNK_LENGTH * TILE_LENGTH + this.tileY * TILE_LENGTH - LOCATION.y - env.Y_OFFSET,
+                x,
+                y,
                 TILE_WIDTH,
                 TILE_LENGTH
             );
@@ -285,7 +290,7 @@ class BiomeTile {
         } else if (this.chance < this.chance_regular + this.chance_type_1) {
             this.selected = this.BIOME_TILESET[`b-1-${parseInt(this.tileSeed / 125)}`];
         } else this.selected = this.BIOME_TILESET[`b-2-${parseInt(this.tileSeed / 250)}`];
-        this.holder = ASSET_MANAGER.getImage(`t/${this.biome}`);
+        this.holder = ASSETS.getImage(`t/${this.biome}`);
     }
 
     setTransition(neighborBiome, direction) {
@@ -301,7 +306,7 @@ class BiomeTile {
             x: (1 + transitionSection.x * 3 + rev * transitionTile.x),
             y: (1 + transitionSection.y * 3 + rev * transitionTile.y)
         };
-        this.holder = ASSET_MANAGER.getImage("t/transitions");
+        this.holder = ASSETS.getImage("t/transitions");
 
     }
 

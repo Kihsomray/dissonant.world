@@ -14,4 +14,12 @@ class BoundingBox {
         return false;
     };
 
+    draw() {
+
+        // Draw the bb
+        env.CTX.strokeStyle = "red";
+        env.CTX.strokeRect(this.x + 8, this.y + 7, 20, 28);
+
+    }
+
 }

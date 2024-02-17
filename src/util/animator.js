@@ -24,7 +24,7 @@ class Animator {
 
         //if (this.reverse) frame = (this.frameCount - frame - 1);
 
-        ctx.drawImage(
+        env.CTX.drawImage(
             this.spritesheet,
             this.xStart + this.width * frameX + this.xOffset * Math.floor(frame % (this.frameCount / this.frameLines)),
             this.yStart + this.height * frameY,

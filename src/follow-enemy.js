@@ -5,34 +5,37 @@
 // General class to extend when creating enemies
 class FollowEnemy {
 
+    facingRight = false;
+    state = 0;
+
+    animations;
+
     x;
     y;
 
     constructor(name, x, y) {
 
-        // ENGINE.PlayerCharacter = this;
+        // GAME.PlayerCharacter = this;
         this.name = name;
         this.x = x;
         this.y = y;
 
         if (name == "goblin") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/goblin");
+            this.spritesheet = ASSETS.getImage("e/goblin");
         } 
         else if (name == "orc") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/orc");
+            this.spritesheet = ASSETS.getImage("e/orc");
         }
         else if (name == "oni") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/oni");
+            this.spritesheet = ASSETS.getImage("e/oni");
         }
         else if (name == "hobgoblin") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/hobgoblin");
+            this.spritesheet = ASSETS.getImage("e/hobgoblin");
         }
         else if (name == "knight") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/knight");
+            this.spritesheet = ASSETS.getImage("e/knight");
         }
 
-        this.x = LOCATION.x; //X_CENTER;
-        this.y = LOCATION.y; //Y_CENTER;
         this.speed = 0;
         this.counter = 0;
         this.pause = false;
@@ -103,26 +106,34 @@ class FollowEnemy {
 
     update() {
 
-        //console.log("The players coords are " + ENGINE.PlayerCharacter.x + ", " + ENGINE.PlayerCharacter.y);
+        //console.log("The players coords are " + GAME.PlayerCharacter.x + ", " + GAME.PlayerCharacter.y);
         //console.log("My coords are " + this.x + ", " + this.y);
 
+        if (Math.abs(this.x - GAME.player.x) < 0.3 * env.SCALE) {
+            this.x = GAME.player.x;
+        }
 
-        if (this.x < LOCATION.x) {
+        if (Math.abs(this.y - GAME.player.y) < 0.3 * env.SCALE) {
+            this.y = GAME.player.y;
+        }
+
+
+        if (this.x < GAME.player.x) {
             this.x++;
-        } else if (this.x > LOCATION.x) {
+        } else if (this.x > GAME.player.x) {
             this.x--;
         } 
         
-        if (this.y < LOCATION.y) {
+        if (this.y < GAME.player.y) {
             this.y++;
-        } if (this.y > LOCATION.y) {
+        } if (this.y > GAME.player.y) {
             this.y--;
         } 
 
 
         // if (this.counter++ % 10 == 0) this.pause = !this.pause;
-        // const location = ENGINE.clockTick * (this.speed + (this.pause ? 0 : 0));
-        // //this.x += location;
+        // const GAME.player = GAME.clockTick * (this.speed + (this.pause ? 0 : 0));
+        // //this.x += GAME.player;
         // if (this.x > 1024) this.x = -200;
 
     }
@@ -140,9 +151,8 @@ class FollowEnemy {
         //this.y = Y_CENTER;
 
         // // VIEW BOUNDING BOX BELOW
-        const ctx = canvas.getContext("2d");
-        ctx.strokeStyle = "red";
-        ctx.strokeRect(this.x + 8, this.y + 7, 20, 28);
+        env.CTX.strokeStyle = "red";
+        env.CTX.strokeRect(this.x + 8, this.y + 7, 20, 28);
 
         /*d
          * Movement Legend:
@@ -154,34 +164,8 @@ class FollowEnemy {
          * [5][0] = Dead Right      [5][1] = Dead Left
          */
 
-        const x = this.x + env.X_CENTER - LOCATION.x - env.CANVAS_X_OFFSET;
-        const y = this.y + env.Y_CENTER - LOCATION.y - env.CANVAS_Y_OFFSET;
-
-        // IN PROGRESS, WORKING ON GETTING LOGIC RIGHT
-        if (!IS_FACING_RIGHT && STATE == 0) { // Idle right
-            this.animations[0][1].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 0) { // Idle left
-            this.animations[0][0].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 1) { // Walking left
-            this.animations[1][0].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
-        else if (!IS_FACING_RIGHT && STATE == 1) { // Walking right
-            this.animations[1][1].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 2) { // Running left
-            this.animations[2][0].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
-        else if (!IS_FACING_RIGHT && STATE == 2) { // Running right
-            this.animations[2][1].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 3) { // Walking right
-            this.animations[3][1].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
-        else if (!IS_FACING_RIGHT && STATE == 3) { // Walking right
-            this.animations[3][1].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
+        const { x, y } = LOCATION.getTrueLocation(this.x, this.y);
+        this.animations[this.state][this.facingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
 
     }
 
