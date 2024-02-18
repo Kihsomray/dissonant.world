@@ -65,7 +65,7 @@ class Chunk {
 
     smoothen(chunkEast, chunkSouth) {
 
-        let rando = MAP_MANAGER.generator.random(this.chunkSeed);
+        let rando = MAP.generator.random(this.chunkSeed);
 
         let offsetWest = 0;
         let offsetNorth = 0;
@@ -79,13 +79,13 @@ class Chunk {
                 this.tiles[i][CHUNK_LENGTH + offsetWest].setTransition(chunkSouth.biome, "s");
                 for (let j = CHUNK_LENGTH + offsetWest + 1; j < CHUNK_LENGTH; j++) {
                     this.tiles[i][j].biome = BIOMES[chunkSouth.biome];
-                    this.tiles[i][j].holder = ASSET_MANAGER.getImage(`t/${BIOMES[chunkSouth.biome]}`);
+                    this.tiles[i][j].holder = ASSETS.getImage(`t/${BIOMES[chunkSouth.biome]}`);
                 }
             } else {
                 chunkSouth.tiles[i][offsetWest].setTransition(this.biome, "n");
                 for (let j = 0; j < offsetWest; j++) {
                     chunkSouth.tiles[i][j].biome = BIOMES[this.biome];
-                    chunkSouth.tiles[i][j].holder = ASSET_MANAGER.getImage(`t/${BIOMES[this.biome]}`);
+                    chunkSouth.tiles[i][j].holder = ASSETS.getImage(`t/${BIOMES[this.biome]}`);
                 }
             }
 
@@ -96,7 +96,7 @@ class Chunk {
 
         }
 
-        rando = MAP_MANAGER.generator.random(this.chunkSeed + 1);
+        rando = MAP.generator.random(this.chunkSeed + 1);
 
         for (let i = 0; i < CHUNK_WIDTH; i++) {
 

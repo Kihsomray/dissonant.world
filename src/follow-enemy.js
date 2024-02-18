@@ -5,35 +5,42 @@
 // General class to extend when creating enemies
 class FollowEnemy {
 
+    facingRight = false;
+    facingUp = false;
+    state = 0;
+    angle = 0.5;
+    range;
+
+    animations;
+
     x;
     y;
 
-    constructor(name, x, y) {
+    constructor(name, x, y, distanceRange = 0, discoverRange = 10) {
 
-        // ENGINE.PlayerCharacter = this;
+        // GAME.PlayerCharacter = this;
         this.name = name;
         this.x = x;
         this.y = y;
+        this.range = [distanceRange, discoverRange];
 
         if (name == "goblin") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/goblin");
+            this.spritesheet = ASSETS.getImage("e/goblin");
         } 
         else if (name == "orc") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/orc");
+            this.spritesheet = ASSETS.getImage("e/orc");
         }
         else if (name == "oni") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/oni");
+            this.spritesheet = ASSETS.getImage("e/oni");
         }
         else if (name == "hobgoblin") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/hobgoblin");
+            this.spritesheet = ASSETS.getImage("e/hobgoblin");
         }
         else if (name == "knight") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/knight");
+            this.spritesheet = ASSETS.getImage("e/knight");
         }
 
-        this.x = LOCATION.x; //X_CENTER;
-        this.y = LOCATION.y; //Y_CENTER;
-        this.speed = 0;
+        this.speed = 1;
         this.counter = 0;
         this.pause = false;
 
@@ -67,9 +74,9 @@ class FollowEnemy {
 
         // Walking animation for state = 1.
         // Facing right = 0.
-        this.animations[1][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.125, 1, false, true)
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.155, 1, false, true)
         // Facing left = 1.
-        this.animations[1][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.125, 1, false, true)
+        this.animations[1][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.155, 1, false, true)
 
         
         // Running animation for state = 2.
@@ -103,26 +110,64 @@ class FollowEnemy {
 
     update() {
 
-        //console.log("The players coords are " + ENGINE.PlayerCharacter.x + ", " + ENGINE.PlayerCharacter.y);
+        //console.log("The players coords are " + GAME.PlayerCharacter.x + ", " + GAME.PlayerCharacter.y);
         //console.log("My coords are " + this.x + ", " + this.y);
 
+        if (Math.abs(this.x - GAME.player.x) < 0.3 * env.SCALE) {
+            this.x = GAME.player.x;
+        }
 
-        if (this.x < LOCATION.x) {
-            this.x++;
-        } else if (this.x > LOCATION.x) {
-            this.x--;
-        } 
-        
-        if (this.y < LOCATION.y) {
-            this.y++;
-        } if (this.y > LOCATION.y) {
-            this.y--;
-        } 
+        if (Math.abs(this.y - GAME.player.y) < 0.3 * env.SCALE) {
+            this.y = GAME.player.y;
+        }
+
+
+        const c = Math.sqrt((GAME.player.x - this.x) ** 2 + (GAME.player.y - this.y) ** 2);
+
+        if (c > this.range[0] * TILE_WIDTH && c < this.range[1] * TILE_LENGTH) {
+            this.state = 1;
+
+            const dx = this.speed * (GAME.player.x - this.x) / c;
+            const dy = this.speed * (GAME.player.y - this.y) / c;
+
+            if (dx < 0) this.facingRight = false;
+            else this.facingRight = true;
+
+            this.x += dx;
+            this.y += dy;
+
+        } else if (!this.walking) {
+            
+            this.state = 0;
+
+            if (Math.random() < 0.005) {
+                this.state = 1;
+                this.walking = true;
+                this.facingRight = Math.random() > 0.5;
+                this.facingUp = Math.random() > 0.5;
+                this.angle = Math.random();
+            }
+
+        } else if (this.walking) {
+
+            if (Math.random() < 0.007) {
+                this.state = 0;
+                this.walking = false;
+            }
+
+
+            if (this.facingRight) this.x += this.speed * this.angle;
+            else this.x -= this.speed * this.angle;
+
+            if (this.facingUp) this.y -= this.speed * (1 - this.angle);
+            else this.y += this.speed * (1 - this.angle);
+
+        }
 
 
         // if (this.counter++ % 10 == 0) this.pause = !this.pause;
-        // const location = ENGINE.clockTick * (this.speed + (this.pause ? 0 : 0));
-        // //this.x += location;
+        // const GAME.player = GAME.clockTick * (this.speed + (this.pause ? 0 : 0));
+        // //this.x += GAME.player;
         // if (this.x > 1024) this.x = -200;
 
     }
@@ -140,9 +185,8 @@ class FollowEnemy {
         //this.y = Y_CENTER;
 
         // // VIEW BOUNDING BOX BELOW
-        const ctx = canvas.getContext("2d");
-        ctx.strokeStyle = "red";
-        ctx.strokeRect(this.x + 8, this.y + 7, 20, 28);
+        env.CTX.strokeStyle = "red";
+        env.CTX.strokeRect(this.x + 8, this.y + 7, 20, 28);
 
         /*d
          * Movement Legend:
@@ -154,34 +198,8 @@ class FollowEnemy {
          * [5][0] = Dead Right      [5][1] = Dead Left
          */
 
-        const x = this.x + env.X_CENTER - LOCATION.x - env.CANVAS_X_OFFSET;
-        const y = this.y + env.Y_CENTER - LOCATION.y - env.CANVAS_Y_OFFSET;
-
-        // IN PROGRESS, WORKING ON GETTING LOGIC RIGHT
-        if (!IS_FACING_RIGHT && STATE == 0) { // Idle right
-            this.animations[0][1].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 0) { // Idle left
-            this.animations[0][0].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 1) { // Walking left
-            this.animations[1][0].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
-        else if (!IS_FACING_RIGHT && STATE == 1) { // Walking right
-            this.animations[1][1].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 2) { // Running left
-            this.animations[2][0].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
-        else if (!IS_FACING_RIGHT && STATE == 2) { // Running right
-            this.animations[2][1].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 3) { // Walking right
-            this.animations[3][1].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
-        else if (!IS_FACING_RIGHT && STATE == 3) { // Walking right
-            this.animations[3][1].drawFrame(ENGINE.clockTick, context, x, y, 1.5);
-        }
+        const { x, y } = LOCATION.getTrueLocation(this.x, this.y);
+        this.animations[this.state][this.facingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
 
     }
 
