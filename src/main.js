@@ -14,11 +14,11 @@ ASSETS.queueDownload("e/knight", "./res/knight.png");
 
 ASSETS.downloadAll(() => {
 
-	GAME.addEntity(new Enemy("goblin", 220, 0));
-	GAME.addEntity(new Enemy("orc", 220, 220));
-	GAME.addEntity(new Enemy("oni", 120, 110));
-	GAME.addEntity(new Enemy("hobgoblin", 320, 110));
-	GAME.addEntity(new FollowEnemy("knight", 5, 5));
+	GAME.addEntity(new Enemy("goblin", 220, 0, 4, 15));
+	GAME.addEntity(new Enemy("orc", 220, 220, 4, 15));
+	GAME.addEntity(new Enemy("oni", 120, 110, 4, 15));
+	GAME.addEntity(new Enemy("hobgoblin", 320, 110, 4, 15));
+	GAME.addEntity(new Enemy("knight", 0, 0));
 
 	GAME.addEntity(GAME.player = new PlayerCharacter());
 

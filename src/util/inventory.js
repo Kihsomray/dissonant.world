@@ -97,15 +97,12 @@ class Inventory {
             this.assetHeight,
             this.x,
             this.y,
-            this.assetWidth * this.scale,
-            this.assetHeight * this.scale
+            this.assetWidth,
+            this.assetHeight
         );
 
         let x = 0;
         let y = this.y + this.slotInitialGapY;
-
-        //console.log("size 1 --> " + this.slotsX + " " + this.slotsY)
-        //console.log("size 2 --> " + this.inventory.length + " " + this.inventory[0].length)
 
 
         for (let i = 0; i < this.slotsX; i++) {

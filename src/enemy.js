@@ -1,20 +1,28 @@
+// State Global Variables (Temporary Addition)
+//let IS_FACING_RIGHT = false;
+//let STATE = 0;
+
 // General class to extend when creating enemies
 class Enemy {
 
     facingRight = false;
+    facingUp = false;
     state = 0;
+    angle = 0.5;
+    range;
 
     animations;
 
     x;
     y;
 
-    constructor(name, x, y) {
+    constructor(name, x, y, distanceRange = 0, discoverRange = 10) {
 
         // GAME.PlayerCharacter = this;
         this.name = name;
         this.x = x;
         this.y = y;
+        this.range = [distanceRange, discoverRange];
 
         if (name == "goblin") {
             this.spritesheet = ASSETS.getImage("e/goblin");
@@ -32,7 +40,7 @@ class Enemy {
             this.spritesheet = ASSETS.getImage("e/knight");
         }
 
-        this.speed = 0;
+        this.speed = 1;
         this.counter = 0;
         this.pause = false;
 
@@ -66,9 +74,9 @@ class Enemy {
 
         // Walking animation for state = 1.
         // Facing right = 0.
-        this.animations[1][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.125, 1, false, true)
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.155, 1, false, true)
         // Facing left = 1.
-        this.animations[1][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.125, 1, false, true)
+        this.animations[1][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.155, 1, false, true)
 
         
         // Running animation for state = 2.
@@ -102,16 +110,64 @@ class Enemy {
 
     update() {
 
-        // this.x = this.globalX - LOCATION.x;
-        // this.y = this.globalY - LOCATION.y;
+        //console.log("The players coords are " + GAME.PlayerCharacter.x + ", " + GAME.PlayerCharacter.y);
+        //console.log("My coords are " + this.x + ", " + this.y);
 
-        // console.log("The players coords are " + GAME.PlayerCharacter.x + ", " + GAME.PlayerCharacter.y);
-        // console.log("My coords are " + this.x + ", " + this.y);
+        if (Math.abs(this.x - GAME.player.x) < 0.3 * env.SCALE) {
+            this.x = GAME.player.x;
+        }
+
+        if (Math.abs(this.y - GAME.player.y) < 0.3 * env.SCALE) {
+            this.y = GAME.player.y;
+        }
+
+
+        const c = Math.sqrt((GAME.player.x - this.x) ** 2 + (GAME.player.y - this.y) ** 2);
+
+        if (c > this.range[0] * TILE_WIDTH && c < this.range[1] * TILE_LENGTH) {
+            this.state = 1;
+
+            const dx = this.speed * (GAME.player.x - this.x) / c;
+            const dy = this.speed * (GAME.player.y - this.y) / c;
+
+            if (dx < 0) this.facingRight = false;
+            else this.facingRight = true;
+
+            this.x += dx;
+            this.y += dy;
+
+        } else if (!this.walking) {
+            
+            this.state = 0;
+
+            if (Math.random() < 0.005) {
+                this.state = 1;
+                this.walking = true;
+                this.facingRight = Math.random() > 0.5;
+                this.facingUp = Math.random() > 0.5;
+                this.angle = Math.random();
+            }
+
+        } else if (this.walking) {
+
+            if (Math.random() < 0.007) {
+                this.state = 0;
+                this.walking = false;
+            }
+
+
+            if (this.facingRight) this.x += this.speed * this.angle;
+            else this.x -= this.speed * this.angle;
+
+            if (this.facingUp) this.y -= this.speed * (1 - this.angle);
+            else this.y += this.speed * (1 - this.angle);
+
+        }
 
 
         // if (this.counter++ % 10 == 0) this.pause = !this.pause;
-        // const location = GAME.clockTick * (this.speed + (this.pause ? 0 : 0));
-        // //this.x += location;
+        // const GAME.player = GAME.clockTick * (this.speed + (this.pause ? 0 : 0));
+        // //this.x += GAME.player;
         // if (this.x > 1024) this.x = -200;
 
     }
@@ -128,9 +184,11 @@ class Enemy {
         //this.x = X_CENTER;
         //this.y = Y_CENTER;
 
+        const { x, y } = LOCATION.getTrueLocation(this.x, this.y);
+
         // // VIEW BOUNDING BOX BELOW
         env.CTX.strokeStyle = "red";
-        env.CTX.strokeRect(this.x + 8, this.y + 7, 20, 28);
+        env.CTX.strokeRect(x + 8, y + 7, 20, 28);
 
         /*d
          * Movement Legend:
@@ -142,8 +200,8 @@ class Enemy {
          * [5][0] = Dead Right      [5][1] = Dead Left
          */
 
-        const { x, y } = LOCATION.getTrueLocation(this.x, this.y);
         this.animations[this.state][this.facingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
+
     }
 
 }
