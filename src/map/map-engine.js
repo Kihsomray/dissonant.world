@@ -11,8 +11,8 @@ const TILE_LENGTH = 16;
 const CHUNK_WIDTH = 32;
 const CHUNK_LENGTH = 32;
 
-const CLUSTER_WIDTH = 16;
-const CLUSTER_LENGTH = 16;
+const CLUSTER_WIDTH = 16; // 1023
+const CLUSTER_LENGTH = 16; // 1023
 
 const RENDER_DISTANCE = 1;
 
@@ -130,7 +130,12 @@ class MapManager{
 
 
         // For each enemy add entity(Gbolin )
-        
+        let values = Object.values(this.generatorMap[i][j])[0];
+
+        for (let v = 1; v < values.length; v++) {
+            ENGINE.addEntity(new followEnemy("knight", 0, 0));
+        }
+
     };
 
     update() {
