@@ -122,6 +122,8 @@ class MapManager{
         this.prevChunk = currChunk;
 
         this.breakBlock = new BreakBlock();
+
+        this.update();
     };
 
     generateChunk(i, j) {

@@ -24,8 +24,8 @@ function resizeCanvas() {
     env.CENTER.y = env.CANVAS.height / 2 / env.SCALE;
 
     // Offset the chunks
-    env.MAP.OFFSET.x = CLUSTER_WIDTH * CHUNK_WIDTH * TILE_WIDTH / 2 - env.CENTER.x;
-    env.MAP.OFFSET.y = CLUSTER_LENGTH * CHUNK_LENGTH * TILE_LENGTH / 2 - env.CENTER.y;
+    env.MAP.OFFSET.x = CLUSTER_WIDTH * CHUNK_WIDTH * TILE_WIDTH / 2;
+    env.MAP.OFFSET.y = CLUSTER_LENGTH * CHUNK_LENGTH * TILE_LENGTH / 2;
 
     env.CTX.scale(env.SCALE, env.SCALE);
 }

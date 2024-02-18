@@ -7,18 +7,20 @@ class FollowEnemy {
 
     facingRight = false;
     state = 0;
+    range;
 
     animations;
 
     x;
     y;
 
-    constructor(name, x, y) {
+    constructor(name, x, y, distanceRange = 0, discoverRange = 10) {
 
         // GAME.PlayerCharacter = this;
         this.name = name;
         this.x = x;
         this.y = y;
+        this.range = [distanceRange, discoverRange];
 
         if (name == "goblin") {
             this.spritesheet = ASSETS.getImage("e/goblin");
@@ -36,7 +38,7 @@ class FollowEnemy {
             this.spritesheet = ASSETS.getImage("e/knight");
         }
 
-        this.speed = 0;
+        this.speed = 1;
         this.counter = 0;
         this.pause = false;
 
@@ -117,20 +119,22 @@ class FollowEnemy {
             this.y = GAME.player.y;
         }
 
+        console.log("The players coords are " + GAME.player.x + ", " + GAME.player.y);
 
-        if (this.x < GAME.player.x) {
-            this.x++;
-        } else if (this.x > GAME.player.x) {
-            this.x--;
-        } 
-        
-        if (this.y < GAME.player.y) {
-            this.y++;
-        } if (this.y > GAME.player.y) {
-            this.y--;
-        } 
+        const c = Math.sqrt((GAME.player.x - this.x) ** 2 + (GAME.player.y - this.y) ** 2);
 
+        console.log ("c: " + c)
 
+        if (c > this.range[0] * TILE_WIDTH && c < this.range[1] * TILE_LENGTH) {
+            const dx = this.speed * (GAME.player.x - this.x) / c;
+            console.log(this.speed, GAME.player.x, this.x, c, dx)
+            const dy = this.speed * (GAME.player.y - this.y) / c;
+
+            console.log("dx: " + dx + " dy: " + dy)
+
+            this.x += dx;
+            this.y += dy;
+        }
         // if (this.counter++ % 10 == 0) this.pause = !this.pause;
         // const GAME.player = GAME.clockTick * (this.speed + (this.pause ? 0 : 0));
         // //this.x += GAME.player;

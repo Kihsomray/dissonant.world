@@ -117,7 +117,7 @@ class GameEngine {
         env.CTX.fillStyle = "white";
 
         // Draw text on the canvas
-        env.CTX.fillText(`x: ${Math.floor(this.player.x / CHUNK_WIDTH * env.SCALE)}, y: ${-Math.ceil(this.player.y / CHUNK_LENGTH * env.SCALE)}`, 2, 10);
+        env.CTX.fillText(`x: ${Math.floor(this.player.x / TILE_WIDTH)}, y: ${-Math.ceil(this.player.y / TILE_LENGTH)}`, 2, 10);
 
         env.CTX.fillText("+", this.mouseLocation.x - 3, this.mouseLocation.y + 3);
 

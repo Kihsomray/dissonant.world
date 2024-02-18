@@ -251,8 +251,8 @@ class BiomeTile {
         ) return;
 
         const { x, y } = LOCATION.getTrueLocation(
-            this.chunkX * CHUNK_WIDTH * TILE_WIDTH + this.tileX * TILE_WIDTH - env.MAP.OFFSET.x,
-            this.chunkY * CHUNK_LENGTH * TILE_LENGTH + this.tileY * TILE_LENGTH - env.MAP.OFFSET.y,
+            (this.chunkX * CHUNK_WIDTH * TILE_WIDTH + this.tileX * TILE_WIDTH) - env.MAP.OFFSET.x,
+            (this.chunkY * CHUNK_LENGTH * TILE_LENGTH + this.tileY * TILE_LENGTH) - env.MAP.OFFSET.y,
         );
 
         if (this.animated) {
@@ -266,6 +266,7 @@ class BiomeTile {
         } else {
             //console.log(this.holder + " " + this.selected + " " + this.chunkX + " " + this.chunkY + " " + this.tileX + " " + this.tileY + " " + LOCATION.x + " " + LOCATION.y + " " + env.X_OFFSET + " " + env.Y_OFFSET);
 
+            //console.log(x, y)
             env.CTX.drawImage(
                 this.holder,
                 (this.selected.x + 1) * TILE_WIDTH,
