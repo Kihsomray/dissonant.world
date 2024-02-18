@@ -19,10 +19,10 @@ class Location {
         this.y = Math.max(Math.min(this.y, GAME.player.y + env.CENTER.y / 3), GAME.player.y - env.CENTER.y / 3);
         
 
-        //console.log("The player coords are" + GAME.player.x + ", " + GAME.player.y + " The box coords " + this.x + ", " + this.y);
+        //console.log(x + env.CENTER.x - this.x - env.OFFSET.x, y + env.CENTER.y - this.y - env.OFFSET.y)
         return {
-            x: x + env.CENTER.x - this.x - env.OFFSET.x,
-            y: y + env.CENTER.y - this.y - env.OFFSET.y,
+            x: Math.round((x + env.CENTER.x - this.x - env.OFFSET.x) * 2) / 2,
+            y: Math.round((y + env.CENTER.y - this.y - env.OFFSET.y) * 2) / 2,
         };
     }
 
