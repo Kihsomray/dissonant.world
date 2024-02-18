@@ -13,6 +13,8 @@ class PlayerCharacter {
 
     animations;
 
+    walking;
+
     cursorInventory;
     inventory;
     hotbarGeneral;
@@ -36,6 +38,8 @@ class PlayerCharacter {
         this.animations = [];
         this.loadAnimations();
 
+        this.walking = false;
+
         this.cursorInventory = new Inventory(
             ASSETS.getImage("i/*"),
             0, // asset location
@@ -55,7 +59,7 @@ class PlayerCharacter {
                 return GAME.mouseLocation;
 
             },
-            (_) => { return this.inventory.visible }, // filter
+            (_) => { true }, // filter
             1, // scale
             false // visible
         )
@@ -77,9 +81,10 @@ class PlayerCharacter {
             6,
             (sizeX, sizeY) => { // centering function
                 
+                //console.log(env.CENTER.x)
                 return {
-                    x: (env.CENTER.x - sizeX) / 2,
-                    y: (env.CENTER.y - sizeY) / 2
+                    x: env.CENTER.x - sizeX / 2,
+                    y: env.CENTER.y - sizeY / 2
                 }
 
             },
@@ -106,7 +111,7 @@ class PlayerCharacter {
             (sizeX, sizeY) => { // centering function
                 
                 return {
-                    x: (env.CENTER.x - sizeX) / 2,
+                    x: env.CENTER.x - sizeX / 2,
                     y: env.CENTER.y * 2 - sizeY
                 }
 
@@ -299,7 +304,6 @@ class PlayerCharacter {
          */
 
         const { x, y } = LOCATION.getTrueLocation(this.x, this.y);
-        console.log(x, y)
         this.animations[this.state][this.facingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
 
         this.cursorInventory.draw();

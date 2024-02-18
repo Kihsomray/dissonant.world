@@ -27,6 +27,4 @@ ASSETS.downloadAll(() => {
 	GAME.init();
 	GAME.start();
 
-	unblurCanvas();
-
 });

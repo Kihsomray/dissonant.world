@@ -42,6 +42,7 @@ class Inventory {
         this.x = 0;
         this.y = 0;
         Object.assign(this, {asset, assetX, assetY, assetWidth, assetHeight, slotInitialGapX, slotInitialGapY, slotsX, slotsY, slotWidth, slotHeight, slotGapX, slotGapY, locationFunction, filterFunction, scale, visible});
+        console.log("x: " + slotGapX)
         this.inventory = new Array(slotsX);
         for (let i = 0; i < slotsX; i++) {
             this.inventory[i] = new Array(slotsY).fill(null);
@@ -55,8 +56,8 @@ class Inventory {
     }
 
     update() {
-
-        let {x, y} = this.locationFunction(this.sizeX, this.sizeY);
+        const {x, y} = this.locationFunction(this.assetX, this.assetY);
+        //console.log("x: " + x + " y: " + y)
         this.x = x;
         this.y = y;
 
@@ -105,6 +106,7 @@ class Inventory {
 
         //console.log("size 1 --> " + this.slotsX + " " + this.slotsY)
         //console.log("size 2 --> " + this.inventory.length + " " + this.inventory[0].length)
+
 
         for (let i = 0; i < this.slotsX; i++) {
 

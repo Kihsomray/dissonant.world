@@ -6,7 +6,9 @@
 class FollowEnemy {
 
     facingRight = false;
+    facingUp = false;
     state = 0;
+    angle = 0.5;
     range;
 
     animations;
@@ -72,9 +74,9 @@ class FollowEnemy {
 
         // Walking animation for state = 1.
         // Facing right = 0.
-        this.animations[1][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.125, 1, false, true)
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.155, 1, false, true)
         // Facing left = 1.
-        this.animations[1][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.125, 1, false, true)
+        this.animations[1][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.155, 1, false, true)
 
         
         // Running animation for state = 2.
@@ -119,22 +121,50 @@ class FollowEnemy {
             this.y = GAME.player.y;
         }
 
-        console.log("The players coords are " + GAME.player.x + ", " + GAME.player.y);
 
         const c = Math.sqrt((GAME.player.x - this.x) ** 2 + (GAME.player.y - this.y) ** 2);
 
-        console.log ("c: " + c)
-
         if (c > this.range[0] * TILE_WIDTH && c < this.range[1] * TILE_LENGTH) {
+            this.state = 1;
+
             const dx = this.speed * (GAME.player.x - this.x) / c;
-            console.log(this.speed, GAME.player.x, this.x, c, dx)
             const dy = this.speed * (GAME.player.y - this.y) / c;
 
-            console.log("dx: " + dx + " dy: " + dy)
+            if (dx < 0) this.facingRight = false;
+            else this.facingRight = true;
 
             this.x += dx;
             this.y += dy;
+
+        } else if (!this.walking) {
+            
+            this.state = 0;
+
+            if (Math.random() < 0.005) {
+                this.state = 1;
+                this.walking = true;
+                this.facingRight = Math.random() > 0.5;
+                this.facingUp = Math.random() > 0.5;
+                this.angle = Math.random();
+            }
+
+        } else if (this.walking) {
+
+            if (Math.random() < 0.007) {
+                this.state = 0;
+                this.walking = false;
+            }
+
+
+            if (this.facingRight) this.x += this.speed * this.angle;
+            else this.x -= this.speed * this.angle;
+
+            if (this.facingUp) this.y -= this.speed * (1 - this.angle);
+            else this.y += this.speed * (1 - this.angle);
+
         }
+
+
         // if (this.counter++ % 10 == 0) this.pause = !this.pause;
         // const GAME.player = GAME.clockTick * (this.speed + (this.pause ? 0 : 0));
         // //this.x += GAME.player;

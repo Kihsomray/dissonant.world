@@ -28,9 +28,7 @@ function resizeCanvas() {
     env.MAP.OFFSET.y = CLUSTER_LENGTH * CHUNK_LENGTH * TILE_LENGTH / 2;
 
     env.CTX.scale(env.SCALE, env.SCALE);
-}
 
-function unblurCanvas() {
     env.CTX.imageSmoothingEnabled = false;
     env.CTX.webkitImageSmoothingEnabled = false;
     env.CTX.mozImageSmoothingEnabled = false;
