@@ -24,11 +24,11 @@ ASSET_MANAGER.downloadAll(() => {
 
 	ENGINE.addEntity(new PlayerCharacter());
 
-	// ENGINE.addEntity(new Enemy("goblin", 220, 0));
-	// ENGINE.addEntity(new Enemy("orc", 220, 220));
-	// ENGINE.addEntity(new Enemy("oni", 120, 110));
-	// ENGINE.addEntity(new Enemy("hobgoblin", 320, 110));
-	ENGINE.addEntity(new Enemy("daemon", 320, 110));
+	ENGINE.addEntity(new Enemy("goblin", 220, 0));
+	ENGINE.addEntity(new Enemy("orc", -220, 220));
+	ENGINE.addEntity(new Enemy("oni", 520, 110));
+	ENGINE.addEntity(new Enemy("hobgoblin", -320, 110));
+	ENGINE.addEntity(new Enemy("daemon", 800, 110));
 	//ENGINE.addEntity(new followEnemy("knight", 0, 0));
 
 	ENGINE.addEntity(LOCATION);

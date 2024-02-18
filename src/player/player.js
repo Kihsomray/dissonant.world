@@ -75,9 +75,9 @@ class PlayerCharacter {
 
         // Player damaged animation for state = 4.
         // Facing right = 0.
-        this.animations[4][0] = new Animator(this.spritesheet, 0, 97, 24, 25, 4, 0.2, 1, false, true)
+        this.animations[4][0] = new Animator(this.spritesheet, 0, 97, 24, 25, 4, 0.125, 1, false, true)
         // Facing left = 1.
-        this.animations[4][1] = new Animator(this.spritesheet, 96, 97, 24, 25, 4, 0.2, 1, false, true)
+        this.animations[4][1] = new Animator(this.spritesheet, 96, 97, 24, 25, 4, 0.125, 1, false, true)
 
 
         // Player death animation for state = 5.
@@ -108,28 +108,30 @@ class PlayerCharacter {
         this.updateBB();
         
         // Bounding Box Logic
-        var that = this;
         ENGINE.getEntities().forEach(entity => {
-            if ((entity instanceof Enemy || entity instanceof followEnemy) && this.BB.collide(entity.BB)) {
-                if (this.BB.right <= entity.BB.right) {
-                    BLOCKED_RIGHT = true;
-                    console.log("BLOCKED_RIGHT");
-                }
-                else if (this.BB.left <= entity.BB.right) {
-                    BLOCKED_LEFT = true;
-                    console.log("BLOCKED_LEFT");
-                }
-                if (this.BB.bottom >= entity.BB.top) {
-                    BLOCKED_DOWN = true;
-                    console.log("BLOCKED_DOWN");
-                }
-                else if (this.BB.top <= entity.BB.bottom) {
-                    BLOCKED_UP = true;
-                    console.log("BLOCKED_UP");
+            if ((entity instanceof Enemy || entity instanceof followEnemy)) {
+                if (this.BB.collide(entity.BB)) {
+                    STATE = 4;
+                    if (this.BB.right <= entity.BB.right) {
+                        BLOCKED_RIGHT = true;
+                    }
+                    else if (this.BB.left <= entity.BB.right) {
+                        BLOCKED_LEFT = true;
+                    }
+                    if (this.BB.bottom >= entity.BB.top) {
+                        BLOCKED_DOWN = true;
+                    }
+                    else if (this.BB.top <= entity.BB.bottom) {
+                        BLOCKED_UP = true;
+                        console.log("BLOCKED_UP"); 
+                    }
                 }
             }
+            // else if (entity instanceof tree || entity instanceof river) {
+                // // Add once trees, rivers, rocks, etc. are in.
+            // }
         });
-
+        
     }
 
 
@@ -158,11 +160,11 @@ class PlayerCharacter {
          */
 
         // IN PROGRESS, WORKING ON GETTING LOGIC RIGHT
-        if (!IS_FACING_RIGHT && STATE == 0) { // Idle right
-            this.animations[0][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 0) { // Idle left
+        if (IS_FACING_RIGHT && STATE == 0) { // Idle right
             this.animations[0][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+        }
+        else if (!IS_FACING_RIGHT && STATE == 0) { // Idle right
+            this.animations[0][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
         }
         else if (IS_FACING_RIGHT && STATE == 1) { // Walking left
             this.animations[1][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
@@ -176,12 +178,19 @@ class PlayerCharacter {
         else if (!IS_FACING_RIGHT && STATE == 2) { // Running right
             this.animations[2][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
         }
-        else if (IS_FACING_RIGHT && STATE == 3) { // Walking right
-            this.animations[3][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+        else if (IS_FACING_RIGHT && STATE == 3) { // Walking left
+            this.animations[3][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
         }
         else if (!IS_FACING_RIGHT && STATE == 3) { // Walking right
             this.animations[3][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
         }
+        else if (IS_FACING_RIGHT && STATE == 4) { // Damaged left
+            this.animations[4][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+        }
+        else if (!IS_FACING_RIGHT && STATE == 4) { // Damaged right
+            this.animations[4][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+        }
+        
 
         this.inventory.draw(context);
 

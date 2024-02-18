@@ -1,5 +1,5 @@
 class Location {
-
+    
     speed = 2.8;
     corner_speed = Math.sqrt(this.speed * this.speed / 1.5);
     multiplier = 1.75;
@@ -20,7 +20,6 @@ class Location {
 
         const corner = Math.round(this.corner_speed * boost * 2 * ENGINE.clockTick * 50) / 2;
         const straight = Math.round(this.speed * boost * 2 * ENGINE.clockTick * 50) / 2;
-
 
         if (ENGINE.keyClick["w"] && ENGINE.keyClick["d"] && !(BLOCKED_UP || BLOCKED_RIGHT)) {
             this.x += corner;
@@ -76,12 +75,16 @@ class Location {
             BLOCKED_LEFT = false;
         }
 
-        if (ENGINE.keyClick["shift"] && STATE == 1) {
-            STATE = 2;
-
+        if (BLOCKED_DOWN || BLOCKED_LEFT || BLOCKED_RIGHT || BLOCKED_UP) {
+            STATE = 4; 
         }
         
+        if (ENGINE.keyClick["shift"] && STATE == 1) {
+            STATE = 2;
+        }
 
+        
+        
         //console.log(this.getCurrentChunk());
 
         if (this.x != x || this.y != y) MAP_MANAGER.update();

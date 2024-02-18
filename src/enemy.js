@@ -9,6 +9,8 @@ class Enemy {
         this.name = name;
         this.globalX = x;
         this.globalY = y;
+        this.state = 0;
+        this.facing = 0;
 
         this.updateBB();
 
@@ -44,8 +46,9 @@ class Enemy {
         if (name != "daemon") {
             this.loadAnimations();
         }
-        this.loadBossAnimations();
-
+        else {
+            this.loadBossAnimations();
+        }
     }
 
     loadBossAnimations() {
@@ -64,9 +67,9 @@ class Enemy {
 
         // Idling animation for state = 0.
         // Facing right = 0.
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 1, 56, 56, 4, 0.3, 1, false, true);
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 1, 56, 57, 4, 0.3, 1, false, true);
         // Facing left = 1.
-        this.animations[0][1] = new Animator(this.spritesheet, 220, 1, 56, 56, 4, 0.3, 1, false, true);
+        this.animations[0][1] = new Animator(this.spritesheet, 220, 1, 56, 57, 4, 0.3, 1, false, true);
 
         // Walking animation for state = 1.
         // Facing right = 0.
@@ -174,19 +177,53 @@ class Enemy {
         // //this.x += location;
         // if (this.x > 1024) this.x = -200;
 
+        this.x = this.globalX - LOCATION.x;
+        this.y = this.globalY - LOCATION.y;
+
+        // console.log("The players coords are " + ENGINE.PlayerCharacter.x + ", " + ENGINE.PlayerCharacter.y);
+        // console.log("My coords are " + this.x + ", " + this.y);
+
+        // If the player is found, do this.
+        if (this.AGGRO.collide(ENGINE.PlayerCharacter.BB)) {
+            this.state = 1;
+            if (this.BB.collide(ENGINE.PlayerCharacter.BB)) {
+                this.state = 0;
+            }
+            else {
+                if (this.x < ENGINE.PlayerCharacter.x) {
+                    this.globalX++;
+                    this.facing = 0;
+                } 
+                if (this.x > ENGINE.PlayerCharacter.x) {
+                    this.globalX--;
+                    this.facing = 1;
+                } 
+                if (this.y < ENGINE.PlayerCharacter.y) {
+                    this.globalY++;
+                } 
+                if (this.y > ENGINE.PlayerCharacter.y) {
+                    this.globalY--;
+                } 
+            }
+        }
+        else { // If not, do this.
+            this.state = 0;
+        }
+        
+
         this.updateBB();
 
     }
 
     updateBB() {
-        
         if (this.name == "daemon") {
-            this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+            this.BB = new BoundingBox(this.x + 20, this.y + 23, 50, 62);
+            this.AGGRO = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
         }
         else {
             this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+            this.AGGRO = new BoundingBox(this.x - 100, this.y - 100, 250, 250);
         }
-
     }
 
     draw(context) {
@@ -198,11 +235,23 @@ class Enemy {
         const ctx = canvas.getContext("2d");
         ctx.strokeStyle = "red";
         if (this.name == "daemon") {
+            this.BB = new BoundingBox(this.x + 20, this.y + 23, 50, 62);
+            ctx.strokeRect(this.x + 20, this.y + 23, 50, 62);
 
+            ctx.strokeStyle = "white";
+            this.AGGRO = new BoundingBox(this.x - 250, this.y - 150, 600, 400);
+            ctx.strokeRect(this.x - 250, this.y - 150, 600, 400);
         }
-        else {
-            ctx.strokeRect(this.x + 8, this.y + 7, 20, 28);
+        else { // NORMAL ENEMY
+            this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+            ctx.strokeRect(this.x + 8, this.y + 7, 20, 32);
+
+            ctx.strokeStyle = "white";
+            this.AGGRO = new BoundingBox(this.x - 100, this.y - 100, 250, 250);
+            ctx.strokeRect(this.x - 100, this.y - 100, 250, 250);
         }
+        
+        
         
 
         /*d
@@ -216,24 +265,8 @@ class Enemy {
          */
 
         // IN PROGRESS, WORKING ON GETTING LOGIC RIGHT
-        if (!IS_FACING_RIGHT && STATE == 0) { // Idle right
-            this.animations[0][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 0) { // Idle left
-            this.animations[0][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 1) { // Walking left
-            this.animations[1][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (!IS_FACING_RIGHT && STATE == 1) { // Walking right
-            this.animations[1][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 2) { // Running left
-            this.animations[2][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (!IS_FACING_RIGHT && STATE == 2) { // Running right
-            this.animations[2][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
+        this.animations[this.state][this.facing].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+
 
     }
 
