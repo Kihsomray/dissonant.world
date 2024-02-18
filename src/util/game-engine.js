@@ -36,7 +36,7 @@ class GameEngine {
 
             if (document["hidden"]) {
 
-                ENGINE.keyClick = {
+                GAME.keyClick = {
                     "Escape": false,
                     "w": false,
                     "d": false,

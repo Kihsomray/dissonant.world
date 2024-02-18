@@ -16,54 +16,54 @@ class Location {
         const x = this.x;
         const y = this.y;
 
-        const boost = ENGINE.keyClick["shift"] ? this.multiplier : 1;
+        const boost = GAME.keyClick["shift"] ? this.multiplier : 1;
 
-        const corner = Math.round(this.corner_speed * boost * 2 * ENGINE.clockTick * 50) / 2;
-        const straight = Math.round(this.speed * boost * 2 * ENGINE.clockTick * 50) / 2;
+        const corner = Math.round(this.corner_speed * boost * 2 * GAME.clockTick * 50) / 2;
+        const straight = Math.round(this.speed * boost * 2 * GAME.clockTick * 50) / 2;
 
-        if (ENGINE.keyClick["w"] && ENGINE.keyClick["d"] && !(BLOCKED_UP || BLOCKED_RIGHT)) {
+        if (GAME.keyClick["w"] && GAME.keyClick["d"] && !(BLOCKED_UP || BLOCKED_RIGHT)) {
             this.x += corner;
             this.y -= corner;
-            IS_FACING_RIGHT = true;
+            IS_FACING_RIGHT = 0;
             STATE = 1;
         }
-        else if (ENGINE.keyClick["w"] && ENGINE.keyClick["a"] && !(BLOCKED_UP || BLOCKED_LEFT)) {
+        else if (GAME.keyClick["w"] && GAME.keyClick["a"] && !(BLOCKED_UP || BLOCKED_LEFT)) {
             this.y -= corner;
             this.x -= corner;
-            IS_FACING_RIGHT = false;
+            IS_FACING_RIGHT = 1;
             STATE = 1;
         }
-        else if (ENGINE.keyClick["s"] && ENGINE.keyClick["d"] && !(BLOCKED_DOWN || BLOCKED_RIGHT)) {
+        else if (GAME.keyClick["s"] && GAME.keyClick["d"] && !(BLOCKED_DOWN || BLOCKED_RIGHT)) {
             this.y += corner;
             this.x += corner;
-            IS_FACING_RIGHT = true;
+            IS_FACING_RIGHT = 0;
             STATE = 1;
         }
-        else if (ENGINE.keyClick["s"] && ENGINE.keyClick["a"] && !(BLOCKED_DOWN || BLOCKED_LEFT)) {
+        else if (GAME.keyClick["s"] && GAME.keyClick["a"] && !(BLOCKED_DOWN || BLOCKED_LEFT)) {
             this.y += corner;
             this.x -= corner;
-            IS_FACING_RIGHT = false;
+            IS_FACING_RIGHT = 1;
             STATE = 1;
         }
-        else if (ENGINE.keyClick["w"] && !BLOCKED_UP) {
+        else if (GAME.keyClick["w"] && !BLOCKED_UP) {
             this.y -= straight;
             BLOCKED_DOWN = false;
             STATE = 1;
         }
-        else if (ENGINE.keyClick["a"] && !BLOCKED_LEFT) {
+        else if (GAME.keyClick["a"] && !BLOCKED_LEFT) {
             this.x -= straight;
-            IS_FACING_RIGHT = false;
+            IS_FACING_RIGHT = 1;
             BLOCKED_RIGHT = false;
             STATE = 1;
         }
-        else if (ENGINE.keyClick["s"] && !BLOCKED_DOWN) {
+        else if (GAME.keyClick["s"] && !BLOCKED_DOWN) {
             this.y += straight;
             BLOCKED_UP = false;
             STATE = 1;
         }
-        else if (ENGINE.keyClick["d"] && !BLOCKED_RIGHT) {
+        else if (GAME.keyClick["d"] && !BLOCKED_RIGHT) {
             this.x += straight;
-            IS_FACING_RIGHT = true;
+            IS_FACING_RIGHT = 0;
             BLOCKED_LEFT = false;
             STATE = 1;
         }
@@ -79,7 +79,7 @@ class Location {
             STATE = 4; 
         }
         
-        if (ENGINE.keyClick["shift"] && STATE == 1) {
+        if (GAME.keyClick["shift"] && STATE == 1) {
             STATE = 2;
         }
 
@@ -87,7 +87,7 @@ class Location {
         
         //console.log(this.getCurrentChunk());
 
-        if (this.x != x || this.y != y) MAP_MANAGER.update();
+        if (this.x != x || this.y != y) MAP.update();
     }
 
 

@@ -67,7 +67,7 @@ class MapManager{
             for (let j = 0; j < BIOME_TYPES.length; j++) {
 
                 // queue download for each biome type
-                ASSET_MANAGER.queueDownload(
+                ASSETS.queueDownload(
                     `t/${BIOMES[i]}/${BIOME_TYPES[j]}`,
                     `./res/tile/${BIOMES[i]}_/${BIOMES[i]}_ [${BIOME_TYPES[j]}].png`
                 );
@@ -75,7 +75,7 @@ class MapManager{
             }
 
             // queue generic tile set for the biome
-            ASSET_MANAGER.queueDownload(
+            ASSETS.queueDownload(
                 `t/${BIOMES[i]}`,
                 `./res/tile/${BIOMES[i]}_/${BIOMES[i]}_.png`
             );
@@ -85,7 +85,7 @@ class MapManager{
         for (let i = 0; i < BIOME_TYPES_EXTRA.length; i++) {
 
             // queue download for each extra biome type
-            ASSET_MANAGER.queueDownload(
+            ASSETS.queueDownload(
                 `t/${BIOME_TYPES_EXTRA[i][0]}/${BIOME_TYPES_EXTRA[i][1]}`,
                 `./res/tile/${BIOME_TYPES_EXTRA[i][0]}_/${BIOME_TYPES_EXTRA[i][1]}_.png`
             );
@@ -126,7 +126,7 @@ class MapManager{
             Object.values(this.generatorMap[i][j])[0]
         );
         chunk.generate();
-        ENGINE.addChunk(this.chunk[i][j] = chunk);
+        GAME.addChunk(this.chunk[i][j] = chunk);
     };
 
     update() {
@@ -139,7 +139,7 @@ class MapManager{
                 currChunk.y - RENDER_DISTANCE > j)
             {
                 if (!this.chunk[i][j]) return;
-                ENGINE.removeChunk(this.chunk[i][j]);
+                GAME.removeChunk(this.chunk[i][j]);
                 this.chunk[i][j] = undefined;
             }
         });

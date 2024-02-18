@@ -91,7 +91,7 @@ class BiomeTile {
 
         if (this.animated) {
             this.holder = new Animator(
-                ASSET_MANAGER.getImage(`t/${biome}`),
+                ASSETS.getImage(`t/${biome}`),
                 (this.BIOME_TILESET_ANIMATED[selection].x + 1) * 16,
                 (this.BIOME_TILESET_ANIMATED[selection].y + 1) * 16,
                 16,
@@ -104,8 +104,8 @@ class BiomeTile {
             );
             //this.holder.xOffset = this.animated_distance;
         } else {
-            this.holder = ASSET_MANAGER.getImage(`t/${biome}`);
-            //console.log(ASSET_MANAGER.getImage(`t/${biome}`));
+            this.holder = ASSETS.getImage(`t/${biome}`);
+            //console.log(ASSETS.getImage(`t/${biome}`));
         }
 
     }
@@ -127,7 +127,7 @@ class BiomeTile {
 
         if (this.animated) {
             this.holder.drawFrame(
-                ENGINE.clockTick,
+                GAME.clockTick,
                 ctx,
                 this.tileX * 16 - LOCATION.x,
                 this.tileY * 16 - LOCATION.y,

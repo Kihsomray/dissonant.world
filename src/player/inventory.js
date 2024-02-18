@@ -35,7 +35,7 @@ class PlayerInventory {
 
     constructor() {
 
-        this.spritesheet = ASSET_MANAGER.getImage("i/*");
+        this.spritesheet = ASSETS.getImage("i/*");
 
         // fill each row with an array of columns
         for (let i = 0; i < INVENTORY_ROWS; i++) {
@@ -71,7 +71,7 @@ class PlayerInventory {
 
         window.addEventListener("mousedown", (e) => {
 
-            const m = ENGINE.mouseLocation;
+            const m = GAME.mouseLocation;
 
             for (let i = 0; i < INVENTORY_TOOLS; i++) {
                 const x = env.X_CENTER - HOTBAR_ASSET_SIZE[0] / 2 * INVENTORY_SCALE + INVENTORY_TOOLS_LOCATIONS[i][0] * INVENTORY_SCALE;
@@ -123,7 +123,7 @@ class PlayerInventory {
         });
 
         window.addEventListener("mousemove", (e) => {
-            const m = ENGINE.mouseLocation;
+            const m = GAME.mouseLocation;
             if (!this.openedInventory) return;
             for (let i = 0; i < INVENTORY_ROWS; i++) {
                 for (let j = 0; j < INVENTORY_COLUMNS; j++) {
@@ -148,7 +148,7 @@ class PlayerInventory {
     }
 
     #drawCursor(ctx) {
-        const m = ENGINE.mouseLocation;
+        const m = GAME.mouseLocation;
         const itemData = ITEMS[this.cursorItem];
         ctx.drawImage(
             this.spritesheet,

@@ -1,5 +1,5 @@
 // State Global Variables (Temporary Addition)
-let IS_FACING_RIGHT = true;
+let IS_FACING_RIGHT = 1;
 let STATE = 0;
 let BLOCKED_UP = false;
 let BLOCKED_RIGHT = false;
@@ -9,13 +9,13 @@ let BLOCKED_LEFT = false;
 class PlayerCharacter {
     constructor() {
 
-        ENGINE.PlayerCharacter = this; 
+        GAME.PlayerCharacter = this; 
       
         if (Math.floor(Math.random() * 10) % 2 == 0) {
-            this.spritesheet = ASSET_MANAGER.getImage("e/player-male");
+            this.spritesheet = ASSETS.getImage("e/player-male");
         }
         else {
-            this.spritesheet = ASSET_MANAGER.getImage("e/player-female");
+            this.spritesheet = ASSETS.getImage("e/player-female");
         }
         
         // Initial Variables for player's state.
@@ -98,7 +98,7 @@ class PlayerCharacter {
     update() {
 
         // if (this.counter++ % 10 == 0) this.pause = !this.pause;
-        // const location = ENGINE.clockTick * (this.speed + (this.pause ? 0 : 0));
+        // const location = GAME.clockTick * (this.speed + (this.pause ? 0 : 0));
         // this.x += location;
         // if (this.x > 1024) this.x = -200;
 
@@ -108,7 +108,7 @@ class PlayerCharacter {
         this.updateBB();
         
         // Bounding Box Logic
-        ENGINE.getEntities().forEach(entity => {
+        GAME.getEntities().forEach(entity => {
             if ((entity instanceof Enemy || entity instanceof followEnemy)) {
                 if (this.BB.collide(entity.BB)) {
                     STATE = 4;
@@ -159,38 +159,7 @@ class PlayerCharacter {
          * [5][0] = Dead Right      [5][1] = Dead Left
          */
 
-        // IN PROGRESS, WORKING ON GETTING LOGIC RIGHT
-        if (IS_FACING_RIGHT && STATE == 0) { // Idle right
-            this.animations[0][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (!IS_FACING_RIGHT && STATE == 0) { // Idle right
-            this.animations[0][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 1) { // Walking left
-            this.animations[1][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (!IS_FACING_RIGHT && STATE == 1) { // Walking right
-            this.animations[1][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 2) { // Running left
-            this.animations[2][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (!IS_FACING_RIGHT && STATE == 2) { // Running right
-            this.animations[2][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 3) { // Walking left
-            this.animations[3][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (!IS_FACING_RIGHT && STATE == 3) { // Walking right
-            this.animations[3][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (IS_FACING_RIGHT && STATE == 4) { // Damaged left
-            this.animations[4][0].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        else if (!IS_FACING_RIGHT && STATE == 4) { // Damaged right
-            this.animations[4][1].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
-        }
-        
+        this.animations[STATE][IS_FACING_RIGHT].drawFrame(GAME.clockTick, context, this.x, this.y, 1.5);
 
         this.inventory.draw(context);
 

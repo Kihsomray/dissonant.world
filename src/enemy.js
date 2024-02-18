@@ -14,23 +14,25 @@ class Enemy {
 
         this.updateBB();
 
-        if (name == "goblin") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/goblin");
-        } 
-        else if (name == "orc") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/orc");
-        }
-        else if (name == "oni") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/oni");
-        }
-        else if (name == "hobgoblin") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/hobgoblin");
-        }
-        else if (name == "knight") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/knight");
-        }
-        else if (name == "daemon") {
-            this.spritesheet = ASSET_MANAGER.getImage("e/daemon");
+        switch (name) {
+            case "goblin":
+                this.spritesheet = ASSETS.getImage("e/goblin");
+                break;
+            case "orc":
+                this.spritesheet = ASSETS.getImage("e/orc");
+                break;
+            case "oni":
+                this.spritesheet = ASSETS.getImage("e/oni");
+                break;
+            case "hobgoblin":
+                this.spritesheet = ASSETS.getImage("e/hobgoblin");
+                break;
+            case "knight":
+                this.spritesheet = ASSETS.getImage("e/knight");
+                break;
+            case "daemon":
+                this.spritesheet = ASSETS.getImage("e/daemon");
+                break;
         }
 
         this.x = LOCATION.x; //X_CENTER;
@@ -52,11 +54,6 @@ class Enemy {
     }
 
     loadBossAnimations() {
-
-        // TODO add the animations
-        // It shouldn't matter for this class since its general but this should be overloaded for each enemy
-
-
 
         for (var i = 0; i < 7; i++) { // 6 total states for player.
             this.animations[i] = [];
@@ -83,14 +80,6 @@ class Enemy {
         this.animations[2][0] = new Animator(this.spritesheet, 0, 56 * 2, 56, 56, 4, 0.125, 1, false, true);
         // Facing left = 1.
         this.animations[2][1] = new Animator(this.spritesheet, 220, 56 * 2, 56, 56, 4, 0.125, 1, false, true);
-
-
-        // // Turning animation for state = 3.
-        // // Facing right = 0.
-        // this.animations[3][0] = new Animator(this.spritesheet, );
-        // // Facing left = 1.
-        // this.animations[3][1] = new Animator(this.spritesheet, );
-
 
         // Player damaged animation for state = 4.
         // Facing right = 0.
@@ -132,7 +121,6 @@ class Enemy {
         this.animations[1][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.125, 1, false, true)
         // Facing left = 1.
         this.animations[1][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.125, 1, false, true)
-
         
         // Running animation for state = 2.
         // Facing right = 0.
@@ -140,20 +128,11 @@ class Enemy {
         // Facing left = 1.
         this.animations[2][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.1, 1, false, true)
 
-
-        // // Turning animation for state = 3.
-        // // Facing right = 0.
-        // this.animations[3][0] = new Animator(this.spritesheet, 0, 73, 24, 24, 4, 0.1, 1, false, true)
-        // // Facing left = 1.
-        // this.animations[3][1] = new Animator(this.spritesheet, 96, 73, 24, 24, 4, 0.1, 1, false, true)
-
-
         // Player damaged animation for state = 4.
         // Facing right = 0.
         this.animations[4][0] = new Animator(this.spritesheet, 0, 97, 24, 24, 4, 0.2, 1, false, true)
         // Facing left = 1.
         this.animations[4][1] = new Animator(this.spritesheet, 96, 97, 24, 24, 4, 0.2, 1, false, true)
-
 
         // Player death animation for state = 5.
         // Facing right = 0.
@@ -168,40 +147,37 @@ class Enemy {
         this.x = this.globalX - LOCATION.x;
         this.y = this.globalY - LOCATION.y;
 
-        // console.log("The players coords are " + ENGINE.PlayerCharacter.x + ", " + ENGINE.PlayerCharacter.y);
+        // console.log("The players coords are " + GAME.PlayerCharacter.x + ", " + GAME.PlayerCharacter.y);
         // console.log("My coords are " + this.x + ", " + this.y);
 
 
         // if (this.counter++ % 10 == 0) this.pause = !this.pause;
-        // const location = ENGINE.clockTick * (this.speed + (this.pause ? 0 : 0));
+        // const location = GAME.clockTick * (this.speed + (this.pause ? 0 : 0));
         // //this.x += location;
         // if (this.x > 1024) this.x = -200;
 
         this.x = this.globalX - LOCATION.x;
         this.y = this.globalY - LOCATION.y;
 
-        // console.log("The players coords are " + ENGINE.PlayerCharacter.x + ", " + ENGINE.PlayerCharacter.y);
-        // console.log("My coords are " + this.x + ", " + this.y);
-
         // If the player is found, do this.
-        if (this.AGGRO.collide(ENGINE.PlayerCharacter.BB)) {
+        if (this.AGGRO.collide(GAME.PlayerCharacter.BB)) {
             this.state = 1;
-            if (this.BB.collide(ENGINE.PlayerCharacter.BB)) {
+            if (this.BB.collide(GAME.PlayerCharacter.BB)) {
                 this.state = 0;
             }
             else {
-                if (this.x < ENGINE.PlayerCharacter.x) {
+                if (this.x < GAME.PlayerCharacter.x) {
                     this.globalX++;
                     this.facing = 0;
                 } 
-                if (this.x > ENGINE.PlayerCharacter.x) {
+                if (this.x > GAME.PlayerCharacter.x) {
                     this.globalX--;
                     this.facing = 1;
                 } 
-                if (this.y < ENGINE.PlayerCharacter.y) {
+                if (this.y < GAME.PlayerCharacter.y) {
                     this.globalY++;
                 } 
-                if (this.y > ENGINE.PlayerCharacter.y) {
+                if (this.y > GAME.PlayerCharacter.y) {
                     this.globalY--;
                 } 
             }
@@ -236,19 +212,21 @@ class Enemy {
         ctx.strokeStyle = "red";
         if (this.name == "daemon") {
             this.BB = new BoundingBox(this.x + 20, this.y + 23, 50, 62);
-            ctx.strokeRect(this.x + 20, this.y + 23, 50, 62);
-
-            ctx.strokeStyle = "white";
             this.AGGRO = new BoundingBox(this.x - 250, this.y - 150, 600, 400);
-            ctx.strokeRect(this.x - 250, this.y - 150, 600, 400);
+
+            // // UNCOMMENT THIS TO DRAW BOUNDING BOX FOR BOSS
+            // ctx.strokeRect(this.x + 20, this.y + 23, 50, 62);
+            // ctx.strokeStyle = "white";
+            // ctx.strokeRect(this.x - 250, this.y - 150, 600, 400);
         }
         else { // NORMAL ENEMY
             this.BB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
-            ctx.strokeRect(this.x + 8, this.y + 7, 20, 32);
-
-            ctx.strokeStyle = "white";
             this.AGGRO = new BoundingBox(this.x - 100, this.y - 100, 250, 250);
-            ctx.strokeRect(this.x - 100, this.y - 100, 250, 250);
+
+            // // UNCOMMENT THIS TO DRAW BOUNDING BOX FOR BOSS
+            // ctx.strokeRect(this.x + 8, this.y + 7, 20, 32);
+            // ctx.strokeStyle = "white";
+            // ctx.strokeRect(this.x - 100, this.y - 100, 250, 250);
         }
         
         
@@ -264,8 +242,7 @@ class Enemy {
          * [5][0] = Dead Right      [5][1] = Dead Left
          */
 
-        // IN PROGRESS, WORKING ON GETTING LOGIC RIGHT
-        this.animations[this.state][this.facing].drawFrame(ENGINE.clockTick, context, this.x, this.y, 1.5);
+        this.animations[this.state][this.facing].drawFrame(GAME.clockTick, context, this.x, this.y, 1.5);
 
 
     }
