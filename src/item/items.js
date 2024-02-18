@@ -1,4 +1,4 @@
-ITEMS = {
+env.ITEMS = {
 
     0: {
         display_name: "",

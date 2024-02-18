@@ -11,10 +11,10 @@ const TILE_LENGTH = 16;
 const CHUNK_WIDTH = 32;
 const CHUNK_LENGTH = 32;
 
-const CLUSTER_WIDTH = 16; // 1023
-const CLUSTER_LENGTH = 16; // 1023
+const CLUSTER_WIDTH = 1024 / 2 - 1;
+const CLUSTER_LENGTH = 1024 / 2 - 1;
 
-const RENDER_DISTANCE = 1;
+const RENDER_DISTANCE = 2;
 
 const BIOMES = [
     "cave",
@@ -51,6 +51,7 @@ class MapManager{
     generatorMap;
     chunks = [];
     prevChunk;
+    breakBlock;
 
     constructor() {
 
@@ -67,7 +68,7 @@ class MapManager{
             for (let j = 0; j < BIOME_TYPES.length; j++) {
 
                 // queue download for each biome type
-                ASSET_MANAGER.queueDownload(
+                ASSETS.queueDownload(
                     `t/${BIOMES[i]}/${BIOME_TYPES[j]}`,
                     `./res/tile/${BIOMES[i]}_/${BIOMES[i]}_ [${BIOME_TYPES[j]}].png`
                 );
@@ -75,7 +76,7 @@ class MapManager{
             }
 
             // queue generic tile set for the biome
-            ASSET_MANAGER.queueDownload(
+            ASSETS.queueDownload(
                 `t/${BIOMES[i]}`,
                 `./res/tile/${BIOMES[i]}_/${BIOMES[i]}_.png`
             );
@@ -85,12 +86,15 @@ class MapManager{
         for (let i = 0; i < BIOME_TYPES_EXTRA.length; i++) {
 
             // queue download for each extra biome type
-            ASSET_MANAGER.queueDownload(
+            ASSETS.queueDownload(
                 `t/${BIOME_TYPES_EXTRA[i][0]}/${BIOME_TYPES_EXTRA[i][1]}`,
                 `./res/tile/${BIOME_TYPES_EXTRA[i][0]}_/${BIOME_TYPES_EXTRA[i][1]}_.png`
             );
 
         }
+
+        ASSETS.queueDownload(`t/transitions`, `./res/tile/transition.png`);
+        ASSETS.queueDownload(`t/block/break`, `./res/tile/break-block.png`);
 
     };
 
@@ -98,7 +102,8 @@ class MapManager{
 
         // put current time millis in a variable
         const time1 = Date.now();
-        this.generatorMap = new MapGenerator(SEED, CLUSTER_WIDTH, CLUSTER_LENGTH).generate();
+        this.generator = new MapGenerator(SEED, CLUSTER_WIDTH, CLUSTER_LENGTH);
+        this.generatorMap = this.generator.generate();
         console.log(`Generated map in ${Date.now() - time1}ms`);
 
             
@@ -109,12 +114,16 @@ class MapManager{
         }
 
         // generate chunks around the player
-        const currChunk = LOCATION.getCurrentChunk();
+        const currChunk = getCurrentChunk(GAME.player.x, GAME.player.y);
         this.forChunks(currChunk.x, currChunk.y, (i, j) => {
             this.generateChunk(i, j);
         });
+
         this.prevChunk = currChunk;
 
+        this.breakBlock = new BreakBlock();
+
+        this.update();
     };
 
     generateChunk(i, j) {
@@ -126,20 +135,11 @@ class MapManager{
             Object.values(this.generatorMap[i][j])[0][0]
         );
         chunk.generate();
-        ENGINE.addChunk(this.chunk[i][j] = chunk);
-
-
-        // For each enemy add entity(Gbolin )
-        let values = Object.values(this.generatorMap[i][j])[0];
-
-        for (let v = 1; v < values.length; v++) {
-            ENGINE.addEntity(new followEnemy("knight", 0, 0));
-        }
-
+        GAME.addChunk(this.chunk[i][j] = chunk);
     };
 
     update() {
-        const currChunk = LOCATION.getCurrentChunk();
+        const currChunk = getCurrentChunk(GAME.player.x, GAME.player.y);
 
         this.forChunks(this.prevChunk.x, this.prevChunk.y, (i, j) => {
             if (currChunk.x + RENDER_DISTANCE < i ||
@@ -148,12 +148,7 @@ class MapManager{
                 currChunk.y - RENDER_DISTANCE > j)
             {
                 if (!this.chunk[i][j]) return;
-                ENGINE.removeChunk(this.chunk[i][j]);
-                // Save entities back into mapGrid
-                // For each enemy in that chunk remove entity
-
-                
-
+                GAME.removeChunk(this.chunk[i][j]);
                 this.chunk[i][j] = undefined;
             }
         });
@@ -167,7 +162,22 @@ class MapManager{
                 this.generateChunk(i, j);
             }
         });
+
+        for (let i = currChunk.x - RENDER_DISTANCE; i <= currChunk.x + RENDER_DISTANCE; i++) {
+            for (let j = currChunk.y - RENDER_DISTANCE; j <= currChunk.y + RENDER_DISTANCE; j++) {
+                if (currChunk.x + RENDER_DISTANCE < i ||
+                    currChunk.x - RENDER_DISTANCE > i ||
+                    currChunk.y + RENDER_DISTANCE < j ||
+                    currChunk.y - RENDER_DISTANCE > j) continue;
+                //console.log("ChunkSSS ---> " + this.chunk[i + 1][j] + " " + this.chunk[i][j + 1] + " val: " + val.offsetWest + " " + val.offsetNorth);
+                this.chunk[i][j].smoothen(this.chunk[i + 1][j], this.chunk[i][j + 1]);
+                //console.log("POSTSSS ---> val: " + val.offsetWest + " " + val.offsetNorth);
+            }
+        }
         this.prevChunk = currChunk;
+
+        this.breakBlock.update(3);
+
     };
 
     forChunks(x, y, func) {

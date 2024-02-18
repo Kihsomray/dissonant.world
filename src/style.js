@@ -1,35 +1,37 @@
+// This class consists of the style and layout of the game. It is responsible
+// for the game's appearance and adjusting the user interface. It updates the
+// global variables and the canvas size. It also centers the canvas and resizes
+// it according to the window size.
 
-
-// Get the canvas element
-const canvas = $("#game")[0];
+// Update global variables
+env.CANVAS = document.getElementById("game");
+env.CTX = env.CANVAS.getContext("2d");
 
 // Resize the canvas
 function resizeCanvas() {
 
-    const canvas = document.getElementById("game");
-	const ctx = canvas.getContext("2d");
-
     const width = $("#container").width() - 36;
     const height = $("#container").height() - $("#header").height() - $("#footer").height() - 36;
 
-    canvas.width = Math.max(Math.min(width, env.MAX_WIDTH), env.MIN_WIDTH);
-    canvas.height = Math.max(Math.min(height, env.MAX_HEIGHT), env.MIN_HEIGHT);
+    // ensure the bounds of the canvas
+    env.CANVAS.width = Math.max(Math.min(width, env.MAX_WIDTH), env.MIN_WIDTH);
+    env.CANVAS.height = Math.max(Math.min(height, env.MAX_HEIGHT), env.MIN_HEIGHT);
 
-    ctx.scale(env.SCALE, env.SCALE);
-    ctx.imageSmoothingEnabled = false;
-	ctx.webkitImageSmoothingEnabled = false;
-	ctx.mozImageSmoothingEnabled = false;
-    ctx.msImageSmoothingEnabled = false;
-    ctx.oImageSmoothingEnabled = false;
+    // Center the canvas
+    env.CENTER.x = env.CANVAS.width / 2 / env.SCALE;
+    env.CENTER.y = env.CANVAS.height / 2 / env.SCALE;
 
-    env.X_CENTER = ctx.canvas.width / 2 / env.SCALE;
-    env.Y_CENTER = ctx.canvas.height / 2 / env.SCALE;
+    // Offset the chunks
+    env.MAP.OFFSET.x = CLUSTER_WIDTH * CHUNK_WIDTH * TILE_WIDTH / 2;
+    env.MAP.OFFSET.y = CLUSTER_LENGTH * CHUNK_LENGTH * TILE_LENGTH / 2;
 
-    env.X_OFFSET = CLUSTER_WIDTH * CHUNK_WIDTH * TILE_WIDTH / 2 - env.X_CENTER;
-    env.Y_OFFSET = CLUSTER_LENGTH * CHUNK_LENGTH * TILE_LENGTH / 2 - env.Y_CENTER;
+    env.CTX.scale(env.SCALE, env.SCALE);
 
-    console.log(env.X_CENTER)
-    
+    env.CTX.imageSmoothingEnabled = false;
+    env.CTX.webkitImageSmoothingEnabled = false;
+    env.CTX.mozImageSmoothingEnabled = false;
+    env.CTX.msImageSmoothingEnabled = false;
+    env.CTX.oImageSmoothingEnabled = false;
 }
 
 // Center the canvas on window resize
