@@ -17,8 +17,6 @@ function resizeCanvas() {
     env.CANVAS.width = Math.max(Math.min(width, env.MAX_WIDTH), env.MIN_WIDTH);
     env.CANVAS.height = Math.max(Math.min(height, env.MAX_HEIGHT), env.MIN_HEIGHT);
 
-    console.log(env.CANVAS.width, env.CANVAS.height, env.SCALE, env.CANVAS.width / env.SCALE, env.CANVAS.height / env.SCALE)
-
     // Center the canvas
     env.CENTER.x = env.CANVAS.width / 2 / env.SCALE;
     env.CENTER.y = env.CANVAS.height / 2 / env.SCALE;

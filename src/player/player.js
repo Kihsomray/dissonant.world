@@ -304,6 +304,13 @@ class PlayerCharacter {
          */
 
         const { x, y } = LOCATION.getTrueLocation(this.x, this.y);
+
+
+        // // VIEW BOUNDING BOX BELOW
+        env.CTX.strokeStyle = "red";
+        env.CTX.strokeRect(x + 8, y + 7, 20, 28);
+
+
         this.animations[this.state][this.facingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
 
         this.cursorInventory.draw();
