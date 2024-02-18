@@ -124,44 +124,55 @@ class Enemy {
 
         const c = Math.sqrt((GAME.player.x - this.x) ** 2 + (GAME.player.y - this.y) ** 2);
 
-        if (c > this.range[0] * TILE_WIDTH && c < this.range[1] * TILE_LENGTH) {
-            this.state = 1;
+        if (c < this.range[1] * TILE_LENGTH) {
 
-            const dx = this.speed * (GAME.player.x - this.x) / c;
-            const dy = this.speed * (GAME.player.y - this.y) / c;
-
-            if (dx < 0) this.facingRight = false;
-            else this.facingRight = true;
-
-            this.x += dx;
-            this.y += dy;
-
-        } else if (!this.walking) {
-            
             this.state = 0;
 
-            if (Math.random() < 0.005) {
+            if (c > this.range[0] * TILE_WIDTH) {
+
                 this.state = 1;
-                this.walking = true;
-                this.facingRight = Math.random() > 0.5;
-                this.facingUp = Math.random() > 0.5;
-                this.angle = Math.random();
+    
+                const dx = this.speed * (GAME.player.x - this.x) / c;
+                const dy = this.speed * (GAME.player.y - this.y) / c;
+    
+                if (dx < 0) this.facingRight = false;
+                else this.facingRight = true;
+    
+                this.x += dx;
+                this.y += dy;
+
             }
 
-        } else if (this.walking) {
 
-            if (Math.random() < 0.007) {
+        } else {
+
+            if (!this.walking) {
+            
                 this.state = 0;
-                this.walking = false;
+    
+                if (Math.random() < 0.005) {
+                    this.state = 1;
+                    this.walking = true;
+                    this.facingRight = Math.random() > 0.5;
+                    this.facingUp = Math.random() > 0.5;
+                    this.angle = Math.random();
+                }
+    
+            } else if (this.walking) {
+    
+                if (Math.random() < 0.007) {
+                    this.state = 0;
+                    this.walking = false;
+                }
+    
+    
+                if (this.facingRight) this.x += this.speed * this.angle;
+                else this.x -= this.speed * this.angle;
+    
+                if (this.facingUp) this.y -= this.speed * (1 - this.angle);
+                else this.y += this.speed * (1 - this.angle);
+    
             }
-
-
-            if (this.facingRight) this.x += this.speed * this.angle;
-            else this.x -= this.speed * this.angle;
-
-            if (this.facingUp) this.y -= this.speed * (1 - this.angle);
-            else this.y += this.speed * (1 - this.angle);
-
         }
 
 
