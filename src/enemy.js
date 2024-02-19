@@ -159,7 +159,7 @@ class Enemy {
     }
 
     update() {
-        /*
+        
         //console.log("The players coords are " + GAME.PlayerCharacter.x + ", " + GAME.PlayerCharacter.y);
         //console.log("My coords are " + this.x + ", " + this.y);
 
@@ -231,7 +231,7 @@ class Enemy {
         // const GAME.player = GAME.clockTick * (this.speed + (this.pause ? 0 : 0));
         // //this.x += GAME.player;
         // if (this.x > 1024) this.x = -200;
-        */
+        
     }
 
     updateBB() {

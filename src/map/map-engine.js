@@ -140,7 +140,7 @@ class MapManager{
 
 
         const playerChunk = getCurrentChunk(GAME.player.x, GAME.player.y);
-        console.log(playerChunk.x + " : " + playerChunk.x);
+        //console.log(playerChunk.x + " : " + playerChunk.x);
         
         // For each enemy in a chunk which is in this.generatorMap[i][j][0] there are enemies. 
         // Add them to the chunk they are generated in.
@@ -153,13 +153,24 @@ class MapManager{
         let chunkDiffX = chunk.chunkX - CLUSTER_WIDTH/2; // Need to add middle chunk stuff
         let chunkDiffY = chunk.chunkY - CLUSTER_LENGTH/2;
 
-        console.log("chunk diff " + chunkDiffX + " : " + chunkDiffY);
+        //console.log("chunk diff " + chunkDiffX + " : " + chunkDiffY);
         let trueLocation = LOCATION.getTrueLocation(chunkDiffX * CHUNK_WIDTH * TILE_WIDTH, chunkDiffY * CHUNK_WIDTH * TILE_WIDTH);
         //console.log("True Coords of chunk " + trueLocation.x + " : " + trueLocation.y);
 
-        let enemy = new Enemy("knight", chunkDiffX * CHUNK_WIDTH * TILE_WIDTH, chunkDiffY * CHUNK_WIDTH * TILE_WIDTH);
-        GAME.addEntity(enemy);
-        console.log("Player is at " + GAME.player.x + " : " + GAME.player.y + " Enemy is at " + enemy.x + " : " + enemy.y);
+        let enemyChunkX = chunkDiffX * CHUNK_WIDTH * TILE_WIDTH;
+        let enemyChunkY = chunkDiffY * CHUNK_WIDTH * TILE_WIDTH;
+        //console.log(Object.values(this.generatorMap[i][j])[0].length);
+        for (let e = 1; e < Object.values(this.generatorMap[i][j])[0].length; e++) {
+            let genEnemy = Object.values(this.generatorMap[i][j])[0][e]
+            let enemyXOffset = Object.values(genEnemy)[0][0] * CHUNK_WIDTH * TILE_WIDTH / 32;
+            let enemyYOffset = Object.values(genEnemy)[0][1] * CHUNK_WIDTH * TILE_WIDTH / 32;
+
+
+            let enemy = new Enemy("knight", enemyChunkX + enemyXOffset, enemyChunkY + enemyYOffset);
+            GAME.addEntity(enemy);
+            //console.log("Player is at " + GAME.player.x + " : " + GAME.player.y + " Enemy is at " + enemy.x + " : " + enemy.y);
+        }
+        
     };
 
     update() {
