@@ -5,21 +5,24 @@ class Sword {
     state;
 
     constructor() {
+
         this.x = 0;
         this.y = 0;
         this.state = 0;
         this.facing = 3;
         this.swingOnCoolDown = false;
         this.cooldown = 120;
+        this.attackBB = null;
+        this.xOffset = 0;
+        this.yOffset = 0;
 
         this.spritesheet = ASSETS.getImage("e/sword");
 
         this.animations = [];
         this.loadAnimations();
 
-        this.attackBB = null;
-        this.xOffset = 0;
-        this.yOffset = 0;
+
+
     }
 
     setState(direction) {
@@ -65,7 +68,7 @@ class Sword {
             this.state = 1;
             this.swingOnCoolDown = true;
             // Create the bounding box for the attack
-            this.attackBB = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+            this.attackBB = new BoundingBox(x, y, 20, 28);
         }
         else {
 
@@ -88,34 +91,43 @@ class Sword {
         const { x, y } = LOCATION.getTrueLocation(GAME.player.x, GAME.player.y);
 
         if (this.swingOnCoolDown) {
+
             if (this.facing == 0) {
                 this.xOffset = 5;
                 this.yOffset = -20;
-                this.attackBB = new BoundingBox(this.x + this.xOffset, this.y + this.yOffset, 20, 28);
+                this.attackBB = new BoundingBox(x + this.xOffset, y + this.yOffset, 20, 28);
             }
             else if (this.facing == 1) {
                 this.xOffset = 35;
                 this.yOffset = 10;
-                this.attackBB = new BoundingBox(this.x + this.xOffset, this.y + this.yOffset, 20, 28);
+                this.attackBB = new BoundingBox(x + this.xOffset, y + this.yOffset, 20, 28);
             }
             else if (this.facing == 2) {
                 this.xOffset = 4;
                 this.yOffset = 30;
-                this.attackBB = new BoundingBox(this.x + this.xOffset, this.y + this.yOffset, 20, 28);
+                this.attackBB = new BoundingBox(x + this.xOffset, y + this.yOffset, 20, 28);
             }
             else {
                 this.xOffset = -25;
                 this.yOffset = 9;
-                this.attackBB = new BoundingBox(this.x + this.xOffset, this.y + this.yOffset, 20, 28);
+                this.attackBB = new BoundingBox(x + this.xOffset, y + this.yOffset, 20, 28);
             }
+
         }
         else {
             this.attackBB = null;
         }
+
     }
 
     draw() {
+        
         const { x, y } = LOCATION.getTrueLocation(GAME.player.x, GAME.player.y);
+
+        // // Draw bounding box.
+        // if (this.attackBB != null) {
+        //     this.attackBB.draw(x + this.xOffset, y + this.yOffset);
+        // }
 
         if (this.facing == 0) { // Looking up
             this.animations[this.state][this.facing].drawFrame(GAME.clockTick, env.CTX, x + 2, y - 16, 1);
@@ -129,8 +141,7 @@ class Sword {
         else { // Looking left
             this.animations[this.state][this.facing].drawFrame(GAME.clockTick, env.CTX, x - 20, y + 8, 1);
         }
-        if (this.attackBB != null) {
-            this.attackBB.draw(x + this.xOffset, y + this.yOffset);
-        }
+
     }
+
 }

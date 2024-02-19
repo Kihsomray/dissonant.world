@@ -14,18 +14,24 @@ ASSETS.queueDownload("e/hobgoblin", "./res/hobgoblin.png");
 ASSETS.queueDownload("e/knight", "./res/knight.png");
 ASSETS.queueDownload("e/daemon", "./res/daemon.png");
 ASSETS.queueDownload("b/endscreen", "./res/background/end_screen.png");
+ASSETS.queueDownload("b/winscreen", "./res/background/winscreen.png");
 
 ASSETS.downloadAll(() => {
 
+	GAME.addEntity(new WinScreen());
 	GAME.addEntity(new EndScreen());
   
 	GAME.addEntity(GAME.player = new PlayerCharacter());
 
-	GAME.addEntity(new Enemy("goblin", -220, 0, 0, 15));
+	GAME.addEntity(new Enemy("hobgoblin", -320, -110, 0, 15));
+	GAME.addEntity(new Enemy("goblin", -250, 400, 0, 15));
+	GAME.addEntity(new Enemy("orc", -220, -220, 0, 15));
+	GAME.addEntity(new Enemy("goblin", -250, 0, 0, 15));
 	GAME.addEntity(new Enemy("orc", 220, 220, 0, 15));
-	GAME.addEntity(new Enemy("oni", -120, 110, 0, 15));
+	GAME.addEntity(new Enemy("oni", -280, 110, 0, 15));
 	GAME.addEntity(new Enemy("hobgoblin", 320, 110, 0, 15));
-	GAME.addEntity(new Enemy("knight", 50, 250));
+	GAME.addEntity(new Enemy("knight", 150, 250, 0, 15));
+	GAME.addEntity(new Enemy("daemon", 1000, 1000, 0, 1000));
 
 	MAP.init();
 
