@@ -9,7 +9,7 @@ const env = {
     MIN_HEIGHT: 270,
 
     // Scale of the canvas
-    SCALE: 1,
+    SCALE: 2,
 
     // canvas offset
     OFFSET: {

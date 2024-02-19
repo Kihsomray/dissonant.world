@@ -11,8 +11,8 @@ const TILE_LENGTH = 16;
 const CHUNK_WIDTH = 32;
 const CHUNK_LENGTH = 32;
 
-const CLUSTER_WIDTH = 1024 / 2 - 1;
-const CLUSTER_LENGTH = 1024 / 2 - 1;
+const CLUSTER_WIDTH = 32 //1024 / 2 - 1;
+const CLUSTER_LENGTH = 32 //1024 / 2 - 1;
 
 const RENDER_DISTANCE = 2;
 
@@ -139,7 +139,7 @@ class MapManager{
 
 
 
-        const playerChunk = getCurrentChunk(GAME.player.x, GAME.player.y);
+        // const playerChunk = getCurrentChunk(GAME.player.x, GAME.player.y);
         //console.log(playerChunk.x + " : " + playerChunk.x);
         
         // For each enemy in a chunk which is in this.generatorMap[i][j][0] there are enemies. 
@@ -168,6 +168,7 @@ class MapManager{
 
             let enemy = new Enemy("knight", enemyChunkX + enemyXOffset, enemyChunkY + enemyYOffset);
             GAME.addEntity(enemy);
+            //console.log(enemy.name + " => " + enemy.x + " : " + enemy.y);
             //console.log("Player is at " + GAME.player.x + " : " + GAME.player.y + " Enemy is at " + enemy.x + " : " + enemy.y);
         }
         
@@ -183,16 +184,43 @@ class MapManager{
                 currChunk.y - RENDER_DISTANCE > j)
             {
                 if (!this.chunk[i][j]) return;
+                let thisChunk = this.chunk[i][j];
                 GAME.removeChunk(this.chunk[i][j]);
                 this.chunk[i][j] = undefined;
 
 
-                let markedForRemoval = [];
-                let entities = GAME.getEntities();
-                for (let en = 0; en < entities.length; en++) {
-                    //console.log(entities[en]);
-                }
+                
+                let chunkX = (thisChunk.chunkX - CLUSTER_WIDTH/2) * CHUNK_WIDTH * TILE_WIDTH;
+                let chunkY = (thisChunk.chunkY - CLUSTER_LENGTH/2) * CHUNK_WIDTH * TILE_WIDTH;
+                let trueLocation = LOCATION.getTrueLocation(chunkX, chunkY);
+                //let chunkbb = new BoundingBox(chunkX, chunkY, CHUNK_WIDTH * TILE_WIDTH, CHUNK_WIDTH * TILE_WIDTH);
 
+                console.log(chunkX + ", " + (chunkX + CHUNK_WIDTH * TILE_WIDTH) + " : " + chunkY + ", " + (chunkY + CHUNK_WIDTH * TILE_WIDTH));
+
+                let markedForRemoval = [];
+                // let entities = GAME.getEntities();
+                // for (let en = 0; en < entities.length; en++) {
+                //     console.log(entities[en]);
+                // }
+
+                GAME.getEntities().forEach(entity => {
+                    if (entity instanceof Enemy) {
+                        if (
+                            chunkX <= entity.x && (chunkX + CHUNK_WIDTH * TILE_WIDTH) >= entity.x 
+                            && chunkY <= entity.y && (chunkY + CHUNK_WIDTH * TILE_WIDTH) >= entity.y
+                        ) {
+                            console.log("Unloading");
+                            console.log("Player location " + GAME.player.x + " : " + GAME.player.y);
+                            console.log(chunkX + ", " + (chunkX + CHUNK_WIDTH * TILE_WIDTH) + " : " + chunkY + ", " + (chunkY + CHUNK_WIDTH * TILE_WIDTH));
+                            console.log(entity.name + " => " + entity.x + " : " + entity.y);
+                            markedForRemoval.push(entity);
+                        }
+                    }
+                });
+
+                markedForRemoval.forEach(entity => {
+                    GAME.removeEntity(entity);
+                });
             }
         });
 

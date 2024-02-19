@@ -121,6 +121,11 @@ class GameEngine {
         this.entities.push(entity);
     };
 
+    removeEntity(entity) {
+        let index = this.entities.indexOf(entity);
+        this.entities.splice(index, 1);
+    };
+
     addChunk(chunk) {
         this.chunks.add(chunk);
     };
