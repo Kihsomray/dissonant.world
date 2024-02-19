@@ -24,15 +24,15 @@ class PlayerCharacter {
 
         if (Math.floor(Math.random() * 10) % 2 == 0) {
             this.spritesheet = ASSETS.getImage("e/player-male");
-
         } else {
             this.spritesheet = ASSETS.getImage("e/player-female");
-
         }
 
         // Initial Variables for player's state.
         this.x = 0;
         this.y = 0;
+        this.immune = false;
+        this.frameCount = 0;
 
         // All of the player's animations.
         this.animations = [];
@@ -223,7 +223,29 @@ class PlayerCharacter {
         if (this.hotbarGeneral.clickedSlot) this.hotbarGeneral.swap(this.cursorInventory, this.hotbarGeneral.clickedSlot.i, this.hotbarGeneral.clickedSlot.j, 0, 0);
         if (this.hotbarTools.clickedSlot) this.hotbarTools.swap(this.cursorInventory, this.hotbarTools.clickedSlot.i, this.hotbarTools.clickedSlot.j, 0, 0);
 
+        
+
         this.updateBB();
+
+        GAME.getEntities().forEach(entity => {
+            if (entity instanceof Enemy && this.bb.collide(entity.bb)) {
+                // Update the players health and set the flag.
+                // if (this.immune) {
+                //     this.frameCount++;
+                //     if (this.frameCount > 60) {
+                //         this.frameCount = 0;
+                //         this.immune = false;
+                //     }
+                // }
+                // else {
+                //     // Update health.
+
+                //     // Start I frames
+                //     this.immune = true;
+                    
+                // }
+            }
+        });
     }
 
     updateLocation() {
@@ -239,40 +261,48 @@ class PlayerCharacter {
         this.state = 1;
 
         if (GAME.keyClick["w"] && GAME.keyClick["d"]) {
+            GAME.sword.setState(1);
             this.y -= corner;
             this.x += corner;
             this.facingRight = true;
-
-        } else if (GAME.keyClick["w"] && GAME.keyClick["a"]) {
+        } 
+        else if (GAME.keyClick["w"] && GAME.keyClick["a"]) {
+            GAME.sword.setState(3);
             this.y -= corner;
             this.x -= corner;
             this.facingRight = false;
-
-        } else if (GAME.keyClick["s"] && GAME.keyClick["d"]) {
+        } 
+        else if (GAME.keyClick["s"] && GAME.keyClick["d"]) {
+            GAME.sword.setState(1);
             this.y += corner;
             this.x += corner;
             this.facingRight = true;
-
-        } else if (GAME.keyClick["s"] && GAME.keyClick["a"]) {
+        } 
+        else if (GAME.keyClick["s"] && GAME.keyClick["a"]) {
+            GAME.sword.setState(3);
             this.y += corner;
             this.x -= corner;
             this.facingRight = false;
-
-        } else if (GAME.keyClick["w"]) {
+        } 
+        else if (GAME.keyClick["w"]) {
+            GAME.sword.setState(0);
             this.y -= straight;
-
-        } else if (GAME.keyClick["d"]) {
+        } 
+        else if (GAME.keyClick["d"]) {
+            GAME.sword.setState(1);
             this.x += straight;
             this.facingRight = true;
-
-        } else if (GAME.keyClick["s"]) {
+        } 
+        else if (GAME.keyClick["s"]) {
+            GAME.sword.setState(2);
             this.y += straight;
-
-        } else if (GAME.keyClick["a"]) {
+        } 
+        else if (GAME.keyClick["a"]) {
+            GAME.sword.setState(3);
             this.x -= straight;
             this.facingRight = false;
-
-        } else {
+        } 
+        else {
             this.state = 0;
         }
 
@@ -309,7 +339,7 @@ class PlayerCharacter {
 
         // // VIEW BOUNDING BOX BELOW
         env.CTX.strokeStyle = "red";
-        env.CTX.strokeRect(x + 8, y + 7, 20, 28);
+        // env.CTX.strokeRect(x + 8, y + 7, 20, 28);
 
         console.log("Player location: " + x + ", " + y)
 
