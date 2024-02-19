@@ -21,7 +21,6 @@ class BoundingBox {
         // Draw the bb
         env.CTX.strokeStyle = "red";
         env.CTX.strokeRect(theX, theY, 20, 28);
-
     }
 
 }

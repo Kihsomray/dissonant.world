@@ -21,11 +21,11 @@ ASSETS.downloadAll(() => {
   
 	GAME.addEntity(GAME.player = new PlayerCharacter());
 
-	GAME.addEntity(new Enemy("goblin", 220, 0, 4, 15));
-	GAME.addEntity(new Enemy("orc", 220, 220, 4, 15));
-	GAME.addEntity(new Enemy("oni", 120, 110, 4, 15));
-	GAME.addEntity(new Enemy("hobgoblin", 320, 110, 4, 15));
-	GAME.addEntity(new Enemy("knight", 0, 0));
+	GAME.addEntity(new Enemy("goblin", -220, 0, 0, 15));
+	GAME.addEntity(new Enemy("orc", 220, 220, 0, 15));
+	GAME.addEntity(new Enemy("oni", -120, 110, 0, 15));
+	GAME.addEntity(new Enemy("hobgoblin", 320, 110, 0, 15));
+	GAME.addEntity(new Enemy("knight", 50, 250));
 
 	MAP.init();
 
