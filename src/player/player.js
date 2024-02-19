@@ -252,6 +252,7 @@ class PlayerCharacter {
         if (this.hotbarGeneral.clickedSlot) this.hotbarGeneral.swap(this.cursorInventory, this.hotbarGeneral.clickedSlot.i, this.hotbarGeneral.clickedSlot.j, 0, 0);
         if (this.hotbarTools.clickedSlot) this.hotbarTools.swap(this.cursorInventory, this.hotbarTools.clickedSlot.i, this.hotbarTools.clickedSlot.j, 0, 0);
 
+        this.updateBB();
     }
 
     updateLocation() {

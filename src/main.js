@@ -11,9 +11,9 @@ ASSETS.queueDownload("e/orc", "./res/orc.png");
 ASSETS.queueDownload("e/oni", "./res/oni.png");
 ASSETS.queueDownload("e/hobgoblin", "./res/hobgoblin.png");
 ASSETS.queueDownload("e/knight", "./res/knight.png");
+ASSETS.queueDownload("e/daemon", "./res/daemon.png");
 
 ASSETS.downloadAll(() => {
-
 
 	GAME.addEntity(GAME.player = new PlayerCharacter());
 
