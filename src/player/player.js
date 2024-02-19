@@ -58,7 +58,7 @@ class PlayerCharacter {
         this.hotbarGeneral.inventory[0][0].itemData = env.ITEMS[23];
 
         this.hotbarTools.inventory[0][0].itemData = env.ITEMS[1];
-        this.hotbarTools.inventory[0][0].itemData = env.ITEMS[2];
+        this.hotbarTools.inventory[1][0].itemData = env.ITEMS[2];
 
     }
 
