@@ -28,7 +28,7 @@ ASSETS.downloadAll(() => {
 	GAME.addEntity(new Enemy("oni", -280, 110, 0, 15));
 	GAME.addEntity(new Enemy("hobgoblin", 320, 110, 0, 15));
 	GAME.addEntity(new Enemy("knight", 150, 250, 0, 15));
-	GAME.addEntity(new Enemy("daemon", 350, 250, 0, 30));
+	GAME.addEntity(new Enemy("daemon", 1000, 1000, 0, 1000));
 
 	MAP.init();
 

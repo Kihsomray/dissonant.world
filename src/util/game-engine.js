@@ -121,6 +121,11 @@ class GameEngine {
         this.entities.push(entity);
     };
 
+    removeEntity(entity) {
+        let index = this.entities.indexOf(entity);
+        this.entities.splice(index, 1);
+    };
+
     addChunk(chunk) {
         this.chunks.add(chunk);
     };
@@ -170,7 +175,6 @@ class GameEngine {
         this.keyClickCooldowns.forEach((_, key) => {
             if (Number.isInteger(key)) this.mouseClick[key] = false;
             else this.keyClick[key] = false;
-
         });
     };
 

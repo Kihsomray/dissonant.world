@@ -8,7 +8,7 @@ class PlayerHealthbar {
     };
 
     size = 20;
-    health = 20;
+    health = 12;
 
     constructor() {
 

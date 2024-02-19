@@ -5,23 +5,22 @@ class WinScreen {
 
     constructor() {
 
-        this.winBuffer = 240;
+        this.winBuffer = 120;
 
     }
 
     update() {
-
         if (GAME.player.win) {
             this.winBuffer--;
+            GAME.player.state = 0;
         }
-        
     }
 
     draw() {
 
         if (this.winBuffer > 0) return;
+        GAME.player.state = 0;
 
-        console.log("WON")
         env.CTX.drawImage(
             this.asset,
             0,
