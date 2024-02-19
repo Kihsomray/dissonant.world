@@ -58,7 +58,7 @@ class Sword {
         this.x = GAME.player.x;
         this.y = GAME.player.y;
 
-        const { x, y } = LOCATION.getTrueLocation(GAME.sword.x, GAME.sword.y);
+        const { x, y } = LOCATION.getTrueLocation(this.x, this.y);
 
         // Update Swing status
         if (GAME.keyClick[" "] && !this.swingOnCoolDown) {

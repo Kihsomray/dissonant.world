@@ -2,7 +2,6 @@
 class GameEngine {
 
     player;
-    sword;
     entities = [];
     chunks = new Set();
 

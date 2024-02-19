@@ -235,9 +235,9 @@ class Enemy {
         }
 
         // DAMAGE LOGIC
-        if (GAME.sword.bb != null) {
+        if (GAME.player.sword.bb != null) {
             console.log("HIT");
-            if (this.bb.collide(GAME.sword.bb) && iFrames == 0) {
+            if (this.bb.collide(GAME.player.sword.bb) && iFrames == 0) {
                 console.log("HIT");
                 this.state = 4;
                 this.iFrames = 61;

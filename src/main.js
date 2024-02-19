@@ -16,7 +16,6 @@ ASSETS.queueDownload("e/daemon", "./res/daemon.png");
 
 ASSETS.downloadAll(() => {
   
-	GAME.addEntity(GAME.sword = new Sword());
 	GAME.addEntity(GAME.player = new PlayerCharacter());
 
 	GAME.addEntity(new Enemy("goblin", 220, 0, 4, 15));
