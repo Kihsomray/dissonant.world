@@ -2,10 +2,11 @@
 class GameEngine {
 
     player;
+    sword;
     entities = [];
     chunks = new Set();
 
-    // Clicked: esc, w, d, s, a, shift, alt, e
+    // Clicked: esc, w, d, s, a, shift, alt, e, space
     keyClick = {
         "Escape": false,
         "w": false,

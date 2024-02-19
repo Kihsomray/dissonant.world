@@ -10,7 +10,9 @@ class Enemy {
     state = 0;
     angle = 0.5;
     range;
+    health;
     agro = false;
+
 
     animations;
 
@@ -24,6 +26,7 @@ class Enemy {
         this.x = x;
         this.y = y;
         this.range = [distanceRange, discoverRange];
+        this.health = 10;
 
         if (name == "goblin") {
             this.spritesheet = ASSETS.getImage("e/goblin");
@@ -47,6 +50,7 @@ class Enemy {
         this.speed = 1;
         this.counter = 0;
         this.pause = false;
+        this.iFrames = 0;
 
         // All of the enemies's animations.
         this.animations = [];
@@ -119,22 +123,22 @@ class Enemy {
 
         // Idling animation for state = 0.
         // Facing right = 0.
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 1, 56, 57, 4, 0.3, 1, false, true);
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 1, 56, 56, 4, 0.3, 1, false, true);
         // Facing left = 1.
-        this.animations[0][1] = new Animator(this.spritesheet, 220, 1, 56, 57, 4, 0.3, 1, false, true);
+        this.animations[0][1] = new Animator(this.spritesheet, 220, 1, 56, 56, 4, 0.3, 1, false, true);
 
         // Walking animation for state = 1.
         // Facing right = 0.
-        this.animations[1][0] = new Animator(this.spritesheet, 0, 56 * 2, 56, 56, 4, 0.15, 1, false, true);
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 56 * 2 + 1, 56, 56, 4, 0.15, 1, false, true);
         // Facing left = 1.
-        this.animations[1][1] = new Animator(this.spritesheet, 220, 56 * 2, 56, 56, 4, 0.15, 1, false, true);
+        this.animations[1][1] = new Animator(this.spritesheet, 220, 56 * 2 + 1, 56, 56, 4, 0.15, 1, false, true);
 
         
         // Running animation for state = 2.
         // Facing right = 0.
-        this.animations[2][0] = new Animator(this.spritesheet, 0, 56 * 2, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[2][0] = new Animator(this.spritesheet, 0, 56 * 2 + 1, 56, 56, 4, 0.125, 1, false, true);
         // Facing left = 1.
-        this.animations[2][1] = new Animator(this.spritesheet, 220, 56 * 2, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[2][1] = new Animator(this.spritesheet, 220, 56 * 2 + 1, 56, 56, 4, 0.125, 1, false, true);
 
 
         // // Turning animation for state = 3.
@@ -146,16 +150,16 @@ class Enemy {
 
         // Player damaged animation for state = 4.
         // Facing right = 0.
-        this.animations[4][0] = new Animator(this.spritesheet, 0, 56 * 4, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[4][0] = new Animator(this.spritesheet, 0, 56 * 4 + 1, 56, 56, 4, 0.125, 1, false, true);
         // Facing left = 1.
-        this.animations[4][1] = new Animator(this.spritesheet, 220, 56 * 4, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[4][1] = new Animator(this.spritesheet, 220, 56 * 4 + 1, 56, 56, 4, 0.125, 1, false, true);
 
 
         // Player death animation for state = 5.
         // Facing right = 0.
-        this.animations[5][0] = new Animator(this.spritesheet, 0, 56 * 5, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 56 * 5 + 1, 56, 56, 4, 0.125, 1, false, true);
         // Facing left = 1.
-        this.animations[5][1] = new Animator(this.spritesheet, 220, 56 * 5, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[5][1] = new Animator(this.spritesheet, 220, 56 * 5 + 1, 56, 56, 4, 0.125, 1, false, true);
 
     }
 
@@ -229,6 +233,24 @@ class Enemy {
     
             }
         }
+
+        // DAMAGE LOGIC
+        if (GAME.sword.bb != null) {
+            console.log("HIT");
+            if (this.bb.collide(GAME.sword.bb) && iFrames == 0) {
+                console.log("HIT");
+                this.state = 4;
+                this.iFrames = 61;
+                this.health--;
+                if (this.health < 0) {
+                    this.state = 5;
+                }
+            }
+            else {
+                this.iFrames--;
+            }
+        }
+
 
         this.updateBB();
 
