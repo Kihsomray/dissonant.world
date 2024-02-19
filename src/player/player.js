@@ -31,7 +31,7 @@ class PlayerCharacter {
         // Initial Variables for player's state.
         this.x = 0;
         this.y = 0;
-        this.iFrames = 60;
+        this.iFrames = 0;
 
         // All of the player's animations.
         this.animations = [];
