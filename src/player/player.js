@@ -117,7 +117,7 @@ class PlayerCharacter {
             (sizeX, sizeY) => { // centering function
                 
                 return {
-                    x: env.CENTER.x - (sizeX + widthHotbarTools - 4) / 2,
+                    x: env.CENTER.x - (sizeX + (widthHotbarTools - 4) * env.UI.SCALE) / 2,
                     y: env.CENTER.y * 2 - sizeY
                 }
 
@@ -147,7 +147,7 @@ class PlayerCharacter {
             (sizeX, sizeY) => { // centering function
                 //console.log("yes")
                 return {
-                    x: env.CENTER.x - (sizeX - widthHotbarGeneral + 4) / 2,
+                    x: env.CENTER.x - (sizeX - (widthHotbarGeneral + 4) * env.UI.SCALE) / 2,
                     y: env.CENTER.y * 2 - sizeY
                 }
 
