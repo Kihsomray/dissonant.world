@@ -31,8 +31,7 @@ class PlayerCharacter {
         // Initial Variables for player's state.
         this.x = 0;
         this.y = 0;
-        this.immune = false;
-        this.frameCount = 0;
+        this.iFrames = 0;
 
         // All of the player's animations.
         this.animations = [];
@@ -259,24 +258,17 @@ class PlayerCharacter {
         
 
         this.updateBB();
-
+        
         GAME.getEntities().forEach(entity => {
             if (entity instanceof Enemy && this.bb.collide(entity.bb)) {
-                // Update the players health and set the flag.
-                // if (this.immune) {
-                //     this.frameCount++;
-                //     if (this.frameCount > 60) {
-                //         this.frameCount = 0;
-                //         this.immune = false;
-                //     }
-                // }
-                // else {
-                //     // Update health.
-
-                //     // Start I frames
-                //     this.immune = true;
-                    
-                // }
+                if (this.iFrames == 0) {
+                    console.log("HIT")
+                    this.health.health--;
+                    this.iFrames = 60;
+                }
+                else {
+                    this.iFrames--;
+                }
             }
         });
     }
@@ -349,7 +341,10 @@ class PlayerCharacter {
     updateBB() {
 
         // Requires other entities to be added before logic can be written.
-        this.bb = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+
+        const { x, y } = LOCATION.getTrueLocation(this.x, this.y);
+
+        this.bb = new BoundingBox(x + 8, y + 7, 20, 28);
 
     }
 

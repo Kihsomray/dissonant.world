@@ -11,7 +11,7 @@ class EndScreen {
     }
 
     draw() {
-        if (GAME.player.health.health != 0) return;
+        if (GAME.player.health.health > 0) return;
         console.log("end screen")
         env.CTX.drawImage(
             this.asset,

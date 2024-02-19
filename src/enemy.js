@@ -262,12 +262,13 @@ class Enemy {
     }
 
     updateBB() {
+        const { x, y } = LOCATION.getTrueLocation(this.x, this.y);
 
         if (this.name == "daemon") {
-            this.bb = new BoundingBox(this.x + 20, this.y + 23, 50, 62);
+            this.bb = new BoundingBox(x + 20, y + 23, 50, 62);
         }
         else {
-            this.bb = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+            this.bb = new BoundingBox(x + 8, y + 7, 20, 28);
         }
 
     }

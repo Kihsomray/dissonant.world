@@ -10,7 +10,7 @@ class Sword {
         this.state = 0;
         this.facing = 3;
         this.swingOnCoolDown = false;
-        this.cooldown = 60;
+        this.cooldown = 120;
 
         this.spritesheet = ASSETS.getImage("e/sword");
 
