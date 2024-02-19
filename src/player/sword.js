@@ -33,8 +33,8 @@ class Sword {
         }
 
         // Idle animation for state = 0.        
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 0,      32, 32, 1, 1, 1, false, true)
-        this.animations[0][1] = new Animator(this.spritesheet, 0, 96,     32, 32, 1, 1, 1, false, true)
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 0, 32, 32, 1, 1, 1, false, true)
+        this.animations[0][1] = new Animator(this.spritesheet, 0, 96, 32, 32, 1, 1, 1, false, true)
         this.animations[0][2] = new Animator(this.spritesheet, 0, 96 * 2, 32, 32, 1, 1, 1, false, true)
         this.animations[0][3] = new Animator(this.spritesheet, 0, 96 * 3, 32, 32, 1, 1, 1, false, true)
 
