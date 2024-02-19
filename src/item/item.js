@@ -7,9 +7,10 @@ class Item {
     amount;
     dropped;
 
-    constructor(itemData, dropped = false, asset = ASSETS.getImage("i/*")) {
+    constructor(itemData, amount = 1, dropped = false, asset = ASSETS.getImage("i/*")) {
         this.asset = asset;
         this.itemData = itemData;
+        this.amount = amount;
         this.dropped = dropped;
         this.health = itemData.health ? itemData.health : null;
     }
@@ -32,10 +33,10 @@ class Item {
             data.location[1],
             data.size[0],
             data.size[1],
-            this.x + (this.areaWidth - data.size[0] * this.scale) / 2,
-            this.y + (this.areaHeight - data.size[1] * this.scale) / 2,
-            data.size[0] * this.scale,
-            data.size[0] * this.scale
+            this.x + (this.areaWidth - data.size[0]) / 2,
+            this.y + (this.areaHeight - data.size[1]) / 2,
+            data.size[0],
+            data.size[1]
         );
 
         // TODO add highlight code
