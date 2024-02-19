@@ -190,12 +190,13 @@ class Enemy {
 
     }
 
-    draw(context) {
+    draw() {
 
         //this.x = X_CENTER;
         //this.y = Y_CENTER;
 
         const { x, y } = LOCATION.getTrueLocation(this.x, this.y);
+        const pLoc = LOCATION.getTrueLocation(GAME.player.x, GAME.player.y);
 
         // // VIEW BOUNDING BOX BELOW
         env.CTX.strokeStyle = "red";
@@ -212,6 +213,15 @@ class Enemy {
          */
 
         this.animations[this.state][this.facingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
+
+        env.CTX.beginPath();
+        env.CTX.moveTo(x, y);
+        env.CTX.lineTo(pLoc.x, pLoc.y);
+
+        console.log("Player location: " + pLoc.x + ", " + pLoc.y)
+
+        // Draw the Path
+        env.CTX.stroke();
 
     }
 
