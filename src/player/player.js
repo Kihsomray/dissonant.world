@@ -60,128 +60,130 @@ class PlayerCharacter {
         this.hotbarTools.inventory[0][0].itemData = env.ITEMS[1];
         this.hotbarTools.inventory[1][0].itemData = env.ITEMS[2];
 
+        this.health = new PlayerHealthbar();
+
     }
 
     loadInventories() {
 
-                // inventory
-                this.inventory = new Inventory(
-                    ASSETS.getImage("i/*"),
-                    547, // asset location
-                    153,
-                    204, // asset size
-                    176,
-                    4, // slot dimensions
-                    3,
-                    10, // initial gap
-                    34,
-                    40, // slot size
-                    40,
-                    8, // slot gap
-                    6,
-                    (sizeX, sizeY) => { // centering function
-                        
-                        //console.log(env.CENTER.x)
-                        return {
-                            x: env.CENTER.x - sizeX / 2,
-                            y: env.CENTER.y - sizeY / 2
-                        }
-        
-                    },
-                    (item) => { return true }, // filter
-                    env.SCALE / 4, // scale
-                    false // visible
-                );
-                this.inventory.togglable = true;
-        
-                const widthHotbarGeneral = 204;
-                const widthHotbarTools = 108;
-        
-                // hotbar general
-                this.hotbarGeneral = new Inventory(
-                    ASSETS.getImage("i/*"),
-                    365, // asset location
-                    537,
-                    widthHotbarGeneral, // asset size
-                    60,
-                    4, // slot dimensions
-                    1,
-                    10, // initial gap
-                    10,
-                    40, // slot size
-                    40,
-                    8, // slot gap
-                    0,
-                    (sizeX, sizeY) => { // centering function
-                        
-                        return {
-                            x: env.CENTER.x - (sizeX + widthHotbarTools - 4) / 2,
-                            y: env.CENTER.y * 2 - sizeY
-                        }
-        
-                    },
-                    (item) => {
-                        return !item.itemData.type.includes("weapon") && !item.itemData.type.includes("tool");
-                    }, // filter
-                    env.SCALE / 4, // scale
-                    true // visible
-                );
-        
-                // hotbar tools
-                this.hotbarTools = new Inventory(
-                    ASSETS.getImage("i/*"),
-                    565, // asset location
-                    537,
-                    widthHotbarTools, // asset size
-                    60,
-                    2, // slot dimensions
-                    1,
-                    10, // initial gap
-                    10,
-                    40, // slot size
-                    40,
-                    8, // slot gap
-                    0,
-                    (sizeX, sizeY) => { // centering function
-                        //console.log("yes")
-                        return {
-                            x: env.CENTER.x - (sizeX - widthHotbarGeneral + 4) / 2,
-                            y: env.CENTER.y * 2 - sizeY
-                        }
-        
-                    },
-                    (item) => {
-                        return item.itemData.type.includes("weapon") || item.itemData.type.includes("tool") || item.itemData.type.includes("null");
-                    }, // filter
-                    env.SCALE / 4, // scale
-                    true // visible
-                );
-        
-        
-                this.cursorInventory = new Inventory(
-                    ASSETS.getImage("i/*"),
-                    0, // asset location
-                    0,
-                    0, // asset size
-                    0,
-                    1, // slot dimensions
-                    1,
-                    0, // initial gap
-                    0,
-                    0, // slot size
-                    0,
-                    0, // slot gap
-                    0,
-                    (sizeX, sizeY) => { // centering function
-                        
-                        return GAME.mouseLocation;
-        
-                    },
-                    (item) => { return true }, // filter
-                    1, // scale
-                    false // visible
-                );
-                this.cursorInventory.togglable = true;
+        // inventory
+        this.inventory = new Inventory(
+            ASSETS.getImage("i/*"),
+            547, // asset location
+            153,
+            204, // asset size
+            176,
+            4, // slot dimensions
+            3,
+            10, // initial gap
+            34,
+            40, // slot size
+            40,
+            8, // slot gap
+            6,
+            (sizeX, sizeY) => { // centering function
+                
+                //console.log(env.CENTER.x)
+                return {
+                    x: env.CENTER.x - sizeX / 2,
+                    y: env.CENTER.y - sizeY / 2
+                }
+
+            },
+            (item) => { return true }, // filter
+            env.SCALE / 4, // scale
+            false // visible
+        );
+        this.inventory.togglable = true;
+
+        const widthHotbarGeneral = 204;
+        const widthHotbarTools = 108;
+
+        // hotbar general
+        this.hotbarGeneral = new Inventory(
+            ASSETS.getImage("i/*"),
+            365, // asset location
+            537,
+            widthHotbarGeneral, // asset size
+            60,
+            4, // slot dimensions
+            1,
+            10, // initial gap
+            10,
+            40, // slot size
+            40,
+            8, // slot gap
+            0,
+            (sizeX, sizeY) => { // centering function
+                
+                return {
+                    x: env.CENTER.x - (sizeX + widthHotbarTools - 4) / 2,
+                    y: env.CENTER.y * 2 - sizeY
+                }
+
+            },
+            (item) => {
+                return !item.itemData.type.includes("weapon") && !item.itemData.type.includes("tool");
+            }, // filter
+            env.SCALE / 4, // scale
+            true // visible
+        );
+
+        // hotbar tools
+        this.hotbarTools = new Inventory(
+            ASSETS.getImage("i/*"),
+            565, // asset location
+            537,
+            widthHotbarTools, // asset size
+            60,
+            2, // slot dimensions
+            1,
+            10, // initial gap
+            10,
+            40, // slot size
+            40,
+            8, // slot gap
+            0,
+            (sizeX, sizeY) => { // centering function
+                //console.log("yes")
+                return {
+                    x: env.CENTER.x - (sizeX - widthHotbarGeneral + 4) / 2,
+                    y: env.CENTER.y * 2 - sizeY
+                }
+
+            },
+            (item) => {
+                return item.itemData.type.includes("weapon") || item.itemData.type.includes("tool") || item.itemData.type.includes("null");
+            }, // filter
+            env.SCALE / 4, // scale
+            true // visible
+        );
+
+
+        this.cursorInventory = new Inventory(
+            ASSETS.getImage("i/*"),
+            0, // asset location
+            0,
+            0, // asset size
+            0,
+            1, // slot dimensions
+            1,
+            0, // initial gap
+            0,
+            0, // slot size
+            0,
+            0, // slot gap
+            0,
+            (sizeX, sizeY) => { // centering function
+                
+                return GAME.mouseLocation;
+
+            },
+            (item) => { return true }, // filter
+            1, // scale
+            false // visible
+        );
+        this.cursorInventory.togglable = true;
 
     }
 
@@ -376,6 +378,8 @@ class PlayerCharacter {
         this.hotbarGeneral.draw();
         this.hotbarTools.draw();
         this.cursorInventory.draw();
+
+        this.health.draw();
 
     }
 
