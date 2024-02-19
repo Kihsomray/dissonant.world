@@ -40,9 +40,9 @@ class PlayerCharacter {
 
         this.walking = false;
 
+        this.sword = new Sword();
+
         this.loadInventories();
-
-
 
         this.inventory.inventory[0][0].itemData = env.ITEMS[20];
         this.inventory.inventory[1][0].itemData = env.ITEMS[21];
@@ -245,6 +245,8 @@ class PlayerCharacter {
     update() {
         if (this.counter++ % 10 == 0) this.pause = !this.pause;
         this.updateLocation();
+
+        this.sword.update();
         this.inventory.update();
         this.hotbarGeneral.update();
         this.hotbarTools.update();
@@ -292,44 +294,44 @@ class PlayerCharacter {
         this.state = 1;
 
         if (GAME.keyClick["w"] && GAME.keyClick["d"]) {
-            GAME.sword.setState(1);
+            this.sword.setState(1);
             this.y -= corner;
             this.x += corner;
             this.facingRight = true;
         } 
         else if (GAME.keyClick["w"] && GAME.keyClick["a"]) {
-            GAME.sword.setState(3);
+            this.sword.setState(3);
             this.y -= corner;
             this.x -= corner;
             this.facingRight = false;
         } 
         else if (GAME.keyClick["s"] && GAME.keyClick["d"]) {
-            GAME.sword.setState(1);
+            this.sword.setState(1);
             this.y += corner;
             this.x += corner;
             this.facingRight = true;
         } 
         else if (GAME.keyClick["s"] && GAME.keyClick["a"]) {
-            GAME.sword.setState(3);
+            this.sword.setState(3);
             this.y += corner;
             this.x -= corner;
             this.facingRight = false;
         } 
         else if (GAME.keyClick["w"]) {
-            GAME.sword.setState(0);
+            this.sword.setState(0);
             this.y -= straight;
         } 
         else if (GAME.keyClick["d"]) {
-            GAME.sword.setState(1);
+            this.sword.setState(1);
             this.x += straight;
             this.facingRight = true;
         } 
         else if (GAME.keyClick["s"]) {
-            GAME.sword.setState(2);
+            this.sword.setState(2);
             this.y += straight;
         } 
         else if (GAME.keyClick["a"]) {
-            GAME.sword.setState(3);
+            this.sword.setState(3);
             this.x -= straight;
             this.facingRight = false;
         } 
@@ -373,6 +375,8 @@ class PlayerCharacter {
         // env.CTX.strokeRect(x + 8, y + 7, 20, 28);
 
         this.animations[this.state][this.facingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
+
+        this.sword.draw();
 
         this.inventory.draw();
         this.hotbarGeneral.draw();
