@@ -17,7 +17,7 @@ class EndScreen {
 
     draw() {
 
-        if (GAME.player.health.health > 0) return;
+        if (GAME.player.health.health > 0 || GAME.player.win) return;
         if (this.deathBuffer > 0) {
             this.deathBuffer--;
             return;

@@ -14,9 +14,11 @@ ASSETS.queueDownload("e/hobgoblin", "./res/hobgoblin.png");
 ASSETS.queueDownload("e/knight", "./res/knight.png");
 ASSETS.queueDownload("e/daemon", "./res/daemon.png");
 ASSETS.queueDownload("b/endscreen", "./res/background/end_screen.png");
+ASSETS.queueDownload("b/winscreen", "./res/background/winscreen.png");
 
 ASSETS.downloadAll(() => {
 
+	GAME.addEntity(new WinScreen());
 	GAME.addEntity(new EndScreen());
   
 	GAME.addEntity(GAME.player = new PlayerCharacter());
