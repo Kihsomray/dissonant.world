@@ -72,7 +72,8 @@ class Inventory {
         // reset the clicked slot
         this.clickedSlot = null;
 
-        if (this.visible && GAME.mouseClick[0] && this.inArea(GAME.mouseLocation.x, GAME.mouseLocation.y)) {
+        if (this.visible  && this.inArea(GAME.mouseLocation.x, GAME.mouseLocation.y)) { 
+            console.log("in area")
             // loop through all the slots
             for (let i = 0; i < this.slotsX; i++) {
                 for (let j = 0; j < this.slotsY; j++) {
