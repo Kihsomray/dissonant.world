@@ -12,6 +12,7 @@ class Enemy {
     range;
     health;
     agro = false;
+    dead = false;
 
 
     animations;
