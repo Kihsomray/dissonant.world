@@ -33,10 +33,10 @@ class Item {
             data.location[1],
             data.size[0],
             data.size[1],
-            this.x + (this.areaWidth - data.size[0]) / 2,
-            this.y + (this.areaHeight - data.size[1]) / 2,
-            data.size[0],
-            data.size[1]
+            this.x + (this.areaWidth - data.size[0] * env.UI.SCALE) / 2,
+            this.y + (this.areaHeight - data.size[1] * env.UI.SCALE) / 2,
+            data.size[0] * env.UI.SCALE,
+            data.size[1] * env.UI.SCALE
         );
 
         // TODO add highlight code

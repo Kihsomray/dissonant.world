@@ -60,7 +60,7 @@ class Inventory {
     }
 
     update() {
-        const { x, y } = this.locationFunction(this.assetWidth, this.assetHeight);
+        const { x, y } = this.locationFunction(this.assetWidth * env.UI.SCALE, this.assetHeight * env.UI.SCALE);
         this.x = x;
         this.y = y;
 
@@ -86,28 +86,16 @@ class Inventory {
                 }
                 if (this.inventory[i][j] !== null) {
                     this.inventory[i][j].update(
-                        this.x + this.slotInitialGapX + (this.slotWidth + this.slotGapX) * i,
-                        this.y + this.slotInitialGapY + (this.slotHeight + this.slotGapY) * j,
-                        this.slotWidth,
-                        this.slotHeight,
-                        this.scale
+                        this.x + (this.slotInitialGapX + (this.slotWidth + this.slotGapX) * i) * env.UI.SCALE,
+                        this.y + (this.slotInitialGapY + (this.slotHeight + this.slotGapY) * j) * env.UI.SCALE,
+                        this.slotWidth * env.UI.SCALE,
+                        this.slotHeight * env.UI.SCALE,
+                        env.UI.SCALE
                     );
                 }
             }
 
         }
-
-    }
-
-    inItemArea(oX, oY, itemX, itemY) {
-
-        const { x, y } = this.locationFunction(this.assetWidth, this.assetHeight);
-        return (
-            oX >= x + (this.slotInitialGapX + (this.slotWidth + this.slotGapX) * itemX) * env.SCALE &&
-            oX <= x + (this.slotInitialGapX + (this.slotWidth + this.slotGapX) * itemX) * env.SCALE &&
-            oY >= y + (this.slotInitialGapY + (this.slotHeight + this.slotGapY) * itemY) * env.SCALE &&
-            oY <= y + (this.slotInitialGapY + (this.slotHeight + this.slotGapY) * itemY) * env.SCALE
-        );
 
     }
 
@@ -123,8 +111,8 @@ class Inventory {
             this.assetHeight,
             this.x,
             this.y,
-            this.assetWidth,
-            this.assetHeight
+            this.assetWidth * env.UI.SCALE,
+            this.assetHeight * env.UI.SCALE
         );
 
         let x = 0;
@@ -183,23 +171,23 @@ class Inventory {
     }
 
     inArea(oX, oY) {
-        const { x, y } = this.locationFunction(this.assetWidth, this.assetHeight);
+        const { x, y } = this.locationFunction(this.assetWidth * env.UI.SCALE, this.assetHeight * env.UI.SCALE);
         return (
             oX >= x &&
-            oX <= x + this.assetWidth &&
+            oX <= x + this.assetWidth * env.UI.SCALE &&
             oY >= y &&
-            oY <= y + this.assetHeight
+            oY <= y + this.assetHeight * env.UI.SCALE
         );
     }
 
     inItemArea(oX, oY, itemX, itemY) {
 
-        const { x, y } = this.locationFunction(this.assetWidth, this.assetHeight);
+        const { x, y } = this.locationFunction(this.assetWidth * env.UI.SCALE, this.assetHeight * env.UI.SCALE);
         return (
-            oX >= x + (this.slotInitialGapX + (this.slotWidth + this.slotGapX) * itemX) &&
-            oX <= x + (this.slotInitialGapX + (this.slotWidth + this.slotGapX) * itemX + this.slotWidth) &&
-            oY >= y + (this.slotInitialGapY + (this.slotHeight + this.slotGapY) * itemY) &&
-            oY <= y + (this.slotInitialGapY + (this.slotHeight + this.slotGapY) * itemY + this.slotHeight)
+            oX >= x + (this.slotInitialGapX + (this.slotWidth + this.slotGapX) * itemX) * env.UI.SCALE &&
+            oX <= x + (this.slotInitialGapX + (this.slotWidth + this.slotGapX) * itemX + this.slotWidth) * env.UI.SCALE &&
+            oY >= y + (this.slotInitialGapY + (this.slotHeight + this.slotGapY) * itemY) * env.UI.SCALE &&
+            oY <= y + (this.slotInitialGapY + (this.slotHeight + this.slotGapY) * itemY + this.slotHeight) * env.UI.SCALE
         );
 
     }
