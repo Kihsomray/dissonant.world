@@ -11,8 +11,8 @@ const TILE_LENGTH = 16;
 const CHUNK_WIDTH = 32;
 const CHUNK_LENGTH = 32;
 
-const CLUSTER_WIDTH = 16 //1024 / 2 - 1;
-const CLUSTER_LENGTH = 16 //1024 / 2 - 1;
+const CLUSTER_WIDTH = 1024 / 2 - 1;
+const CLUSTER_LENGTH = 1024 / 2 - 1;
 
 const RENDER_DISTANCE = 2;
 
@@ -194,7 +194,7 @@ class MapManager{
                     currChunk.y + RENDER_DISTANCE < j ||
                     currChunk.y - RENDER_DISTANCE > j) continue;
                 //console.log("ChunkSSS ---> " + this.chunk[i + 1][j] + " " + this.chunk[i][j + 1] + " val: " + val.offsetWest + " " + val.offsetNorth);
-                //this.chunk[i][j].smoothen(this.chunk[i + 1][j], this.chunk[i][j + 1]);
+                this.chunk[i][j].smoothen(this.chunk[i + 1][j], this.chunk[i][j + 1]);
                 //console.log("POSTSSS ---> val: " + val.offsetWest + " " + val.offsetNorth);
             }
         }
