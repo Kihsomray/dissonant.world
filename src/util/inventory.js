@@ -16,6 +16,7 @@ class Inventory {
     locationFunction;
     scale;
     visible;
+    togglable = false;
     
     inventory;
     clickedSlot;
@@ -42,10 +43,13 @@ class Inventory {
         this.x = 0;
         this.y = 0;
         Object.assign(this, {asset, assetX, assetY, assetWidth, assetHeight, slotInitialGapX, slotInitialGapY, slotsX, slotsY, slotWidth, slotHeight, slotGapX, slotGapY, locationFunction, filterFunction, scale, visible});
-        console.log("x: " + slotGapX)
+        //console.log("x: " + slotGapX)
         this.inventory = new Array(slotsX);
         for (let i = 0; i < slotsX; i++) {
             this.inventory[i] = new Array(slotsY).fill(null);
+            for (let j = 0; j < slotsY; j++) {
+                this.inventory[i][j] = new Item(env.ITEMS[0]);
+            }
         }
         this.clickedSlot = null;
     }
@@ -56,33 +60,54 @@ class Inventory {
     }
 
     update() {
-        const {x, y} = this.locationFunction(this.assetX, this.assetY);
-        //console.log("x: " + x + " y: " + y)
+        const { x, y } = this.locationFunction(this.assetWidth, this.assetHeight);
         this.x = x;
         this.y = y;
 
-        if (GAME.keyClick['e']) {
-            this.visible = !this.visible;
+        if (this.togglable) {
+            if (GAME.keyClick['e']) {
+                this.visible = !this.visible;
 
-        } else if (GAME.keyClick['Escape']) {
-            this.visible = false;
+            } else if (GAME.keyClick['escape']) {
+                this.visible = false;
 
+            }
         }
 
         // reset the clicked slot
         this.clickedSlot = null;
 
-        if (this.visible  && this.inArea(GAME.mouseLocation.x, GAME.mouseLocation.y)) { 
-            console.log("in area")
-            // loop through all the slots
-            for (let i = 0; i < this.slotsX; i++) {
-                for (let j = 0; j < this.slotsY; j++) {
-                    if (this.inventory[i][j].inArea(GAME.mouseLocation.x, GAME.mouseLocation.y)) {
-                        this.clickedSlot = { i, j };
-                    }
+        const inArea = this.visible && GAME.mouseClick[0] && this.inArea(GAME.mouseLocation.x, GAME.mouseLocation.y);
+
+        for (let i = 0; i < this.slotsX; i++) {
+            for (let j = 0; j < this.slotsY; j++) {
+                if (inArea && this.inItemArea(GAME.mouseLocation.x, GAME.mouseLocation.y, i, j)) {
+                    this.clickedSlot = { i, j };
+                }
+                if (this.inventory[i][j] !== null) {
+                    this.inventory[i][j].update(
+                        this.x + this.slotInitialGapX + (this.slotWidth + this.slotGapX) * i,
+                        this.y + this.slotInitialGapY + (this.slotHeight + this.slotGapY) * j,
+                        this.slotWidth,
+                        this.slotHeight,
+                        this.scale
+                    );
                 }
             }
+
         }
+
+    }
+
+    inItemArea(oX, oY, itemX, itemY) {
+
+        const { x, y } = this.locationFunction(this.assetWidth, this.assetHeight);
+        return (
+            oX >= x + (this.slotInitialGapX + (this.slotWidth + this.slotGapX) * itemX) * env.SCALE &&
+            oX <= x + (this.slotInitialGapX + (this.slotWidth + this.slotGapX) * itemX) * env.SCALE &&
+            oY >= y + (this.slotInitialGapY + (this.slotHeight + this.slotGapY) * itemY) * env.SCALE &&
+            oY <= y + (this.slotInitialGapY + (this.slotHeight + this.slotGapY) * itemY) * env.SCALE
+        );
 
     }
 
@@ -117,7 +142,7 @@ class Inventory {
 
                     const item = this.inventory[i][j];
 
-                    item.draw(x, y, this.slotWidth, this.slotHeight, this.scale);
+                    item.draw();
                 }
 
                 x += this.slotWidth + this.slotGapX;
@@ -157,12 +182,35 @@ class Inventory {
         }
     }
 
-    inArea(x, y) {
-        return x >= this.x && x <= this.x + this.assetWidth * this.scale && y >= this.y && y <= this.y + this.assetHeight * this.scale;
+    inArea(oX, oY) {
+        const { x, y } = this.locationFunction(this.assetWidth, this.assetHeight);
+        return (
+            oX >= x &&
+            oX <= x + this.assetWidth &&
+            oY >= y &&
+            oY <= y + this.assetHeight
+        );
+    }
+
+    inItemArea(oX, oY, itemX, itemY) {
+
+        const { x, y } = this.locationFunction(this.assetWidth, this.assetHeight);
+        return (
+            oX >= x + (this.slotInitialGapX + (this.slotWidth + this.slotGapX) * itemX) &&
+            oX <= x + (this.slotInitialGapX + (this.slotWidth + this.slotGapX) * itemX + this.slotWidth) &&
+            oY >= y + (this.slotInitialGapY + (this.slotHeight + this.slotGapY) * itemY) &&
+            oY <= y + (this.slotInitialGapY + (this.slotHeight + this.slotGapY) * itemY + this.slotHeight)
+        );
+
     }
 
     swap(otherInventory, tI, tJ, oI, oJ) {
-        if (filterFunction(this.inventory[tI][tJ]) || otherInventory.filterFunction(otherInventory.inventory[oI][oJ])) return;
+
+        console.log("swapping " + tI + ", " + tJ + " with " + oI + ", " + oJ)
+        console.log(" ---> " + JSON.stringify(this.inventory[tI][tJ].itemData.type) + " <--- " + JSON.stringify(otherInventory.inventory[oI][oJ].itemData.type))
+        if (!this.filterFunction(otherInventory.inventory[oI][oJ]) || !otherInventory.filterFunction(this.inventory[tI][tJ])) return;
+        if (!this.visible || !otherInventory.visible) return;
+        console.log("swapping " + tI + ", " + tJ + " with " + oI + ", " + oJ)
         const temp = this.inventory[tI][tJ];
         this.inventory[tI][tJ] = otherInventory.inventory[oI][oJ];
         otherInventory.inventory[oI][oJ] = temp;

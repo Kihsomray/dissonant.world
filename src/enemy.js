@@ -10,6 +10,7 @@ class Enemy {
     state = 0;
     angle = 0.5;
     range;
+    agro = false;
 
     animations;
 
@@ -110,6 +111,8 @@ class Enemy {
 
     update() {
 
+        this.agro = false;
+
         //console.log("The players coords are " + GAME.PlayerCharacter.x + ", " + GAME.PlayerCharacter.y);
         //console.log("My coords are " + this.x + ", " + this.y);
 
@@ -125,6 +128,8 @@ class Enemy {
         const c = Math.sqrt((GAME.player.x - this.x) ** 2 + (GAME.player.y - this.y) ** 2);
 
         if (c < this.range[1] * TILE_LENGTH) {
+
+            this.agro = true;
 
             this.state = 0;
 
@@ -214,15 +219,13 @@ class Enemy {
 
         this.animations[this.state][this.facingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
 
-        env.CTX.beginPath();
-        env.CTX.moveTo(x, y);
-        env.CTX.lineTo(pLoc.x, pLoc.y);
-
-        console.log("Player location: " + pLoc.x + ", " + pLoc.y)
-
-        // Draw the Path
-        env.CTX.stroke();
-
+        if (this.agro) {
+            env.CTX.strokeStyle = "magenta";
+            env.CTX.beginPath();
+            env.CTX.moveTo(x, y);
+            env.CTX.lineTo(pLoc.x, pLoc.y);
+            env.CTX.stroke();
+        }
     }
 
 }

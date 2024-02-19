@@ -3,7 +3,7 @@ env.ITEMS = {
     0: {
         display_name: "",
         name: "air",
-        type: ["general"],
+        type: ["null"],
         location: [0, 0],
         size: [0, 0]
     },
