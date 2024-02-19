@@ -24,15 +24,14 @@ class PlayerCharacter {
 
         if (Math.floor(Math.random() * 10) % 2 == 0) {
             this.spritesheet = ASSETS.getImage("e/player-male");
-
         } else {
             this.spritesheet = ASSETS.getImage("e/player-female");
-
         }
 
         // Initial Variables for player's state.
         this.x = 0;
         this.y = 0;
+        this.iFrames = 0;
 
         // All of the player's animations.
         this.animations = [];
@@ -40,29 +39,31 @@ class PlayerCharacter {
 
         this.walking = false;
 
-        this.cursorInventory = new Inventory(
-            ASSETS.getImage("i/*"),
-            0, // asset location
-            0,
-            0, // asset size
-            0,
-            1, // slot dimensions
-            1,
-            0, // initial gap
-            0,
-            0, // slot size
-            0,
-            0, // slot gap
-            0,
-            (_) => { // centering function
-                
-                return GAME.mouseLocation;
+        this.sword = new Sword();
 
-            },
-            (_) => { true }, // filter
-            1, // scale
-            false // visible
-        )
+        this.loadInventories();
+
+        this.inventory.inventory[0][0].itemData = env.ITEMS[20];
+        this.inventory.inventory[1][0].itemData = env.ITEMS[21];
+        this.inventory.inventory[2][0].itemData = env.ITEMS[22];
+        this.inventory.inventory[3][0].itemData = env.ITEMS[23];
+        this.inventory.inventory[0][1].itemData = env.ITEMS[24];
+        this.inventory.inventory[1][1].itemData = env.ITEMS[25];
+        this.inventory.inventory[2][1].itemData = env.ITEMS[26];
+        this.inventory.inventory[3][1].itemData = env.ITEMS[27];
+        this.inventory.inventory[0][2].itemData = env.ITEMS[30];
+        this.inventory.inventory[1][2].itemData = env.ITEMS[31];
+
+        this.hotbarGeneral.inventory[0][0].itemData = env.ITEMS[23];
+
+        this.hotbarTools.inventory[0][0].itemData = env.ITEMS[1];
+        this.hotbarTools.inventory[1][0].itemData = env.ITEMS[2];
+
+        this.health = new PlayerHealthbar();
+
+    }
+
+    loadInventories() {
 
         // inventory
         this.inventory = new Inventory(
@@ -88,17 +89,21 @@ class PlayerCharacter {
                 }
 
             },
-            (_) => { return true }, // filter
+            (item) => { return true }, // filter
             env.SCALE / 4, // scale
             false // visible
         );
+        this.inventory.togglable = true;
+
+        const widthHotbarGeneral = 204;
+        const widthHotbarTools = 108;
 
         // hotbar general
         this.hotbarGeneral = new Inventory(
             ASSETS.getImage("i/*"),
             365, // asset location
             537,
-            204, // asset size
+            widthHotbarGeneral, // asset size
             60,
             4, // slot dimensions
             1,
@@ -111,13 +116,13 @@ class PlayerCharacter {
             (sizeX, sizeY) => { // centering function
                 
                 return {
-                    x: env.CENTER.x - sizeX / 2,
+                    x: env.CENTER.x - (sizeX + widthHotbarTools - 4) / 2,
                     y: env.CENTER.y * 2 - sizeY
                 }
 
             },
             (item) => {
-                return !item.type.includes("weapon") && !item.type.includes("tool");
+                return !item.itemData.type.includes("weapon") && !item.itemData.type.includes("tool");
             }, // filter
             env.SCALE / 4, // scale
             true // visible
@@ -128,7 +133,7 @@ class PlayerCharacter {
             ASSETS.getImage("i/*"),
             565, // asset location
             537,
-            108, // asset size
+            widthHotbarTools, // asset size
             60,
             2, // slot dimensions
             1,
@@ -139,19 +144,45 @@ class PlayerCharacter {
             8, // slot gap
             0,
             (sizeX, sizeY) => { // centering function
-                
+                //console.log("yes")
                 return {
-                    x: (env.CENTER.x - sizeX) / 2,
+                    x: env.CENTER.x - (sizeX - widthHotbarGeneral + 4) / 2,
                     y: env.CENTER.y * 2 - sizeY
                 }
 
             },
             (item) => {
-                return item.type.includes("weapon") || item.type.includes("tool");
+                return item.itemData.type.includes("weapon") || item.itemData.type.includes("tool") || item.itemData.type.includes("null");
             }, // filter
             env.SCALE / 4, // scale
+            true // visible
+        );
+
+
+        this.cursorInventory = new Inventory(
+            ASSETS.getImage("i/*"),
+            0, // asset location
+            0,
+            0, // asset size
+            0,
+            1, // slot dimensions
+            1,
+            0, // initial gap
+            0,
+            0, // slot size
+            0,
+            0, // slot gap
+            0,
+            (sizeX, sizeY) => { // centering function
+                
+                return GAME.mouseLocation;
+
+            },
+            (item) => { return true }, // filter
+            1, // scale
             false // visible
         );
+        this.cursorInventory.togglable = true;
 
     }
 
@@ -211,19 +242,35 @@ class PlayerCharacter {
     }
 
     update() {
-
         if (this.counter++ % 10 == 0) this.pause = !this.pause;
         this.updateLocation();
-        this.cursorInventory.update();
+
+        this.sword.update();
         this.inventory.update();
         this.hotbarGeneral.update();
         this.hotbarTools.update();
+        this.cursorInventory.update();
 
         if (this.inventory.clickedSlot) this.inventory.swap(this.cursorInventory, this.inventory.clickedSlot.i, this.inventory.clickedSlot.j, 0, 0);
         if (this.hotbarGeneral.clickedSlot) this.hotbarGeneral.swap(this.cursorInventory, this.hotbarGeneral.clickedSlot.i, this.hotbarGeneral.clickedSlot.j, 0, 0);
         if (this.hotbarTools.clickedSlot) this.hotbarTools.swap(this.cursorInventory, this.hotbarTools.clickedSlot.i, this.hotbarTools.clickedSlot.j, 0, 0);
 
+        
+
         this.updateBB();
+        
+        GAME.getEntities().forEach(entity => {
+            if (entity instanceof Enemy && this.bb.collide(entity.bb)) {
+                if (this.iFrames == 0) {
+                    console.log("HIT")
+                    this.health.health--;
+                    this.iFrames = 60;
+                }
+                else {
+                    this.iFrames--;
+                }
+            }
+        });
     }
 
     updateLocation() {
@@ -239,40 +286,48 @@ class PlayerCharacter {
         this.state = 1;
 
         if (GAME.keyClick["w"] && GAME.keyClick["d"]) {
+            this.sword.setState(1);
             this.y -= corner;
             this.x += corner;
             this.facingRight = true;
-
-        } else if (GAME.keyClick["w"] && GAME.keyClick["a"]) {
+        } 
+        else if (GAME.keyClick["w"] && GAME.keyClick["a"]) {
+            this.sword.setState(3);
             this.y -= corner;
             this.x -= corner;
             this.facingRight = false;
-
-        } else if (GAME.keyClick["s"] && GAME.keyClick["d"]) {
+        } 
+        else if (GAME.keyClick["s"] && GAME.keyClick["d"]) {
+            this.sword.setState(1);
             this.y += corner;
             this.x += corner;
             this.facingRight = true;
-
-        } else if (GAME.keyClick["s"] && GAME.keyClick["a"]) {
+        } 
+        else if (GAME.keyClick["s"] && GAME.keyClick["a"]) {
+            this.sword.setState(3);
             this.y += corner;
             this.x -= corner;
             this.facingRight = false;
-
-        } else if (GAME.keyClick["w"]) {
+        } 
+        else if (GAME.keyClick["w"]) {
+            this.sword.setState(0);
             this.y -= straight;
-
-        } else if (GAME.keyClick["d"]) {
+        } 
+        else if (GAME.keyClick["d"]) {
+            this.sword.setState(1);
             this.x += straight;
             this.facingRight = true;
-
-        } else if (GAME.keyClick["s"]) {
+        } 
+        else if (GAME.keyClick["s"]) {
+            this.sword.setState(2);
             this.y += straight;
-
-        } else if (GAME.keyClick["a"]) {
+        } 
+        else if (GAME.keyClick["a"]) {
+            this.sword.setState(3);
             this.x -= straight;
             this.facingRight = false;
-
-        } else {
+        } 
+        else {
             this.state = 0;
         }
 
@@ -286,7 +341,10 @@ class PlayerCharacter {
     updateBB() {
 
         // Requires other entities to be added before logic can be written.
-        this.bb = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+
+        const { x, y } = LOCATION.getTrueLocation(this.x, this.y);
+
+        this.bb = new BoundingBox(x + 8, y + 7, 20, 28);
 
     }
 
@@ -309,17 +367,18 @@ class PlayerCharacter {
 
         // // VIEW BOUNDING BOX BELOW
         env.CTX.strokeStyle = "red";
-        env.CTX.strokeRect(x + 8, y + 7, 20, 28);
-
-        //console.log("Player location: " + x + ", " + y);
-
+        // env.CTX.strokeRect(x + 8, y + 7, 20, 28);
 
         this.animations[this.state][this.facingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
 
-        this.cursorInventory.draw();
+        this.sword.draw();
+
         this.inventory.draw();
         this.hotbarGeneral.draw();
         this.hotbarTools.draw();
+        this.cursorInventory.draw();
+
+        this.health.draw();
 
     }
 

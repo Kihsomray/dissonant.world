@@ -10,6 +10,9 @@ class Enemy {
     state = 0;
     angle = 0.5;
     range;
+    health;
+    agro = false;
+
 
     animations;
 
@@ -23,6 +26,7 @@ class Enemy {
         this.x = x;
         this.y = y;
         this.range = [distanceRange, discoverRange];
+        this.health = 10;
 
         if (name == "goblin") {
             this.spritesheet = ASSETS.getImage("e/goblin");
@@ -46,6 +50,7 @@ class Enemy {
         this.speed = 1;
         this.counter = 0;
         this.pause = false;
+        this.iFrames = 0;
 
         // All of the enemies's animations.
         this.animations = [];
@@ -118,22 +123,22 @@ class Enemy {
 
         // Idling animation for state = 0.
         // Facing right = 0.
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 1, 56, 57, 4, 0.3, 1, false, true);
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 1, 56, 56, 4, 0.3, 1, false, true);
         // Facing left = 1.
-        this.animations[0][1] = new Animator(this.spritesheet, 220, 1, 56, 57, 4, 0.3, 1, false, true);
+        this.animations[0][1] = new Animator(this.spritesheet, 220, 1, 56, 56, 4, 0.3, 1, false, true);
 
         // Walking animation for state = 1.
         // Facing right = 0.
-        this.animations[1][0] = new Animator(this.spritesheet, 0, 56 * 2, 56, 56, 4, 0.15, 1, false, true);
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 56 * 2 + 1, 56, 56, 4, 0.15, 1, false, true);
         // Facing left = 1.
-        this.animations[1][1] = new Animator(this.spritesheet, 220, 56 * 2, 56, 56, 4, 0.15, 1, false, true);
+        this.animations[1][1] = new Animator(this.spritesheet, 220, 56 * 2 + 1, 56, 56, 4, 0.15, 1, false, true);
 
         
         // Running animation for state = 2.
         // Facing right = 0.
-        this.animations[2][0] = new Animator(this.spritesheet, 0, 56 * 2, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[2][0] = new Animator(this.spritesheet, 0, 56 * 2 + 1, 56, 56, 4, 0.125, 1, false, true);
         // Facing left = 1.
-        this.animations[2][1] = new Animator(this.spritesheet, 220, 56 * 2, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[2][1] = new Animator(this.spritesheet, 220, 56 * 2 + 1, 56, 56, 4, 0.125, 1, false, true);
 
 
         // // Turning animation for state = 3.
@@ -145,21 +150,23 @@ class Enemy {
 
         // Player damaged animation for state = 4.
         // Facing right = 0.
-        this.animations[4][0] = new Animator(this.spritesheet, 0, 56 * 4, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[4][0] = new Animator(this.spritesheet, 0, 56 * 4 + 1, 56, 56, 4, 0.125, 1, false, true);
         // Facing left = 1.
-        this.animations[4][1] = new Animator(this.spritesheet, 220, 56 * 4, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[4][1] = new Animator(this.spritesheet, 220, 56 * 4 + 1, 56, 56, 4, 0.125, 1, false, true);
 
 
         // Player death animation for state = 5.
         // Facing right = 0.
-        this.animations[5][0] = new Animator(this.spritesheet, 0, 56 * 5, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 56 * 5 + 1, 56, 56, 4, 0.125, 1, false, true);
         // Facing left = 1.
-        this.animations[5][1] = new Animator(this.spritesheet, 220, 56 * 5, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[5][1] = new Animator(this.spritesheet, 220, 56 * 5 + 1, 56, 56, 4, 0.125, 1, false, true);
 
     }
 
     update() {
-        
+
+        this.agro = false;
+
         //console.log("The players coords are " + GAME.PlayerCharacter.x + ", " + GAME.PlayerCharacter.y);
         //console.log("My coords are " + this.x + ", " + this.y);
 
@@ -175,6 +182,8 @@ class Enemy {
         const c = Math.sqrt((GAME.player.x - this.x) ** 2 + (GAME.player.y - this.y) ** 2);
 
         if (c < this.range[1] * TILE_LENGTH) {
+
+            this.agro = true;
 
             this.state = 0;
 
@@ -225,6 +234,24 @@ class Enemy {
             }
         }
 
+        // DAMAGE LOGIC
+        if (GAME.player.sword.bb != null) {
+            console.log("HIT");
+            if (this.bb.collide(GAME.player.sword.bb) && iFrames == 0) {
+                console.log("HIT");
+                this.state = 4;
+                this.iFrames = 61;
+                this.health--;
+                if (this.health < 0) {
+                    this.state = 5;
+                }
+            }
+            else {
+                this.iFrames--;
+            }
+        }
+
+
         this.updateBB();
 
         // if (this.counter++ % 10 == 0) this.pause = !this.pause;
@@ -235,22 +262,24 @@ class Enemy {
     }
 
     updateBB() {
+        const { x, y } = LOCATION.getTrueLocation(this.x, this.y);
 
         if (this.name == "daemon") {
-            this.bb = new BoundingBox(this.x + 20, this.y + 23, 50, 62);
+            this.bb = new BoundingBox(x + 20, y + 23, 50, 62);
         }
         else {
-            this.bb = new BoundingBox(this.x + 8, this.y + 7, 20, 28);
+            this.bb = new BoundingBox(x + 8, y + 7, 20, 28);
         }
 
     }
 
-    draw(context) {
+    draw() {
 
         //this.x = X_CENTER;
         //this.y = Y_CENTER;
 
         const { x, y } = LOCATION.getTrueLocation(this.x, this.y);
+        const pLoc = LOCATION.getTrueLocation(GAME.player.x, GAME.player.y);
 
         // VIEW BOUNDING BOX BELOW
         env.CTX.strokeStyle = "red";
@@ -276,6 +305,13 @@ class Enemy {
 
         this.animations[this.state][this.facingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
 
+        if (this.agro) {
+            env.CTX.strokeStyle = "magenta";
+            env.CTX.beginPath();
+            env.CTX.moveTo(x, y);
+            env.CTX.lineTo(pLoc.x, pLoc.y);
+            env.CTX.stroke();
+        }
     }
 
 }
