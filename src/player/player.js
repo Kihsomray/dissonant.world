@@ -221,16 +221,16 @@ class PlayerCharacter {
 
         // Player damaged animation for state = 4.
         // Facing right = 0.
-        this.animations[4][0] = new Animator(this.spritesheet, 0, 97, 24, 24, 4, 0.2, 1, false, true)
+        this.animations[4][0] = new Animator(this.spritesheet, 0, 97, 24, 24, 4, 0.25, 1, false, true)
         // Facing left = 1.
-        this.animations[4][1] = new Animator(this.spritesheet, 96, 97, 24, 24, 4, 0.2, 1, false, true)
+        this.animations[4][1] = new Animator(this.spritesheet, 96, 97, 24, 24, 4, 0.25, 1, false, true)
 
 
         // Player death animation for state = 5.
         // Facing right = 0.
-        this.animations[5][0] = new Animator(this.spritesheet, 0, 121, 24, 24, 4, 0.33, 1, false, true)
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 121, 24, 24, 4, 0.35, 1, false, true)
         // Facing left = 1.
-        this.animations[5][1] = new Animator(this.spritesheet, 96, 121, 24, 24, 4, 0.33, 1, false, true)
+        this.animations[5][1] = new Animator(this.spritesheet, 96, 121, 24, 24, 4, 0.35, 1, false, true)
 
 
         // // Dodge roll/jump animation for state = 1.
@@ -256,21 +256,30 @@ class PlayerCharacter {
         if (this.hotbarTools.clickedSlot) this.hotbarTools.swap(this.cursorInventory, this.hotbarTools.clickedSlot.i, this.hotbarTools.clickedSlot.j, 0, 0);
 
         
+        if (this.iFrames > 0) this.iFrames--; 
 
         this.updateBB();
         
         GAME.getEntities().forEach(entity => {
+
             if (entity instanceof Enemy && this.bb.collide(entity.bb)) {
+
                 if (this.iFrames == 0) {
-                    console.log("HIT")
-                    this.health.health--;
+
+                    if (this.health.health > 0) this.state = 4;
+                    else this.state = 5;
+
+                    if (entity.name == "daemon") this.health.health-= 2;
+                    else this.health.health--;
+    
                     this.iFrames = 60;
+
                 }
-                else {
-                    this.iFrames--;
-                }
+
             }
+
         });
+
     }
 
     updateLocation() {
@@ -284,6 +293,8 @@ class PlayerCharacter {
         const straight = Math.round(this.speed * boost * 2 * GAME.clockTick * 50) / 2;
 
         this.state = 1;
+        if (this.health.health <= 0) this.state = 5; 
+        if (this.state == 5) return;
 
         if (GAME.keyClick["w"] && GAME.keyClick["d"]) {
             this.sword.setState(1);
@@ -330,6 +341,11 @@ class PlayerCharacter {
         else {
             this.state = 0;
         }
+
+        if (this.iFrames > 0) {
+            this.state = 4;
+        }
+        
 
         if (GAME.keyClick["shift"] && this.state == 1) {
             this.state = 2;

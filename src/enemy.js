@@ -45,6 +45,7 @@ class Enemy {
         }
         else if (name == "daemon") {
             this.spritesheet = ASSETS.getImage("e/daemon");
+            this.health = 50;
         }
 
         this.speed = 1;
@@ -236,13 +237,12 @@ class Enemy {
 
         // DAMAGE LOGIC
         if (GAME.player.sword.bb != null) {
-            console.log("HIT");
             if (this.bb.collide(GAME.player.sword.bb) && iFrames == 0) {
                 console.log("HIT");
                 this.state = 4;
-                this.iFrames = 61;
+                this.iFrames = 60;
                 this.health--;
-                if (this.health < 0) {
+                if (this.health == 0) {
                     this.state = 5;
                 }
             }

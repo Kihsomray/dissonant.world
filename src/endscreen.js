@@ -1,18 +1,27 @@
 class EndScreen {
 
+    deathBuffer;
     asset = ASSETS.getImage("b/endscreen");
 
     constructor() {
+
+        this.deathBuffer = 170;
 
     }
 
     update() {
 
+        if (GAME.player.health.health <= 0) this.deathBuffer--;
+
     }
 
     draw() {
+
         if (GAME.player.health.health > 0) return;
-        console.log("end screen")
+        if (this.deathBuffer > 0) {
+            this.deathBuffer--;
+            return;
+        }
         env.CTX.drawImage(
             this.asset,
             0,
@@ -24,6 +33,7 @@ class EndScreen {
             env.CENTER.x * 2,
             env.CENTER.y * 2
         );
+        
     }
 
 }
