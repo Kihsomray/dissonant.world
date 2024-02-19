@@ -2,17 +2,18 @@
 class GameEngine {
 
     player;
+    sword;
     entities = [];
     chunks = new Set();
 
-    // Clicked: esc, w, d, s, a, shift, alt, e
+    // Clicked: esc, w, d, s, a, shift, alt, e, space
     keyClick = {
         "Escape": false,
         "w": false,
         "d": false,
         "s": false,
         "a": false,
-        "shift": false,
+        "Shift": false,
         "Alt": false,
         "e": false,
         "1": false,
@@ -20,6 +21,10 @@ class GameEngine {
         "3": false,
         "4": false
     };
+
+    keyClickCooldownWhitelist = ["w", "d", "s", "a", "shift", "alt"];
+
+    keyClickCooldowns = new Map();
 
     // Clicked: left, middle, right
     mouseClick = [false, false, false];
@@ -77,12 +82,35 @@ class GameEngine {
     startInput() {
         env.CTX.canvas.addEventListener("mousemove", this.#updateMouseLocation);
 
-        env.CTX.canvas.addEventListener("mousedown", (e) => this.mouseClick[e.button] = true);
+
+        env.CTX.canvas.addEventListener("mousedown", (e) => {
+
+            if (!this.keyClickCooldownWhitelist.includes(e.button)) {
+                if (this.keyClickCooldowns.has(e.button) || !(Date.now() - this.keyClickCooldowns.get(e.button) < 100)) {
+                    this.mouseClick[e.button] = true
+                    this.keyClickCooldowns.set(e.button, Date.now());
+                }
+            } else {
+                this.mouseClick[e.button] = true
+            }
+        });
+
         env.CTX.canvas.addEventListener("mouseup", (e) => this.mouseClick[e.button] = false);
 
         env.CTX.canvas.addEventListener("wheel", e => e.preventDefault());
 
-        window.addEventListener("keydown", event => this.keyClick[event.key.toLowerCase()] = true);
+        window.addEventListener("keydown", e => {
+
+            if (!this.keyClickCooldownWhitelist.includes(e.key.toLowerCase())) {
+                if (this.keyClickCooldowns.has(e.key.toLowerCase()) || !(Date.now() - this.keyClickCooldowns.get(e.key.toLowerCase()) < 100)) {
+                    this.keyClick[e.key.toLowerCase()] = true;
+                    this.keyClickCooldowns.set(e.key.toLowerCase(), Date.now());
+                }
+            } else {
+                this.keyClick[e.key.toLowerCase()] = true;
+            }
+        
+        });
         window.addEventListener("keyup", event => this.keyClick[event.key.toLowerCase()] = false);
     };
 
@@ -125,9 +153,8 @@ class GameEngine {
     };
 
     update() {
-        let entitiesCount = this.entities.length;
 
-        for (let i = 0; i < entitiesCount; i++) {
+        for (let i = 0; i < this.entities.length; i++) {
             let entity = this.entities[i];
 
             if (!entity.removeFromWorld) {
@@ -140,6 +167,12 @@ class GameEngine {
                 this.entities.splice(i, 1);
             }
         }
+
+        this.keyClickCooldowns.forEach((_, key) => {
+            if (Number.isInteger(key)) this.mouseClick[key] = false;
+            else this.keyClick[key] = false;
+
+        });
     };
 
     loop() {
