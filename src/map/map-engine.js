@@ -185,6 +185,14 @@ class MapManager{
                 if (!this.chunk[i][j]) return;
                 GAME.removeChunk(this.chunk[i][j]);
                 this.chunk[i][j] = undefined;
+
+
+                let markedForRemoval = [];
+                let entities = GAME.getEntities();
+                for (let en = 0; en < entities.length; en++) {
+                    //console.log(entities[en]);
+                }
+
             }
         });
 
