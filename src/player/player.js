@@ -311,7 +311,8 @@ class PlayerCharacter {
         env.CTX.strokeStyle = "red";
         env.CTX.strokeRect(x + 8, y + 7, 20, 28);
 
-        console.log("Player location: " + x + ", " + y)
+        //console.log("Player location: " + x + ", " + y);
+
 
         this.animations[this.state][this.facingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
 

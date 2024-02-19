@@ -156,9 +156,9 @@ class MapGenerator {
                 let biome = this.getBiome(grid[i][j]);
                 let map = {};
                 map[biome] = [Math.floor(this.rng() * 1000)]; // Having this wrapped in brackets is really ugly but idk how to fix it
-                console.log(map[biome]);
+                //console.log(map[biome]);
                 map = this.getEnemies(map);
-                console.log(map[biome]);
+                //console.log(map[biome]);
                 outGrid[i - 1][j - 1] = map;
                 
             }
@@ -174,7 +174,7 @@ class MapGenerator {
         let randomNum = Object.values(map[biome]);
         let randGen = this.random(randomNum); randGen(); randGen(); randGen(); // Create a random number generator and run it to start the randomness
 
-        let numOfEnemies = Math.floor(10 * randGen()); // Generate a random number for the number of enemies in a chunk from 0 to 9
+        let numOfEnemies = Math.floor(1 * randGen()); // Generate a random number for the number of enemies in a chunk from 0 to 9
         // let numOfEnemies = Math.floor(10 * this.rng());
 
         let taken = new Set(); // Create a set of coords that are already taken

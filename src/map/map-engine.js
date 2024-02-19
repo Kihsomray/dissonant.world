@@ -11,8 +11,8 @@ const TILE_LENGTH = 16;
 const CHUNK_WIDTH = 32;
 const CHUNK_LENGTH = 32;
 
-const CLUSTER_WIDTH = 1024 / 2 - 1;
-const CLUSTER_LENGTH = 1024 / 2 - 1;
+const CLUSTER_WIDTH = 16 //1024 / 2 - 1;
+const CLUSTER_LENGTH = 16 //1024 / 2 - 1;
 
 const RENDER_DISTANCE = 2;
 
@@ -136,6 +136,30 @@ class MapManager{
         );
         chunk.generate();
         GAME.addChunk(this.chunk[i][j] = chunk);
+
+
+
+        const playerChunk = getCurrentChunk(GAME.player.x, GAME.player.y);
+        console.log(playerChunk.x + " : " + playerChunk.x);
+        
+        // For each enemy in a chunk which is in this.generatorMap[i][j][0] there are enemies. 
+        // Add them to the chunk they are generated in.
+        
+        //console.log("Player Chunk " + playerChunk.x + " : " + playerChunk.y);
+
+        // Spawn an enemy if its in the chunk
+        //console.log(chunk.chunkX + " : " + chunk.chunkY);
+        
+        let chunkDiffX = chunk.chunkX - CLUSTER_WIDTH/2; // Need to add middle chunk stuff
+        let chunkDiffY = chunk.chunkY - CLUSTER_LENGTH/2;
+
+        console.log("chunk diff " + chunkDiffX + " : " + chunkDiffY);
+        let trueLocation = LOCATION.getTrueLocation(chunkDiffX * CHUNK_WIDTH * TILE_WIDTH, chunkDiffY * CHUNK_WIDTH * TILE_WIDTH);
+        //console.log("True Coords of chunk " + trueLocation.x + " : " + trueLocation.y);
+
+        let enemy = new Enemy("knight", chunkDiffX * CHUNK_WIDTH * TILE_WIDTH, chunkDiffY * CHUNK_WIDTH * TILE_WIDTH);
+        GAME.addEntity(enemy);
+        console.log("Player is at " + GAME.player.x + " : " + GAME.player.y + " Enemy is at " + enemy.x + " : " + enemy.y);
     };
 
     update() {
@@ -170,7 +194,7 @@ class MapManager{
                     currChunk.y + RENDER_DISTANCE < j ||
                     currChunk.y - RENDER_DISTANCE > j) continue;
                 //console.log("ChunkSSS ---> " + this.chunk[i + 1][j] + " " + this.chunk[i][j + 1] + " val: " + val.offsetWest + " " + val.offsetNorth);
-                this.chunk[i][j].smoothen(this.chunk[i + 1][j], this.chunk[i][j + 1]);
+                //this.chunk[i][j].smoothen(this.chunk[i + 1][j], this.chunk[i][j + 1]);
                 //console.log("POSTSSS ---> val: " + val.offsetWest + " " + val.offsetNorth);
             }
         }
