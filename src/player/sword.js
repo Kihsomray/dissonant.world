@@ -21,8 +21,6 @@ class Sword {
         this.animations = [];
         this.loadAnimations();
 
-
-
     }
 
     setState(direction) {
@@ -122,25 +120,46 @@ class Sword {
 
     draw() {
         
-        const { x, y } = LOCATION.getTrueLocation(GAME.player.x, GAME.player.y);
+        let { x, y } = LOCATION.getTrueLocation(GAME.player.x, GAME.player.y);
+        y += 10;
+        //y += 6;
 
         // // Draw bounding box.
         // if (this.attackBB != null) {
-        //     this.attackBB.draw(x + this.xOffset, y + this.yOffset);
-        // }
+            //     this.attackBB.draw(x + this.xOffset, y + this.yOffset);
+            // }
+            
+        // Draw the sword
+        const cLoc = GAME.mouseLocation;
+        
+        x += (GAME.player.facingRight ? 6 : -6) 
 
-        if (this.facing == 0) { // Looking up
-            this.animations[this.state][this.facing].drawFrame(GAME.clockTick, env.CTX, x + 2, y - 16, 1);
-        }
-        else if (this.facing == 1) { // Looking right
-            this.animations[this.state][this.facing].drawFrame(GAME.clockTick, env.CTX, x + 24, y + 8, 1);
-        }
-        else if (this.facing == 2) { // Looking down
-            this.animations[this.state][this.facing].drawFrame(GAME.clockTick, env.CTX, x + 4, y + 36, 1);
-        }
-        else { // Looking left
-            this.animations[this.state][this.facing].drawFrame(GAME.clockTick, env.CTX, x - 20, y + 8, 1);
-        }
+        // center of the canvas
+        env.CTX.translate(x + 16, y + 16);
+
+        // rotate the canvas to the mouse location
+        env.CTX.rotate(Math.atan2(cLoc.y - y, cLoc.x - x));
+
+        // draw the sword
+        this.animations[0][1].drawFrame(GAME.clockTick, env.CTX, -12, -16, 1);
+        // rotate the canvas back
+        env.CTX.rotate(-Math.atan2(cLoc.y - y, cLoc.x - x));
+
+        // center of the canvas
+        env.CTX.translate(-x - 16, -y - 16);
+
+        // if (this.facing == 0) { // Looking up
+        //     this.animations[this.state][this.facing].drawFrame(GAME.clockTick, env.CTX, x + 2, y - 16, 1);
+        // }
+        // else if (this.facing == 1) { // Looking right
+        //     this.animations[this.state][this.facing].drawFrame(GAME.clockTick, env.CTX, x + 24, y + 8, 1);
+        // }
+        // else if (this.facing == 2) { // Looking down
+        //     this.animations[this.state][this.facing].drawFrame(GAME.clockTick, env.CTX, x + 4, y + 36, 1);
+        // }
+        // else { // Looking left
+        //     this.animations[this.state][this.facing].drawFrame(GAME.clockTick, env.CTX, x - 20, y + 8, 1);
+        // }
 
     }
 
