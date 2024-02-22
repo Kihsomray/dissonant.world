@@ -195,9 +195,9 @@ class PlayerCharacter {
 
         // Idling animation for state = 0.
         // Facing right = 0.
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 1, 24, 25, 4, 0.25, 1, false, true)
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 1, 24, 24, 4, 0.25, 1, false, true)
         // Facing left = 1.
-        this.animations[0][1] = new Animator(this.spritesheet, 96, 1, 24, 25, 4, 0.25, 1, false, true)
+        this.animations[0][1] = new Animator(this.spritesheet, 96, 1, 24, 24, 4, 0.25, 1, false, true)
 
         // Walking animation for state = 1.
         // Facing right = 0.
@@ -388,9 +388,11 @@ class PlayerCharacter {
         env.CTX.strokeStyle = "red";
         // env.CTX.strokeRect(x + 8, y + 7, 20, 28);
 
+        if (!this.facingRight) this.sword.draw();
+
         this.animations[this.state][this.facingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
 
-        this.sword.draw();
+        if (this.facingRight) this.sword.draw();
 
         this.inventory.draw();
         this.hotbarGeneral.draw();

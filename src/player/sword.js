@@ -4,6 +4,9 @@ class Sword {
     y;
     state;
 
+    attackAngle = 45;
+    attackReach = 50;
+
     constructor() {
 
         this.x = 0;
@@ -121,8 +124,9 @@ class Sword {
     draw() {
         
         let { x, y } = LOCATION.getTrueLocation(GAME.player.x, GAME.player.y);
-        y += 10;
-        //y += 6;
+        x += 16;
+        y += 16 + 10;
+
 
         // // Draw bounding box.
         // if (this.attackBB != null) {
@@ -132,34 +136,41 @@ class Sword {
         // Draw the sword
         const cLoc = GAME.mouseLocation;
         
-        x += (GAME.player.facingRight ? 6 : -6) 
+        x += (GAME.player.facingRight ? 4 : -4);
 
         // center of the canvas
-        env.CTX.translate(x + 16, y + 16);
+        env.CTX.translate(x, y);
 
         // rotate the canvas to the mouse location
         env.CTX.rotate(Math.atan2(cLoc.y - y, cLoc.x - x));
 
         // draw the sword
-        this.animations[0][1].drawFrame(GAME.clockTick, env.CTX, -12, -16, 1);
+        this.animations[0][1].drawFrame(GAME.clockTick, env.CTX, -10, -16, 1);
+
         // rotate the canvas back
         env.CTX.rotate(-Math.atan2(cLoc.y - y, cLoc.x - x));
 
         // center of the canvas
-        env.CTX.translate(-x - 16, -y - 16);
+        env.CTX.translate(-x, -y);
 
-        // if (this.facing == 0) { // Looking up
-        //     this.animations[this.state][this.facing].drawFrame(GAME.clockTick, env.CTX, x + 2, y - 16, 1);
-        // }
-        // else if (this.facing == 1) { // Looking right
-        //     this.animations[this.state][this.facing].drawFrame(GAME.clockTick, env.CTX, x + 24, y + 8, 1);
-        // }
-        // else if (this.facing == 2) { // Looking down
-        //     this.animations[this.state][this.facing].drawFrame(GAME.clockTick, env.CTX, x + 4, y + 36, 1);
-        // }
-        // else { // Looking left
-        //     this.animations[this.state][this.facing].drawFrame(GAME.clockTick, env.CTX, x - 20, y + 8, 1);
-        // }
+    }
+
+    inRange (enemyX, enemyY) {
+
+        const {x, y} = GAME.mouseLocation;
+
+        // Calculate the distance from the player to the cursor
+        const c = Math.sqrt(Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2));
+            
+        // Normalize the angles to be between 0 and 360
+        const anglePlayerToEnemy = (Math.atan2(enemyY - this.y, enemyX - this.x) * (180 / Math.PI) + 360) % 360;
+        const anglePlayerToCursor = (Math.atan2(y - this.y, x - this.x) * (180 / Math.PI) + 360) % 360;
+    
+        // Calculate the absolute difference between the angles
+        const angleDifference = Math.abs(anglePlayerToCursor - anglePlayerToEnemy);
+    
+        // Check difference is less than 180
+        return (angleDifference <= attackAngle / 2 || angleDifference >= 360 - attackAngle / 2) && c <= this.attackReach;
 
     }
 
