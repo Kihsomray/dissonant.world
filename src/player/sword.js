@@ -125,12 +125,12 @@ class Sword {
         
         let { x, y } = LOCATION.getTrueLocation(GAME.player.x, GAME.player.y);
         x += 16;
-        y += 16 + 10;
+        y += 16 + 11;
             
         // Draw the sword
         const cLoc = GAME.mouseLocation;
         
-        x += (GAME.player.facingRight ? 4 : -4);
+        x += (GAME.player.goingRight ? 6 : -4);
 
         // center of the canvas
         env.CTX.translate(x, y);
