@@ -195,7 +195,7 @@ class MapManager{
                 let trueLocation = LOCATION.getTrueLocation(chunkX, chunkY);
                 //let chunkbb = new BoundingBox(chunkX, chunkY, CHUNK_WIDTH * TILE_WIDTH, CHUNK_WIDTH * TILE_WIDTH);
 
-                console.log(chunkX + ", " + (chunkX + CHUNK_WIDTH * TILE_WIDTH) + " : " + chunkY + ", " + (chunkY + CHUNK_WIDTH * TILE_WIDTH));
+                //console.log(chunkX + ", " + (chunkX + CHUNK_WIDTH * TILE_WIDTH) + " : " + chunkY + ", " + (chunkY + CHUNK_WIDTH * TILE_WIDTH));
 
                 let markedForRemoval = [];
                 // let entities = GAME.getEntities();
@@ -209,10 +209,10 @@ class MapManager{
                             chunkX <= entity.x && (chunkX + CHUNK_WIDTH * TILE_WIDTH) >= entity.x 
                             && chunkY <= entity.y && (chunkY + CHUNK_WIDTH * TILE_WIDTH) >= entity.y
                         ) {
-                            console.log("Unloading");
-                            console.log("Player location " + GAME.player.x + " : " + GAME.player.y);
-                            console.log(chunkX + ", " + (chunkX + CHUNK_WIDTH * TILE_WIDTH) + " : " + chunkY + ", " + (chunkY + CHUNK_WIDTH * TILE_WIDTH));
-                            console.log(entity.name + " => " + entity.x + " : " + entity.y);
+                            //console.log("Unloading");
+                            //console.log("Player location " + GAME.player.x + " : " + GAME.player.y);
+                            //console.log(chunkX + ", " + (chunkX + CHUNK_WIDTH * TILE_WIDTH) + " : " + chunkY + ", " + (chunkY + CHUNK_WIDTH * TILE_WIDTH));
+                            //console.log(entity.name + " => " + entity.x + " : " + entity.y);
                             markedForRemoval.push(entity);
                         }
                     }
