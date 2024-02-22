@@ -149,22 +149,25 @@ class Sword {
 
     }
 
-    inRange (enemyX, enemyY) {
 
-        const {x, y} = GAME.mouseLocation;
+    inRange(enemyX, enemyY) {
+
+        const { pX, pY } = LOCATION.getTrueLocation(this.x, this.y);
+        const { eX, eY } = LOCATION.getTrueLocation(enemyX, enemyY);
+        const { x, y } = GAME.mouseLocation;
 
         // Calculate the distance from the player to the cursor
-        const c = Math.sqrt(Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2));
+        const c = Math.sqrt(Math.pow(x - pX, 2) + Math.pow(y - pY, 2));
             
         // Normalize the angles to be between 0 and 360
-        const anglePlayerToEnemy = (Math.atan2(enemyY - this.y, enemyX - this.x) * (180 / Math.PI) + 360) % 360;
-        const anglePlayerToCursor = (Math.atan2(y - this.y, x - this.x) * (180 / Math.PI) + 360) % 360;
+        const anglePlayerToEnemy = (Math.atan2(eY - pY, eX - pX) * (180 / Math.PI) + 360) % 360;
+        const anglePlayerToCursor = (Math.atan2(y - pY, x - pX) * (180 / Math.PI) + 360) % 360;
     
         // Calculate the absolute difference between the angles
         const angleDifference = Math.abs(anglePlayerToCursor - anglePlayerToEnemy);
     
         // Check difference is less than 180
-        return (angleDifference <= attackAngle / 2 || angleDifference >= 360 - attackAngle / 2) && c <= this.attackReach;
+        return (angleDifference <= this.attackAngle / 2 || angleDifference >= 360 - this.attackAngle / 2) && c <= this.attackReach;
 
     }
 

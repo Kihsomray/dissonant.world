@@ -178,7 +178,11 @@ class Enemy {
 
         if (GAME.player.sword.attackBB != null) {
           
-            if (this.bb.collide(GAME.player.sword.attackBB) && this.iFrames == 0) {
+            if ((GAME.player.sword.inRange(this.bb.left, this.bb.top) ||
+            GAME.player.sword.inRange(this.bb.left, this.bb.bottom) ||
+            GAME.player.sword.inRange(this.bb.right, this.bb.top) ||
+            GAME.player.sword.inRange(this.bb.right, this.bb.bottom)
+            ) && this.iFrames == 0) {
                 this.iFrames = 60;
                 this.health--;
         
