@@ -161,7 +161,7 @@ class GameEngine {
         const { r, g, b } = BIOME_RGB[MAP.chunk[x][y].tiles[16][16].biome];
 
         gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, 0)`);
-        gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 1)`); // Adjusted opacity to 0.5
+        gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0.4)`); // Adjusted opacity to 0.5
         env.CTX.fillStyle = gradient;
         env.CTX.fillRect(0, 0, env.CANVAS.width, env.CANVAS.height);
         env.CTX.fill(); // Add this line to fill the gradient
@@ -173,7 +173,7 @@ class GameEngine {
         );
 
         outerGradient.addColorStop(0, `rgba(0, 0, 0, 0)`);
-        outerGradient.addColorStop(1, `rgba(0, 0, 0, 0.5)`); // Adjusted opacity to 0.5
+        outerGradient.addColorStop(1, `rgba(0, 0, 0, 0.15)`); // Adjusted opacity to 0.5
         env.CTX.fillStyle = outerGradient;
         env.CTX.fillRect(0, 0, env.CANVAS.width, env.CANVAS.height);
         env.CTX.fill(); // Add this line to fill the gradient

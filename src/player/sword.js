@@ -126,12 +126,6 @@ class Sword {
         let { x, y } = LOCATION.getTrueLocation(GAME.player.x, GAME.player.y);
         x += 16;
         y += 16 + 10;
-
-
-        // // Draw bounding box.
-        // if (this.attackBB != null) {
-            //     this.attackBB.draw(x + this.xOffset, y + this.yOffset);
-            // }
             
         // Draw the sword
         const cLoc = GAME.mouseLocation;
