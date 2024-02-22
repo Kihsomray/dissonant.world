@@ -25,6 +25,15 @@ const BIOMES = [
     "tundra"
 ];
 
+const BIOME_RGB = {
+    "cave": { r: 115, g: 91, b: 66 },
+    "desert": { r: 238, g: 181, b: 81 },
+    "forest": { r: 139, g: 145, b: 80 },
+    "swamp": { r: 68, g: 99, b: 80 },
+    "taiga": { r: 85, g: 125, b: 85 },
+    "tundra": { r: 214, g: 206, b: 199 }
+};
+
 const BIOME_TYPES = [
     "bridgeAnimatedTiles",
     "bridgeHorizontal",
