@@ -155,7 +155,7 @@ class MapGenerator {
             for (let j = 1; j < this.width - 1; j++) {
                 let biome = this.getBiome(grid[i][j]);
                 let map = {};
-                map[biome] = [Math.floor(this.rng() * 1000)]; // Having this wrapped in brackets is really ugly but idk how to fix it
+                map[biome] = Math.floor(this.rng() * 1000); // Having this wrapped in brackets is really ugly but idk how to fix it
                 //console.log(map[biome]);
                 map = this.getEnemies(map);
                 //console.log(map[biome]);
@@ -171,10 +171,10 @@ class MapGenerator {
         let newMap = {};
         let biome = Object.keys(map)[0];
 
-        let randomNum = Object.values(map[biome]);
+        let randomNum = map[biome];
         let randGen = this.random(randomNum); randGen(); randGen(); randGen(); // Create a random number generator and run it to start the randomness
 
-        let numOfEnemies = Math.floor(4 * randGen()); // Generate a random number for the number of enemies in a chunk from 0 to 9
+        let numOfEnemies = Math.floor(10 * randGen()); // Generate a random number for the number of enemies in a chunk from 0 to 9
         // let numOfEnemies = Math.floor(10 * this.rng());
 
         let taken = new Set(); // Create a set of coords that are already taken
@@ -198,7 +198,15 @@ class MapGenerator {
             } while (taken.has(hash)) 
             taken.add(hash);
 
-            next.push({"enemy" : [x, y]});
+            let enemies = ["goblin", "orc", "oni", "hobgoblin", "knight", "daemon"];
+
+            let enemyChoice = Math.floor(enemies.length * randGen());
+
+            let enemy = {};
+            enemy[enemies[enemyChoice]] = [x, y];
+
+            next.push(enemy);
+            //next.push({"knight" : [x, y]});
             // newMap[biome].push({"enemy" : [x, y]});
         }
         newMap[biome] = next;

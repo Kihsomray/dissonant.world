@@ -11,8 +11,8 @@ const TILE_LENGTH = 16;
 const CHUNK_WIDTH = 32;
 const CHUNK_LENGTH = 32;
 
-const CLUSTER_WIDTH = 32 //1024 / 2 - 1;
-const CLUSTER_LENGTH = 32 //1024 / 2 - 1;
+const CLUSTER_WIDTH = 1024 / 2 - 1 //1024 / 2 - 1;
+const CLUSTER_LENGTH = 1024 / 2 - 1 //1024 / 2 - 1;
 
 const RENDER_DISTANCE = 2;
 
@@ -166,12 +166,21 @@ class MapManager{
             let enemyYOffset = Object.values(genEnemy)[0][1] * CHUNK_WIDTH * TILE_WIDTH / 32;
 
 
-            let enemy = new Enemy("knight", enemyChunkX + enemyXOffset, enemyChunkY + enemyYOffset);
+            let eName = Object.keys(genEnemy);
+            //console.log(eName);
+            let enemy = new Enemy(eName[0], enemyChunkX + enemyXOffset, enemyChunkY + enemyYOffset);
             GAME.addEntity(enemy);
             //console.log(enemy.name + " => " + enemy.x + " : " + enemy.y);
             //console.log("Player is at " + GAME.player.x + " : " + GAME.player.y + " Enemy is at " + enemy.x + " : " + enemy.y);
         }
+
+        let key = Object.keys(this.generatorMap[i][j])[0];
+        let randNum = Object.values(this.generatorMap[i][j])[0][0]
         
+        let newGenMap = {};
+        newGenMap[key] = [randNum];
+
+        this.generatorMap[i][j] = newGenMap;
     };
 
     update() {
@@ -213,6 +222,30 @@ class MapManager{
                             //console.log("Player location " + GAME.player.x + " : " + GAME.player.y);
                             //console.log(chunkX + ", " + (chunkX + CHUNK_WIDTH * TILE_WIDTH) + " : " + chunkY + ", " + (chunkY + CHUNK_WIDTH * TILE_WIDTH));
                             //console.log(entity.name + " => " + entity.x + " : " + entity.y);
+
+                            let enemyChunk = getCurrentChunk(entity.x, entity.y);
+
+                            //console.log("X is " + enemyChunk.x + " : " + (entity.x / (CHUNK_WIDTH * TILE_WIDTH) + (CLUSTER_WIDTH) / 2));
+                            let partialX = (entity.x / (CHUNK_WIDTH * TILE_WIDTH) + (CLUSTER_WIDTH) / 2);
+                            //console.log("Y is " + enemyChunk.y + " : " + (entity.y / (CHUNK_LENGTH * TILE_LENGTH) + (CLUSTER_LENGTH) / 2));
+                            let partialY = (entity.y / (CHUNK_WIDTH * TILE_WIDTH) + (CLUSTER_WIDTH) / 2);
+
+                            partialX = Math.floor((partialX % 1.0) * 32);
+                            partialY = Math.floor((partialY % 1.0) * 32);
+                            //console.log(partialX + " :  " + partialY);
+
+                            let key = Object.keys(this.generatorMap[enemyChunk.x][enemyChunk.y])[0];
+                            let values = this.generatorMap[enemyChunk.x][enemyChunk.y][key];
+
+                            let storedEnemy = {};
+                            storedEnemy[entity.name] = [partialX, partialY];
+
+                            let newVal = values; newVal.push(storedEnemy);
+
+                            //console.log("The enemy chunk is " + enemyChunk.x + " : " + enemyChunk.y + ", " + key + " with ");
+                            //console.log(newVal);
+
+
                             markedForRemoval.push(entity);
                         }
                     }
