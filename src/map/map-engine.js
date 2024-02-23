@@ -177,7 +177,11 @@ class MapManager{
 
             let eName = Object.keys(genEnemy);
             //console.log(eName);
-            let enemy = new Enemy(eName[0], enemyChunkX + enemyXOffset, enemyChunkY + enemyYOffset);
+            let discoverRange = 10;
+            if (eName == "daemon") {
+                discoverRange = 1000; 
+            }
+            let enemy = new Enemy(eName[0], enemyChunkX + enemyXOffset, enemyChunkY + enemyYOffset, 0, discoverRange);
             GAME.addEntity(enemy);
             //console.log(enemy.name + " => " + enemy.x + " : " + enemy.y);
             //console.log("Player is at " + GAME.player.x + " : " + GAME.player.y + " Enemy is at " + enemy.x + " : " + enemy.y);
