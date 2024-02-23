@@ -179,7 +179,7 @@ class MapManager{
             //console.log(eName);
             let discoverRange = 10;
             if (eName == "daemon") {
-                discoverRange = 1000; 
+                discoverRange = 50; 
             }
             let enemy = new Enemy(eName[0], enemyChunkX + enemyXOffset, enemyChunkY + enemyYOffset, 0, discoverRange);
             GAME.addEntity(enemy);
