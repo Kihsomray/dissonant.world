@@ -8,7 +8,8 @@ class PlayerCharacter {
     cornerSpeed = Math.sqrt(this.speed * this.speed / 2);
     multiplier = 1.5;
 
-    facingRight = false;
+    goingRight = false;
+    //facingRight = false;
     state = 0;
 
     animations;
@@ -189,15 +190,15 @@ class PlayerCharacter {
 
     loadAnimations() {
 
-        for (let i = 0; i < 7; i++) { // 6 total states for player.
+        for (let i = 0; i < 8; i++) { // 6 total states for player.
             this.animations[i] = [];
         }
 
         // Idling animation for state = 0.
         // Facing right = 0.
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 1, 24, 25, 4, 0.25, 1, false, true)
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 1, 24, 24, 4, 0.25, 1, false, true)
         // Facing left = 1.
-        this.animations[0][1] = new Animator(this.spritesheet, 96, 1, 24, 25, 4, 0.25, 1, false, true)
+        this.animations[0][1] = new Animator(this.spritesheet, 96, 1, 24, 24, 4, 0.25, 1, false, true)
 
         // Walking animation for state = 1.
         // Facing right = 0.
@@ -232,6 +233,10 @@ class PlayerCharacter {
         this.animations[5][0] = new Animator(this.spritesheet, 0, 121, 24, 24, 4, 0.35, 1, false, true)
         // Facing left = 1.
         this.animations[5][1] = new Animator(this.spritesheet, 96, 121, 24, 24, 4, 0.35, 1, false, true)
+
+        // Reverse walking animation for state = 6.
+        this.animations[6][0] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.125, 1, true, true)
+        this.animations[6][1] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.125, 1, true, true)
 
 
         // // Dodge roll/jump animation for state = 1.
@@ -285,10 +290,15 @@ class PlayerCharacter {
 
     updateLocation() {
 
-        const x = this.x;
-        const y = this.y;
 
-        const boost = GAME.keyClick["shift"] ? this.multiplier : 1;
+        const tLoc = LOCATION.getTrueLocation(this.x, this.y);
+
+        const reverse = (this.goingRight && GAME.mouseLocation.x < tLoc.x + 12) || (!this.goingRight && GAME.mouseLocation.x >= tLoc.x + 12);
+
+        const prevX = this.x;
+        const prevY = this.y;
+
+        const boost = (!GAME.keyClick["shift"] || reverse) ? 1 : this.multiplier;
 
         const corner = Math.round(this.cornerSpeed * boost * 2 * GAME.clockTick * 50) / 2;
         const straight = Math.round(this.speed * boost * 2 * GAME.clockTick * 50) / 2;
@@ -300,48 +310,51 @@ class PlayerCharacter {
         this.state = 1;
 
         if (GAME.keyClick["w"] && GAME.keyClick["d"]) {
+            this.goingRight = true;
             this.sword.setState(1);
             this.y -= corner;
             this.x += corner;
-            this.facingRight = true;
         } 
         else if (GAME.keyClick["w"] && GAME.keyClick["a"]) {
+            this.goingRight = false;
             this.sword.setState(3);
             this.y -= corner;
             this.x -= corner;
-            this.facingRight = false;
         } 
         else if (GAME.keyClick["s"] && GAME.keyClick["d"]) {
+            this.goingRight = true;
             this.sword.setState(1);
             this.y += corner;
             this.x += corner;
-            this.facingRight = true;
         } 
         else if (GAME.keyClick["s"] && GAME.keyClick["a"]) {
+            this.goingRight = false;
             this.sword.setState(3);
             this.y += corner;
             this.x -= corner;
-            this.facingRight = false;
         } 
         else if (GAME.keyClick["w"]) {
+            this.goingRight = GAME.mouseLocation.x > tLoc.x + 12;
             this.sword.setState(0);
             this.y -= straight;
         } 
         else if (GAME.keyClick["d"]) {
+            this.goingRight = true;
             this.sword.setState(1);
             this.x += straight;
-            this.facingRight = true;
         } 
         else if (GAME.keyClick["s"]) {
+            this.goingRight = GAME.mouseLocation.x > tLoc.x + 12;
             this.sword.setState(2);
             this.y += straight;
         } 
         else if (GAME.keyClick["a"]) {
+            this.goingRight = false;
             this.sword.setState(3);
             this.x -= straight;
-            this.facingRight = false;
         } 
         else {
+            this.goingRight = GAME.mouseLocation.x > tLoc.x + 12;
             this.state = 0;
         }
 
@@ -354,7 +367,11 @@ class PlayerCharacter {
             this.state = 2;
         }
 
-        if (this.x != x || this.y != y) MAP.update();
+        if (this.x != prevX || this.y != prevY) MAP.update();
+
+        if ((this.state == 1 || this.state == 2) && reverse) this.state = 6;
+
+        //this.goingRight = GAME.mouseLocation.x > tLoc.x + 12;
     }
 
     updateBB() {
@@ -388,9 +405,11 @@ class PlayerCharacter {
         env.CTX.strokeStyle = "red";
         // env.CTX.strokeRect(x + 8, y + 7, 20, 28);
 
-        this.animations[this.state][this.facingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
+        if (!this.goingRight && GAME.mouseLocation.x < x) this.sword.draw();
 
-        this.sword.draw();
+        this.animations[this.state][this.goingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
+
+        if (this.goingRight || GAME.mouseLocation.x >= x) this.sword.draw();
 
         this.inventory.draw();
         this.hotbarGeneral.draw();

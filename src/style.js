@@ -32,6 +32,7 @@ function resizeCanvas() {
     env.CTX.mozImageSmoothingEnabled = false;
     env.CTX.msImageSmoothingEnabled = false;
     env.CTX.oImageSmoothingEnabled = false;
+
 }
 
 // Center the canvas on window resize

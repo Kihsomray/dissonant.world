@@ -68,9 +68,6 @@ class Enemy {
 
         for (var i = 0; i < 7; i++) { // 6 total states for player.
             this.animations[i] = [];
-            for (var j = 0; j < 2; j++) { // Two directions
-                this.animations[i][j]; 
-            }
         }
 
         // Idling animation for state = 0.
@@ -176,9 +173,10 @@ class Enemy {
         // DAMAGE LOGIC
         if (this.iFrames > 0) this.iFrames--;
 
-        if (GAME.player.sword.attackBB != null) {
-          
-            if (this.bb.collide(GAME.player.sword.attackBB) && this.iFrames == 0) {
+        const sword = GAME.player.sword;
+        
+        if (sword.attackBB != null) 
+            if (sword.inRange(this.bb.left, this.bb.bottom, this.bb.right, this.bb.top) && this.iFrames == 0) {
                 this.iFrames = 60;
                 this.health--;
         
@@ -188,7 +186,6 @@ class Enemy {
                 }
                 else this.state = 4;
             }
-        }
 
         if (Math.abs(this.x - GAME.player.x) < 0.3 * env.SCALE) {
             this.x = GAME.player.x;

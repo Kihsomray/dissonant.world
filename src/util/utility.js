@@ -61,7 +61,7 @@ const getDistance = (p1, p2) => {
 function getMousePos(canvas, evt) {
     const rect = canvas.getBoundingClientRect();
     return {
-      x: (evt.clientX - rect.left) / 2,
-      y: (evt.clientY - rect.top) / 2
+        x: (evt.clientX - rect.left) / 2,
+        y: (evt.clientY - rect.top) / 2
     };
 }
