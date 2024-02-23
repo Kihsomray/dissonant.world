@@ -29,15 +29,15 @@ ASSETS.downloadAll(() => {
 	GAME.addEntity(GAME.player = new PlayerCharacter());
 	GAME.player.init();
 
-	GAME.addEntity(new Enemy("hobgoblin", -320, -110, 0, 15));
-	GAME.addEntity(new Enemy("goblin", -250, 400, 0, 15));
-	GAME.addEntity(new Enemy("orc", -220, -220, 0, 15));
-	GAME.addEntity(new Enemy("goblin", -250, 0, 0, 15));
-	GAME.addEntity(new Enemy("orc", 220, 220, 0, 15));
-	GAME.addEntity(new Enemy("oni", -280, 110, 0, 15));
-	GAME.addEntity(new Enemy("hobgoblin", 320, 110, 0, 15));
-	GAME.addEntity(new Enemy("knight", 150, 250, 0, 15));
-	GAME.addEntity(new Enemy("daemon", 1000, 1000, 0, 1000));
+	// GAME.addEntity(new Enemy("hobgoblin", -320, -110, 0, 15));
+	// GAME.addEntity(new Enemy("goblin", -250, 400, 0, 15));
+	// GAME.addEntity(new Enemy("orc", -220, -220, 0, 15));
+	// GAME.addEntity(new Enemy("goblin", -250, 0, 0, 15));
+	// GAME.addEntity(new Enemy("orc", 220, 220, 0, 15));
+	// GAME.addEntity(new Enemy("oni", -280, 110, 0, 15));
+	// GAME.addEntity(new Enemy("hobgoblin", 320, 110, 0, 15));
+	// GAME.addEntity(new Enemy("knight", 150, 250, 0, 15));
+	// GAME.addEntity(new Enemy("daemon", 1000, 1000, 0, 1000));
 
 	MAP.init();
 

@@ -11,8 +11,8 @@ const TILE_LENGTH = 16;
 const CHUNK_WIDTH = 32;
 const CHUNK_LENGTH = 32;
 
-const CLUSTER_WIDTH = 1024 / 2 - 1;
-const CLUSTER_LENGTH = 1024 / 2 - 1;
+const CLUSTER_WIDTH = 1024 / 2 - 1 //1024 / 2 - 1;
+const CLUSTER_LENGTH = 1024 / 2 - 1 //1024 / 2 - 1;
 
 const RENDER_DISTANCE = 2;
 
@@ -141,10 +141,59 @@ class MapManager{
             i,
             j,
             Object.keys(this.generatorMap[i][j])[0],
-            Object.values(this.generatorMap[i][j])[0]
+            Object.values(this.generatorMap[i][j])[0][0]
         );
         chunk.generate();
         GAME.addChunk(this.chunk[i][j] = chunk);
+
+
+
+        // const playerChunk = getCurrentChunk(GAME.player.x, GAME.player.y);
+        //console.log(playerChunk.x + " : " + playerChunk.x);
+        
+        // For each enemy in a chunk which is in this.generatorMap[i][j][0] there are enemies. 
+        // Add them to the chunk they are generated in.
+        
+        //console.log("Player Chunk " + playerChunk.x + " : " + playerChunk.y);
+
+        // Spawn an enemy if its in the chunk
+        //console.log(chunk.chunkX + " : " + chunk.chunkY);
+        
+        let chunkDiffX = chunk.chunkX - CLUSTER_WIDTH/2; // Need to add middle chunk stuff
+        let chunkDiffY = chunk.chunkY - CLUSTER_LENGTH/2;
+
+        //console.log("chunk diff " + chunkDiffX + " : " + chunkDiffY);
+        let trueLocation = LOCATION.getTrueLocation(chunkDiffX * CHUNK_WIDTH * TILE_WIDTH, chunkDiffY * CHUNK_WIDTH * TILE_WIDTH);
+        //console.log("True Coords of chunk " + trueLocation.x + " : " + trueLocation.y);
+
+        let enemyChunkX = chunkDiffX * CHUNK_WIDTH * TILE_WIDTH;
+        let enemyChunkY = chunkDiffY * CHUNK_WIDTH * TILE_WIDTH;
+        //console.log(Object.values(this.generatorMap[i][j])[0].length);
+        for (let e = 1; e < Object.values(this.generatorMap[i][j])[0].length; e++) {
+            let genEnemy = Object.values(this.generatorMap[i][j])[0][e]
+            let enemyXOffset = Object.values(genEnemy)[0][0] * CHUNK_WIDTH * TILE_WIDTH / 32;
+            let enemyYOffset = Object.values(genEnemy)[0][1] * CHUNK_WIDTH * TILE_WIDTH / 32;
+
+
+            let eName = Object.keys(genEnemy);
+            //console.log(eName);
+            let discoverRange = 10;
+            if (eName == "daemon") {
+                discoverRange = 50; 
+            }
+            let enemy = new Enemy(eName[0], enemyChunkX + enemyXOffset, enemyChunkY + enemyYOffset, 0, discoverRange);
+            GAME.addEntity(enemy);
+            //console.log(enemy.name + " => " + enemy.x + " : " + enemy.y);
+            //console.log("Player is at " + GAME.player.x + " : " + GAME.player.y + " Enemy is at " + enemy.x + " : " + enemy.y);
+        }
+
+        let key = Object.keys(this.generatorMap[i][j])[0];
+        let randNum = Object.values(this.generatorMap[i][j])[0][0]
+        
+        let newGenMap = {};
+        newGenMap[key] = [randNum];
+
+        this.generatorMap[i][j] = newGenMap;
     };
 
     update() {
@@ -157,8 +206,67 @@ class MapManager{
                 currChunk.y - RENDER_DISTANCE > j)
             {
                 if (!this.chunk[i][j]) return;
+                let thisChunk = this.chunk[i][j];
                 GAME.removeChunk(this.chunk[i][j]);
                 this.chunk[i][j] = undefined;
+
+
+                
+                let chunkX = (thisChunk.chunkX - CLUSTER_WIDTH/2) * CHUNK_WIDTH * TILE_WIDTH;
+                let chunkY = (thisChunk.chunkY - CLUSTER_LENGTH/2) * CHUNK_WIDTH * TILE_WIDTH;
+                let trueLocation = LOCATION.getTrueLocation(chunkX, chunkY);
+                //let chunkbb = new BoundingBox(chunkX, chunkY, CHUNK_WIDTH * TILE_WIDTH, CHUNK_WIDTH * TILE_WIDTH);
+
+                //console.log(chunkX + ", " + (chunkX + CHUNK_WIDTH * TILE_WIDTH) + " : " + chunkY + ", " + (chunkY + CHUNK_WIDTH * TILE_WIDTH));
+
+                let markedForRemoval = [];
+                // let entities = GAME.getEntities();
+                // for (let en = 0; en < entities.length; en++) {
+                //     console.log(entities[en]);
+                // }
+
+                GAME.getEntities().forEach(entity => {
+                    if (entity instanceof Enemy) {
+                        if (
+                            chunkX <= entity.x && (chunkX + CHUNK_WIDTH * TILE_WIDTH) >= entity.x 
+                            && chunkY <= entity.y && (chunkY + CHUNK_WIDTH * TILE_WIDTH) >= entity.y
+                        ) {
+                            //console.log("Unloading");
+                            //console.log("Player location " + GAME.player.x + " : " + GAME.player.y);
+                            //console.log(chunkX + ", " + (chunkX + CHUNK_WIDTH * TILE_WIDTH) + " : " + chunkY + ", " + (chunkY + CHUNK_WIDTH * TILE_WIDTH));
+                            //console.log(entity.name + " => " + entity.x + " : " + entity.y);
+
+                            let enemyChunk = getCurrentChunk(entity.x, entity.y);
+
+                            //console.log("X is " + enemyChunk.x + " : " + (entity.x / (CHUNK_WIDTH * TILE_WIDTH) + (CLUSTER_WIDTH) / 2));
+                            let partialX = (entity.x / (CHUNK_WIDTH * TILE_WIDTH) + (CLUSTER_WIDTH) / 2);
+                            //console.log("Y is " + enemyChunk.y + " : " + (entity.y / (CHUNK_LENGTH * TILE_LENGTH) + (CLUSTER_LENGTH) / 2));
+                            let partialY = (entity.y / (CHUNK_WIDTH * TILE_WIDTH) + (CLUSTER_WIDTH) / 2);
+
+                            partialX = Math.floor((partialX % 1.0) * 32);
+                            partialY = Math.floor((partialY % 1.0) * 32);
+                            //console.log(partialX + " :  " + partialY);
+
+                            let key = Object.keys(this.generatorMap[enemyChunk.x][enemyChunk.y])[0];
+                            let values = this.generatorMap[enemyChunk.x][enemyChunk.y][key];
+
+                            let storedEnemy = {};
+                            storedEnemy[entity.name] = [partialX, partialY];
+
+                            let newVal = values; newVal.push(storedEnemy);
+
+                            //console.log("The enemy chunk is " + enemyChunk.x + " : " + enemyChunk.y + ", " + key + " with ");
+                            //console.log(newVal);
+
+
+                            markedForRemoval.push(entity);
+                        }
+                    }
+                });
+
+                markedForRemoval.forEach(entity => {
+                    GAME.removeEntity(entity);
+                });
             }
         });
 
