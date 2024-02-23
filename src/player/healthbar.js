@@ -16,8 +16,8 @@ class PlayerHealthbar {
 
     draw() {
 
-        const cornerX = GAME.player.hotbarGeneral.x + 5;
-        const cornerY = GAME.player.hotbarGeneral.y - 15;
+        const cornerX = GAME.player.hotbarGeneral.x + 3 * env.UI.SCALE;
+        const cornerY = GAME.player.hotbarGeneral.y - 22 * env.UI.SCALE;
 
         for (let i = 0; i < Math.ceil(this.health / 2); i++) {
 
@@ -27,10 +27,10 @@ class PlayerHealthbar {
                 this.assetLocation.y,
                 this.size / 2,
                 this.size,
-                cornerX + i * (this.size / 3 + 7),
+                cornerX + i * (this.size * env.UI.SCALE / 2 + 10 * env.UI.SCALE),
                 cornerY,
-                this.size / 3,
-                this.size / 1.5,
+                this.size * env.UI.SCALE / 2,
+                this.size * env.UI.SCALE,
             );
         }
         for (let i = 0; i < Math.floor(this.health / 2); i++) {
@@ -40,10 +40,10 @@ class PlayerHealthbar {
                 this.assetLocation.y,
                 this.size / 2,
                 this.size,
-                cornerX + i * (this.size / 3 + 7) + this.size / 3,
+                cornerX + i * (this.size * env.UI.SCALE / 2 + 10 * env.UI.SCALE) + this.size * env.UI.SCALE / 2,
                 cornerY,
-                this.size / 3,
-                this.size / 1.5,
+                this.size * env.UI.SCALE / 2,
+                this.size * env.UI.SCALE,
             );
         }
 

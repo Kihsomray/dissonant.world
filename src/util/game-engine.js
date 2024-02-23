@@ -149,11 +149,38 @@ class GameEngine {
         env.CTX.fillStyle = "white";
 
         // Draw text on the canvas
-        env.CTX.fillText(`x: ${Math.floor(this.player.x / TILE_WIDTH)}, y: ${-Math.ceil(this.player.y / TILE_LENGTH)}`, 2, 10);
-
         env.CTX.fillText("+", this.mouseLocation.x - 3, this.mouseLocation.y + 3);
 
-        //this.camera.draw(env.CTX);
+        // Apply blur effect to canvas edges
+        const gradient = env.CTX.createRadialGradient(
+            env.CENTER.x, env.CENTER.y, env.CANVAS.width / 5,
+            env.CENTER.x, env.CENTER.y, env.CANVAS.width / 4
+        );
+
+        const { x, y } = getCurrentChunk(this.player.x, this.player.y);
+        const { r, g, b } = BIOME_RGB[MAP.chunk[x][y].tiles[16][16].biome];
+
+        gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, 0)`);
+        gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0.1)`); // Adjusted opacity to 0.5
+        env.CTX.fillStyle = gradient;
+        env.CTX.fillRect(0, 0, env.CANVAS.width, env.CANVAS.height);
+        env.CTX.fill(); // Add this line to fill the gradient
+
+        // Apply blur effect to canvas edges
+        const outerGradient = env.CTX.createRadialGradient(
+            env.CENTER.x, env.CENTER.y, env.CANVAS.width / (9 / 2),
+            env.CENTER.x, env.CENTER.y, env.CANVAS.width / 4
+        );
+
+        outerGradient.addColorStop(0, `rgba(0, 0, 0, 0)`);
+        outerGradient.addColorStop(1, `rgba(0, 0, 0, 0.15)`); // Adjusted opacity to 0.5
+        env.CTX.fillStyle = outerGradient;
+        env.CTX.fillRect(0, 0, env.CANVAS.width, env.CANVAS.height);
+        env.CTX.fill(); // Add this line to fill the gradient
+
+        env.CTX.font = "10px Arial";
+        env.CTX.fillStyle = "white";
+        env.CTX.fillText(`x: ${Math.floor(this.player.x / TILE_WIDTH)}, y: ${-Math.ceil(this.player.y / TILE_LENGTH)}`, 2, 10);
     };
 
     update() {
@@ -175,7 +202,6 @@ class GameEngine {
         this.keyClickCooldowns.forEach((_, key) => {
             if (Number.isInteger(key)) this.mouseClick[key] = false;
             else this.keyClick[key] = false;
-
         });
     };
 

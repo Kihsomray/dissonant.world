@@ -12,6 +12,8 @@ class Enemy {
     range;
     health;
     agro = false;
+    dead = false;
+    deathDelay;
 
 
     animations;
@@ -26,7 +28,12 @@ class Enemy {
         this.x = x;
         this.y = y;
         this.range = [distanceRange, discoverRange];
-        this.health = 10;
+        this.health = 3;
+        this.speed = 1;
+        this.counter = 0;
+        this.pause = false;
+        this.iFrames = 0;
+        this.deathDelay = 120;
 
         if (name == "goblin") {
             this.spritesheet = ASSETS.getImage("e/goblin");
@@ -45,12 +52,8 @@ class Enemy {
         }
         else if (name == "daemon") {
             this.spritesheet = ASSETS.getImage("e/daemon");
+            this.health = 8;
         }
-
-        this.speed = 1;
-        this.counter = 0;
-        this.pause = false;
-        this.iFrames = 0;
 
         // All of the enemies's animations.
         this.animations = [];
@@ -65,9 +68,6 @@ class Enemy {
 
         for (var i = 0; i < 7; i++) { // 6 total states for player.
             this.animations[i] = [];
-            for (var j = 0; j < 2; j++) { // Two directions
-                this.animations[i][j]; 
-            }
         }
 
         // Idling animation for state = 0.
@@ -106,9 +106,9 @@ class Enemy {
 
         // Player death animation for state = 5.
         // Facing right = 0.
-        this.animations[5][0] = new Animator(this.spritesheet, 0, 121, 24, 24, 4, 0.33, 1, false, true)
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 121, 24, 24, 4, 0.33, 1, false, false)
         // Facing left = 1.
-        this.animations[5][1] = new Animator(this.spritesheet, 96, 121, 24, 24, 4, 0.33, 1, false, true)
+        this.animations[5][1] = new Animator(this.spritesheet, 96, 121, 24, 24, 4, 0.33, 1, false, false)
 
     }
 
@@ -150,16 +150,16 @@ class Enemy {
 
         // Player damaged animation for state = 4.
         // Facing right = 0.
-        this.animations[4][0] = new Animator(this.spritesheet, 0, 56 * 4 + 1, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[4][0] = new Animator(this.spritesheet, 0, 56 * 4 + 1, 56, 56, 4, 0.2, 1, false, true);
         // Facing left = 1.
-        this.animations[4][1] = new Animator(this.spritesheet, 220, 56 * 4 + 1, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[4][1] = new Animator(this.spritesheet, 220, 56 * 4 + 1, 56, 56, 4, 0.2, 1, false, true);
 
 
         // Player death animation for state = 5.
         // Facing right = 0.
-        this.animations[5][0] = new Animator(this.spritesheet, 0, 56 * 5 + 1, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 56 * 5 + 1, 56, 56, 4, 0.5, 1, false, true);
         // Facing left = 1.
-        this.animations[5][1] = new Animator(this.spritesheet, 220, 56 * 5 + 1, 56, 56, 4, 0.125, 1, false, true);
+        this.animations[5][1] = new Animator(this.spritesheet, 220, 56 * 5 + 1, 56, 56, 4, 0.5, 1, false, true);
 
     }
 
@@ -169,6 +169,23 @@ class Enemy {
 
         //console.log("The players coords are " + GAME.PlayerCharacter.x + ", " + GAME.PlayerCharacter.y);
         //console.log("My coords are " + this.x + ", " + this.y);
+
+        // DAMAGE LOGIC
+        if (this.iFrames > 0) this.iFrames--;
+
+        const sword = GAME.player.sword;
+        
+        if (sword.hit == true) 
+            if (sword.inRange(this.bb.left, this.bb.bottom, this.bb.right, this.bb.top) && this.iFrames == 0) {
+                this.iFrames = 60;
+                this.health--;
+        
+                if (this.health <= 0) {
+                    this.state = 5;
+                    if (this.name == "daemon") GAME.player.win = true;  
+                }
+                else this.state = 4;
+            }
 
         if (Math.abs(this.x - GAME.player.x) < 0.3 * env.SCALE) {
             this.x = GAME.player.x;
@@ -181,7 +198,13 @@ class Enemy {
 
         const c = Math.sqrt((GAME.player.x - this.x) ** 2 + (GAME.player.y - this.y) ** 2);
 
-        if (c < this.range[1] * TILE_LENGTH) {
+        if (this.state == 5) {
+            this.deathDelay--;
+            if (this.deathDelay <= 0) {
+                GAME.removeEntity(this);
+            }      
+        }
+        else if (c < this.range[1] * TILE_LENGTH) {
 
             this.agro = true;
 
@@ -190,6 +213,10 @@ class Enemy {
             if (c > this.range[0] * TILE_WIDTH) {
 
                 this.state = 1;
+
+                if (this.iFrames > 0) {
+                    this.state = 4;
+                }
     
                 const dx = this.speed * (GAME.player.x - this.x) / c;
                 const dy = this.speed * (GAME.player.y - this.y) / c;
@@ -234,30 +261,13 @@ class Enemy {
             }
         }
 
-        // DAMAGE LOGIC
-        if (GAME.player.sword.bb != null) {
-            console.log("HIT");
-            if (this.bb.collide(GAME.player.sword.bb) && iFrames == 0) {
-                console.log("HIT");
-                this.state = 4;
-                this.iFrames = 61;
-                this.health--;
-                if (this.health < 0) {
-                    this.state = 5;
-                }
-            }
-            else {
-                this.iFrames--;
-            }
-        }
-
-
         this.updateBB();
 
         // if (this.counter++ % 10 == 0) this.pause = !this.pause;
         // const GAME.player = GAME.clockTick * (this.speed + (this.pause ? 0 : 0));
         // //this.x += GAME.player;
         // if (this.x > 1024) this.x = -200;
+
         
     }
 
@@ -286,11 +296,11 @@ class Enemy {
 
         if (this.name == "daemon") {
             this.bb = new BoundingBox(x + 20, y + 23, 50, 62);
-            env.CTX.strokeRect(x + 20, y + 23, 50, 62);
+            // env.CTX.strokeRect(x + 20, y + 23, 50, 62);
         }
         else  {
             this.bb = new BoundingBox(x + 8, y + 7, 20, 28);
-            env.CTX.strokeRect(x + 8, y + 7, 20, 28);
+            // env.CTX.strokeRect(x + 8, y + 7, 20, 28);
         }
 
         /*
@@ -305,13 +315,14 @@ class Enemy {
 
         this.animations[this.state][this.facingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
 
-        if (this.agro) {
-            env.CTX.strokeStyle = "magenta";
-            env.CTX.beginPath();
-            env.CTX.moveTo(x, y);
-            env.CTX.lineTo(pLoc.x, pLoc.y);
-            env.CTX.stroke();
-        }
+        // // Show enemy vision lines
+        // if (this.agro) {
+        //     env.CTX.strokeStyle = "magenta";
+        //     env.CTX.beginPath();
+        //     env.CTX.moveTo(x, y);
+        //     env.CTX.lineTo(pLoc.x, pLoc.y);
+        //     env.CTX.stroke();
+        // }
     }
 
 }
