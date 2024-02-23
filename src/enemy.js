@@ -175,7 +175,7 @@ class Enemy {
 
         const sword = GAME.player.sword;
         
-        if (sword.attackBB != null) 
+        if (sword.hit == true) 
             if (sword.inRange(this.bb.left, this.bb.bottom, this.bb.right, this.bb.top) && this.iFrames == 0) {
                 this.iFrames = 60;
                 this.health--;

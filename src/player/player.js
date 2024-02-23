@@ -41,8 +41,6 @@ class PlayerCharacter {
 
         this.walking = false;
 
-        this.sword = new Sword();
-
         this.loadInventories();
 
         this.inventory.inventory[0][0].itemData = env.ITEMS[20];
@@ -55,14 +53,19 @@ class PlayerCharacter {
         this.inventory.inventory[3][1].itemData = env.ITEMS[27];
         this.inventory.inventory[0][2].itemData = env.ITEMS[30];
         this.inventory.inventory[1][2].itemData = env.ITEMS[31];
+        this.inventory.inventory[2][2].itemData = env.ITEMS[3];
+        this.inventory.inventory[3][2].itemData = env.ITEMS[4];
 
         this.hotbarGeneral.inventory[0][0].itemData = env.ITEMS[23];
 
         this.hotbarTools.inventory[0][0].itemData = env.ITEMS[1];
         this.hotbarTools.inventory[1][0].itemData = env.ITEMS[2];
 
-        this.health = new PlayerHealthbar();
+    }
 
+    init() {
+        this.health = new PlayerHealthbar();
+        this.sword = new Sword();
     }
 
     loadInventories() {

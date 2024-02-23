@@ -5,7 +5,9 @@ class Sword {
     state;
 
     attackAngle = 45;
-    attackReach = 35;
+    attackReach = 30;
+
+    scale = 1;
 
     constructor() {
 
@@ -19,8 +21,6 @@ class Sword {
         this.xOffset = 0;
         this.yOffset = 0;
 
-        this.spritesheet = ASSETS.getImage("e/sword");
-
         this.animations = [];
         this.loadAnimations();
 
@@ -32,94 +32,61 @@ class Sword {
 
     loadAnimations() {
 
-        for (let i = 0; i < 4; i++) { // 3 total states for sword.
-            this.animations[i] = [];
-        }
-
-        // Idle animation for state = 0.        
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 0, 32, 32, 1, 1, 1, false, true)
-        this.animations[0][1] = new Animator(this.spritesheet, 0, 96, 32, 32, 1, 1, 1, false, true)
-        this.animations[0][2] = new Animator(this.spritesheet, 0, 96 * 2, 32, 32, 1, 1, 1, false, true)
-        this.animations[0][3] = new Animator(this.spritesheet, 0, 96 * 3, 32, 32, 1, 1, 1, false, true)
-
-        // // Slash animation for state = 1. 
-        this.animations[1][0] = new Animator(this.spritesheet, 0, 32, 32, 32, 4, 0.1, 1, true, true)
-        this.animations[1][1] = new Animator(this.spritesheet, 0, 96 + 32, 32, 32, 4, 0.1, 1, true, true)
-        this.animations[1][2] = new Animator(this.spritesheet, 0, 96 * 2 + 64, 32, 32, 4, 0.1, 1, true, true)
-        this.animations[1][3] = new Animator(this.spritesheet, 0, 96 * 3 + 32, 32, 32, 4, 0.1, 1, true, true)
-   
-        // Jab animation for state = 2. 
-        this.animations[2][0] = new Animator(this.spritesheet, 0, 64, 32, 32, 4, 0.25, 1, false, true)
-        this.animations[2][1] = new Animator(this.spritesheet, 0, 96 + 64, 32, 32, 4, 0.25, 1, false, true)
-        this.animations[2][2] = new Animator(this.spritesheet, 0, 96 * 2 + 32, 32, 32, 4, 0.25, 1, false, true)
-        this.animations[2][3] = new Animator(this.spritesheet, 0, 96 * 3  + 64, 32, 32, 4, 0.25, 1, false, true)
+        this.setItem(GAME.player.hotbarTools.inventory[0][0].itemData);
 
     }
 
     update() {
 
-        // Update the location of the sword status
-        this.x = GAME.player.x + 16;
-        this.y = GAME.player.y + 27;
+        this.hit = false;
 
-        const { x, y } = LOCATION.getTrueLocation(this.x, this.y);
+        // Update the location of the sword status
+        this.x = GAME.player.x + this.width / 2;
+        this.y = GAME.player.y + this.height / 2 + this.height / 3;
+
+        if (this.animations[1].isDone()) {
+            this.state = 0;
+            this.animations[1].elapsedTime = 0;
+        }
 
         // Update Swing status
-        if (GAME.keyClick[" "] && !this.swingOnCoolDown) {
+        if (GAME.keyClick[" "] && this.state != 1) {
+            console.log("swing")
             this.state = 1;
-            this.swingOnCoolDown = true;
-            // Create the bounding box for the attack
-            this.attackBB = new BoundingBox(x, y, 20, 28);
-        }
-        else {
-
-            if (this.cooldown == 0) {
-                this.state = 0;
-                this.swingOnCoolDown = false;
-                this.cooldown = 60;
-            }
-            else {
-                this.cooldown--;
-            }
-
+            this.hit = true;
         }
 
-        this.updateBB();
+        if (GAME.keyClick["z"] || GAME.player.hotbarTools.inventory[0][0] != this.prevZ) {
+            this.setItem(GAME.player.hotbarTools.inventory[0][0].itemData);
+        } else if (GAME.keyClick["x"] || GAME.player.hotbarTools.inventory[1][0] != this.prevX) {
+            this.setItem(GAME.player.hotbarTools.inventory[1][0].itemData);
+        }
+
+        this.prevZ = GAME.player.hotbarTools.inventory[0][0];
+        this.prevX = GAME.player.hotbarTools.inventory[1][0];
 
     }
 
-    updateBB() {
-        const { x, y } = LOCATION.getTrueLocation(GAME.player.x, GAME.player.y);
-
-        if (this.swingOnCoolDown) {
-
-            if (this.facing == 0) {
-                this.xOffset = 5;
-                this.yOffset = -20;
-                this.attackBB = new BoundingBox(x + this.xOffset, y + this.yOffset, 20, 28);
-            }
-            else if (this.facing == 1) {
-                this.xOffset = 35;
-                this.yOffset = 10;
-                this.attackBB = new BoundingBox(x + this.xOffset, y + this.yOffset, 20, 28);
-            }
-            else if (this.facing == 2) {
-                this.xOffset = 4;
-                this.yOffset = 30;
-                this.attackBB = new BoundingBox(x + this.xOffset, y + this.yOffset, 20, 28);
-            }
-            else {
-                this.xOffset = -25;
-                this.yOffset = 9;
-                this.attackBB = new BoundingBox(x + this.xOffset, y + this.yOffset, 20, 28);
-            }
-
+    setItem(item) {
+        if (item.asset != undefined) {
+            this.width = 32;
+            this.height = 32;
+            const spritesheet = ASSETS.getImage(item.asset);
+            this.animations[0] = new Animator(spritesheet, 0, 0, 32, 32, 1, item.attackCooldown || 1, 1, false, true);
+            this.animations[1] = new Animator(spritesheet, 0, 32, 32, 32, 4, (item.attackCooldown || 1) / 4, 1, false, false);
+            this.scale = 1;
+        } else {
+            const loc = item.location;
+            const size = item.size;
+            this.width = size[0];
+            this.height = size[1];
+            const spritesheet = ASSETS.getImage("i/*");
+            this.scale = 0.5;
+            this.animations[0] = new Animator(spritesheet, loc[0], loc[1], size[0], size[1], 1, item.attackCooldown || 1, 1, false, true);
+            this.animations[1] = new Animator(spritesheet, loc[0], loc[1], size[0], size[1], 1, item.attackCooldown || 1, 1, false, false);
         }
-        else {
-            this.attackBB = null;
-        }
-
     }
+
 
     draw() {
         
@@ -127,20 +94,26 @@ class Sword {
             
         // Draw the sword
         const cLoc = GAME.mouseLocation;
-        
-        x += (GAME.player.goingRight ? 6 : -4);
+    
+        x += (GAME.player.goingRight ? (this.width / this.scale / 4) : (-this.width / this.scale / 16 / 5));
 
         // center of the canvas
         env.CTX.translate(x, y);
 
+        const fR = GAME.player.state === 6 ? !GAME.player.goingRight : GAME.player.goingRight;
+
+        if (!fR) env.CTX.scale(1, -1);
+        
         // rotate the canvas to the mouse location
-        env.CTX.rotate(Math.atan2(cLoc.y - y, cLoc.x - x));
+        env.CTX.rotate((fR ? 1 : -1) * Math.atan2(cLoc.y - y, cLoc.x - x) + 1 / 2 * Math.PI);
 
         // draw the sword
-        this.animations[this.state][1].drawFrame(GAME.clockTick, env.CTX, -10, -16, 1);
+        this.animations[this.state].drawFrame(GAME.clockTick, env.CTX, -this.width * this.scale / 2, -this.height * this.scale * 3 / 4, this.scale);
 
         // rotate the canvas back
-        env.CTX.rotate(-Math.atan2(cLoc.y - y, cLoc.x - x));
+        env.CTX.rotate((fR ? -1 : 1) * Math.atan2(cLoc.y - y, cLoc.x - x) - 1 / 2 * Math.PI);
+
+        if (!fR) env.CTX.scale(1, -1);
 
         // center of the canvas
         env.CTX.translate(-x, -y);
