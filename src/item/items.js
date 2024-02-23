@@ -9,6 +9,7 @@ env.ITEMS = {
     },
 
     1: {
+        asset: "i/sword",
         display_name: "Iron Sword",
         name: "iron_sword",
         type: ["weapon"],
@@ -23,6 +24,7 @@ env.ITEMS = {
     },
 
     2: {
+        asset: "i/hammer",
         display_name: "Iron Hammer",
         name: "iron_hammer",
         type: ["weapon", "tool"],
@@ -59,6 +61,7 @@ env.ITEMS = {
     },
 
     4: {
+        asset: "i/pickaxe",
         display_name: "Iron Pickaxe",
         name: "iron_pickaxe",
         type: ["weapon", "tool"],
@@ -197,8 +200,8 @@ env.ITEMS = {
     },
 
     14: {
-        display_name: "Gold Sword",
-        name: "gold_sword",
+        display_name: "Excalibur",
+        name: "excalibur",
         type: ["weapon"],
 
         health: 150,
