@@ -6,6 +6,8 @@ const LOCATION = new Location();
 ASSETS.queueDownload("i/*", "./res/item/items.png");
 ASSETS.queueDownload("e/player-male", "./res/player-male.png");
 ASSETS.queueDownload("e/player-female", "./res/player-female.png");
+ASSETS.queueDownload("e/player-male-dodge", "./res/player-male-dodge.png");
+ASSETS.queueDownload("e/player-female-dodge", "./res/player-female-dodge.png");
 ASSETS.queueDownload("e/goblin", "./res/goblin.png");
 ASSETS.queueDownload("e/orc", "./res/orc.png");
 ASSETS.queueDownload("e/oni", "./res/oni.png");
