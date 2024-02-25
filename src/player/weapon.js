@@ -5,7 +5,7 @@ class Sword {
     state;
 
     attackAngle = 45;
-    attackReach = 30;
+    attackReach = 40;
 
     scale = 1;
 
@@ -44,16 +44,16 @@ class Sword {
         this.x = GAME.player.x + this.width / 2;
         this.y = GAME.player.y + this.height / 2 + this.height / 3;
 
-        if (this.animations[1].isDone()) {
-            this.state = 0;
-            this.animations[1].elapsedTime = 0;
-        }
-
         // Update Swing status
-        if (GAME.keyClick[" "] && this.state != 1) {
+        if (GAME.mouseClick[0] && this.state != 1) {
             console.log("swing")
             this.state = 1;
             this.hit = true;
+        }
+
+        if (this.animations[1].elapsedTime + GAME.clockTick > this.animations[1].totalTime) {
+            this.animations[1].elapsedTime = 0;
+            this.state = 0;
         }
 
         if (GAME.keyClick["z"] || GAME.player.hotbarTools.inventory[0][0] != this.prevZ) {
@@ -127,7 +127,18 @@ class Sword {
         const mLoc = GAME.mouseLocation;
         const anglePlayerToCursor = (Math.atan2(mLoc.y - y, mLoc.x - x) * (180 / Math.PI) + 360) % 360;
 
-        // draw lines of the range of the sword
+        // draw a red half transparent dotted line from player to range at the angle of the cursor
+        env.CTX.strokeStyle = "rgba(100, 100, 100, 0.7)";
+        env.CTX.setLineDash([2, 4]);
+        env.CTX.beginPath();
+        env.CTX.moveTo(x, y);
+        env.CTX.lineTo(x + this.attackReach * Math.cos(anglePlayerToCursor * (Math.PI / 180)), y + this.attackReach * Math.sin(anglePlayerToCursor * (Math.PI / 180)));
+        env.CTX.stroke();
+        env.CTX.closePath();
+
+        env.CTX.strokeStyle = "rgba(100, 100, 100, 0.5)";
+
+        //draw lines of the range of the sword
         env.CTX.beginPath();
         env.CTX.moveTo(x, y);
         env.CTX.lineTo(x + this.attackReach * Math.cos((anglePlayerToCursor - this.attackAngle / 2) * (Math.PI / 180)), y + this.attackReach * Math.sin((anglePlayerToCursor - this.attackAngle / 2) * (Math.PI / 180)));

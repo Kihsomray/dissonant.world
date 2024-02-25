@@ -4,8 +4,8 @@ env.ITEMS = {
         display_name: "",
         name: "air",
         type: ["null"],
-        location: [0, 0],
-        size: [0, 0]
+        location: [0, 48],
+        size: [24, 24]
     },
 
     1: {
