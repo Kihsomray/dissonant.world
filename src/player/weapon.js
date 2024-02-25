@@ -103,15 +103,21 @@ class Sword {
         const fR = GAME.player.state === 6 ? !GAME.player.goingRight : GAME.player.goingRight;
 
         if (!fR) env.CTX.scale(1, -1);
+
+        // if the sword is in the attacking state
+        // rotate the sword, calculate the additional 
+        // rotation based on the current frame of the animation
         
+        const extraRotation = this.state === 1 ? Math.min(this.animations[1].elapsedTime / this.animations[1].totalTime * 8, 1) * Math.PI / 2 - Math.PI / 2 : 0;
+
         // rotate the canvas to the mouse location
-        env.CTX.rotate((fR ? 1 : -1) * Math.atan2(cLoc.y - y, cLoc.x - x) + 1 / 2 * Math.PI);
+        env.CTX.rotate((fR ? 1 : -1) * Math.atan2(cLoc.y - y, cLoc.x - x) + 1 / 2 * Math.PI + extraRotation);
 
         // draw the sword
         this.animations[this.state].drawFrame(GAME.clockTick, env.CTX, -this.width * this.scale / 2, -this.height * this.scale * 3 / 4, this.scale);
 
         // rotate the canvas back
-        env.CTX.rotate((fR ? -1 : 1) * Math.atan2(cLoc.y - y, cLoc.x - x) - 1 / 2 * Math.PI);
+        env.CTX.rotate((fR ? -1 : 1) * Math.atan2(cLoc.y - y, cLoc.x - x) - 1 / 2 * Math.PI - extraRotation);
 
         if (!fR) env.CTX.scale(1, -1);
 

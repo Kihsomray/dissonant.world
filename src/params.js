@@ -38,7 +38,7 @@ const env = {
 
     UI: {
 
-        SCALE: 0.5,
+        SCALE: 0.7,
 
     },
 
