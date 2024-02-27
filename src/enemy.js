@@ -10,7 +10,8 @@ class Enemy {
     state = 0;
     angle = 0.5;
     range;
-    health;
+    totalHealth = 3;
+    health = this.totalHealth;
     agro = false;
     dead = false;
     deathDelay;
@@ -30,7 +31,6 @@ class Enemy {
         this.x = x;
         this.y = y;
         this.range = [distanceRange, discoverRange];
-        this.health = 3;
         this.speed = 1;
         this.counter = 0;
         this.pause = false;
@@ -63,6 +63,8 @@ class Enemy {
         else this.loadAnimations(); 
 
         this.updateBB();
+
+        this.healthBar = new EnemyHealth(this);
 
     }
 
@@ -289,6 +291,8 @@ class Enemy {
         // //this.x += GAME.player;
         // if (this.x > 1024) this.x = -200;
 
+        this.healthBar.update();
+
         
     }
 
@@ -335,6 +339,8 @@ class Enemy {
          */
 
         this.animations[this.state][this.facingRight ? 0 : 1].drawFrame(GAME.clockTick, env.CTX, x, y, 1.5);
+
+        this.healthBar.draw();
 
         // // Show enemy vision lines
         // if (this.agro) {

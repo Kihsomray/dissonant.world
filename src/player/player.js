@@ -252,6 +252,7 @@ class PlayerCharacter {
 
     update() {
         if (this.counter++ % 10 == 0) this.pause = !this.pause;
+
         this.updateLocation();
 
         this.sword.update();
