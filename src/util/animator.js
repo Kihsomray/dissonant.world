@@ -46,4 +46,8 @@ class Animator {
         return this.elapsedTime >= this.totalTime;
     };
 
+    isTruelyDone() {
+        return this.elapsedTime + GAME.clockTick >= this.totalTime;
+    }
+
 }

@@ -51,7 +51,7 @@ class Sword {
             this.hit = true;
         }
 
-        if (this.animations[1].elapsedTime + GAME.clockTick > this.animations[1].totalTime) {
+        if (this.animations[1].isTruelyDone()){
             this.animations[1].elapsedTime = 0;
             this.state = 0;
         }

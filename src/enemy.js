@@ -14,6 +14,8 @@ class Enemy {
     agro = false;
     dead = false;
     deathDelay;
+    knockback = 2;
+    velocity = 1 * this.knockback;
 
 
     animations;
@@ -99,16 +101,16 @@ class Enemy {
 
         // Player damaged animation for state = 4.
         // Facing right = 0.
-        this.animations[4][0] = new Animator(this.spritesheet, 0, 97, 24, 24, 4, 0.2, 1, false, true)
+        this.animations[4][0] = new Animator(this.spritesheet, 0, 97, 24, 24, 4, 0.15, 1, true, false)
         // Facing left = 1.
-        this.animations[4][1] = new Animator(this.spritesheet, 96, 97, 24, 24, 4, 0.2, 1, false, true)
+        this.animations[4][1] = new Animator(this.spritesheet, 96, 97, 24, 24, 4, 0.15, 1, true, false)
 
 
         // Player death animation for state = 5.
         // Facing right = 0.
-        this.animations[5][0] = new Animator(this.spritesheet, 0, 121, 24, 24, 4, 0.33, 1, false, false)
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 121, 24, 24, 4, 0.2, 1, false, false)
         // Facing left = 1.
-        this.animations[5][1] = new Animator(this.spritesheet, 96, 121, 24, 24, 4, 0.33, 1, false, false)
+        this.animations[5][1] = new Animator(this.spritesheet, 96, 121, 24, 24, 4, 0.2, 1, false, false)
 
     }
 
@@ -150,16 +152,16 @@ class Enemy {
 
         // Player damaged animation for state = 4.
         // Facing right = 0.
-        this.animations[4][0] = new Animator(this.spritesheet, 0, 56 * 4 + 1, 56, 56, 4, 0.2, 1, false, true);
+        this.animations[4][0] = new Animator(this.spritesheet, 0, 56 * 4 + 1, 56, 56, 4, 0.15, 1, true, false);
         // Facing left = 1.
-        this.animations[4][1] = new Animator(this.spritesheet, 220, 56 * 4 + 1, 56, 56, 4, 0.2, 1, false, true);
+        this.animations[4][1] = new Animator(this.spritesheet, 220, 56 * 4 + 1, 56, 56, 4, 0.15, 1, true, false);
 
 
         // Player death animation for state = 5.
         // Facing right = 0.
-        this.animations[5][0] = new Animator(this.spritesheet, 0, 56 * 5 + 1, 56, 56, 4, 0.5, 1, false, true);
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 56 * 5 + 1, 56, 56, 4, 0.3, 1, false, false);
         // Facing left = 1.
-        this.animations[5][1] = new Animator(this.spritesheet, 220, 56 * 5 + 1, 56, 56, 4, 0.5, 1, false, true);
+        this.animations[5][1] = new Animator(this.spritesheet, 220, 56 * 5 + 1, 56, 56, 4, 0.3, 1, false, false);
 
     }
 
@@ -170,14 +172,12 @@ class Enemy {
         //console.log("The players coords are " + GAME.PlayerCharacter.x + ", " + GAME.PlayerCharacter.y);
         //console.log("My coords are " + this.x + ", " + this.y);
 
-        // DAMAGE LOGIC
-        if (this.iFrames > 0) this.iFrames--;
-
         const sword = GAME.player.sword;
+
+        if (this.state === 4) console.log(sword.hit);
         
-        if (sword.hit == true) 
-            if (sword.inRange(this.bb.left, this.bb.bottom, this.bb.right, this.bb.top) && this.iFrames == 0) {
-                this.iFrames = 60;
+        if (sword.hit) { 
+            if (sword.inRange(this.bb.left, this.bb.bottom, this.bb.right, this.bb.top)) {
                 this.health--;
         
                 if (this.health <= 0) {
@@ -186,6 +186,7 @@ class Enemy {
                 }
                 else this.state = 4;
             }
+        }
 
         if (Math.abs(this.x - GAME.player.x) < 0.3 * env.SCALE) {
             this.x = GAME.player.x;
@@ -198,13 +199,33 @@ class Enemy {
 
         const c = Math.sqrt((GAME.player.x - this.x) ** 2 + (GAME.player.y - this.y) ** 2);
 
-        if (this.state == 5) {
-            this.deathDelay--;
-            if (this.deathDelay <= 0) {
-                GAME.removeEntity(this);
-            }      
+        //console.log(this.animations[4][0].isDone() || this.animations[4][1].isDone());
+
+        if (this.animations[4][0].isTruelyDone() || this.animations[4][1].isTruelyDone()) {
+            this.animations[4][0].elapsedTime = 0;
+            this.animations[4][1].elapsedTime = 0;
+            this.state = 0;
+            this.velocity = 1 * this.knockback;
         }
-        else if (c < this.range[1] * TILE_LENGTH) {
+
+        if (this.state === 4) {
+
+            // launch player opposite direction of player
+            const dx = this.speed * (this.x - GAME.player.x) / c * this.velocity;
+            const dy = this.speed * (this.y - GAME.player.y) / c * this.velocity;
+
+            this.x += dx;
+            this.y += dy;
+
+            this.velocity -= Math.max(GAME.clockTick * this.animations[4][0].totalTime * this.knockback * 2, 0);
+
+        } else if (this.state === 5) {
+
+            if (this.animations[5][0].isTruelyDone() || this.animations[5][1].isTruelyDone()) {
+                this.removeFromWorld = true;
+            }
+
+        } else if (c < this.range[1] * TILE_LENGTH) {
 
             this.agro = true;
 
