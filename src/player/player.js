@@ -326,7 +326,7 @@ class PlayerCharacter {
         
         this.state = 1;
 
-        if (GAME.keyClick["r"] && this.rollCooldown == 0 && this.state != 0) {
+        if (GAME.keyClick[" "] && this.rollCooldown == 0 && this.state != 0) {
             this.rolling = true;
             this.state = 7;
             this.iFrames = 60;
