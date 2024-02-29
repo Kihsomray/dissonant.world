@@ -199,7 +199,8 @@ class Enemy {
         }
 
 
-        const c = Math.sqrt((GAME.player.x - this.x) ** 2 + (GAME.player.y - this.y) ** 2);
+        let c = Math.sqrt((GAME.player.x - this.x) ** 2 + (GAME.player.y - this.y) ** 2);
+        c = c == 0 ? 0.001 : c;
 
         //console.log(this.animations[4][0].isDone() || this.animations[4][1].isDone());
 
