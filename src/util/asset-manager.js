@@ -37,6 +37,8 @@ class AssetManager {
 
             case 'wav':
             case 'mp3':
+                this.audio[name] = this.#downloadAudio(path, callback);
+                break;
             case 'mp4':
                 this.audio[name] = this.#downloadAudio(path, callback);
                 break;
