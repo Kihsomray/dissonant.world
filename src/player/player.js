@@ -37,6 +37,7 @@ class PlayerCharacter {
         // Initial Variables for player's state.
         this.x = 0;
         this.y = 0;
+        this.lastStep = 0;
         this.iFrames = 0;
         this.rollCooldown = 0;
         this.win = false;
@@ -267,6 +268,7 @@ class PlayerCharacter {
         if (this.counter++ % 10 == 0) this.pause = !this.pause;
 
         this.updateLocation();
+        this.updateSound();
 
         this.sword.update();
         this.inventory.update();
@@ -292,6 +294,8 @@ class PlayerCharacter {
 
                 if (this.iFrames == 0) {
 
+                    ASSETS.playAudio("a/hit");
+
                     if (this.health.health > 0) this.state = 4;
 
                     if (entity.name == "daemon") this.health.health -= 2;
@@ -304,6 +308,24 @@ class PlayerCharacter {
             }
         });
 
+    }
+
+    updateSound() {
+
+        if ((this.state == 1 || this.state == 2 || this.state == 6) && this.lastStep <= 0) {
+
+            if (this.state == 2) this.lastStep = 20;
+            else this.lastStep = 25;
+    
+            let walkSound = Math.floor(Math.random() * 10) % 3 + 1;
+
+            if (walkSound == 1) ASSETS.playAudio("a/walk-one");
+            else if (walkSound == 2) ASSETS.playAudio("a/walk-two");
+            else ASSETS.playAudio("a/walk-three");
+    
+        }
+        else this.lastStep--;
+        
     }
 
     updateLocation() {

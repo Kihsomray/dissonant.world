@@ -46,7 +46,7 @@ class Sword {
 
         // Update Swing status
         if (GAME.mouseClick[0] && this.state != 1) {
-            console.log("swing")
+            ASSETS.playAudio("a/slash");
             this.state = 1;
             this.hit = true;
         }

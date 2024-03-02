@@ -135,6 +135,9 @@ class AssetManager {
     muteAudio(name, mute) {
             
         // mute audio
+        if (!(this.getAudio[name] instanceof Audio)) {
+            return;
+        }
         this.getAudio(name).muted = mute;
     };
 
@@ -146,10 +149,12 @@ class AssetManager {
         }
     };
 
-    adjustVolume(name, volume) {
+    adjustVolume(volume) {
 
         // adjust volume
-        this.getAudio(name).volume = volume;
+        for (let name in this.audio) {
+            this.getAudio(name).volume = volume;
+        }
     };
 
     adjustAllVolume(volume) {
