@@ -10,7 +10,7 @@ class Enemy {
     state = 0;
     angle = 0.5;
     range;
-    totalHealth = 3;
+    totalHealth = 12;
     health = this.totalHealth;
     agro = false;
     dead = false;
@@ -54,7 +54,8 @@ class Enemy {
         }
         else if (name == "daemon") {
             this.spritesheet = ASSETS.getImage("e/daemon");
-            this.health = 8;
+            this.health = 40;
+            this.totalHealth = 40;
         }
 
         // All of the enemies's animations.
@@ -180,7 +181,7 @@ class Enemy {
         
         if (sword.hit) { 
             if (sword.inRange(this.bb.left, this.bb.bottom, this.bb.right, this.bb.top)) {
-                this.health--;
+                this.health -= GAME.player.sword.item.attack_damage || 1;
         
                 if (this.health <= 0) {
                     this.state = 5;
