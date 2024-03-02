@@ -210,9 +210,10 @@ class GameEngine {
 
     updateAudio() {
         const mute = document.getElementById("mute").checked;
+        
         const volume = document.getElementById("volume").value;
 
-        ASSETS.muteAudio(mute);
+        ASSETS.muteAllAudio(mute);
         ASSETS.adjustVolume(volume);
     }
 

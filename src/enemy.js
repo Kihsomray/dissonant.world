@@ -37,21 +37,11 @@ class Enemy {
         this.iFrames = 0;
         this.deathDelay = 120;
 
-        if (name == "goblin") {
-            this.spritesheet = ASSETS.getImage("e/goblin");
-        } 
-        else if (name == "orc") {
-            this.spritesheet = ASSETS.getImage("e/orc");
-        }
-        else if (name == "oni") {
-            this.spritesheet = ASSETS.getImage("e/oni");
-        }
-        else if (name == "hobgoblin") {
-            this.spritesheet = ASSETS.getImage("e/hobgoblin");
-        }
-        else if (name == "knight") {
-            this.spritesheet = ASSETS.getImage("e/knight");
-        }
+        if (name == "goblin") this.spritesheet = ASSETS.getImage("e/goblin");
+        else if (name == "orc") this.spritesheet = ASSETS.getImage("e/orc");
+        else if (name == "oni") this.spritesheet = ASSETS.getImage("e/oni");
+        else if (name == "hobgoblin") this.spritesheet = ASSETS.getImage("e/hobgoblin");
+        else if (name == "knight") this.spritesheet = ASSETS.getImage("e/knight");
         else if (name == "daemon") {
             this.spritesheet = ASSETS.getImage("e/daemon");
             this.health = 8;
@@ -176,11 +166,14 @@ class Enemy {
 
         const sword = GAME.player.sword;
 
+        if (GAME.player.win == true || GAME.player.health.health <= 0) return;
+
         if (this.state === 4) console.log(sword.hit);
         
         if (sword.hit) { 
             if (sword.inRange(this.bb.left, this.bb.bottom, this.bb.right, this.bb.top)) {
                 this.health--;
+                ASSETS.playAudio("a/hit");
         
                 if (this.health <= 0) {
                     this.state = 5;

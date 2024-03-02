@@ -135,16 +135,13 @@ class AssetManager {
     muteAudio(name, mute) {
             
         // mute audio
-        if (!(this.getAudio[name] instanceof Audio)) {
-            return;
-        }
         this.getAudio(name).muted = mute;
     };
 
     muteAllAudio(mute) {
 
         // mute all audio
-        for (let name in this.images) {
+        for (let name in this.audio) {
             this.muteAudio(name, mute);
         }
     };

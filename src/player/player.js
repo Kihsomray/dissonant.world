@@ -12,6 +12,7 @@ class PlayerCharacter {
     //facingRight = false;
     state = 0;
 
+    model = 0;
     animations;
     dodgeAnimations;
 
@@ -30,6 +31,7 @@ class PlayerCharacter {
             this.spritesheet = ASSETS.getImage("e/player-male");
             this.dodgeAnimations = ASSETS.getImage("e/player-male-dodge");
         } else {
+            this.model = 1;
             this.spritesheet = ASSETS.getImage("e/player-female");
             this.dodgeAnimations = ASSETS.getImage("e/player-female-dodge");
         }
@@ -292,7 +294,7 @@ class PlayerCharacter {
 
             if (entity instanceof Enemy && this.bb.collide(entity.bb)) {
 
-                if (this.iFrames == 0) {
+                if (this.iFrames == 0 && this.health.health != 0) {
 
                     ASSETS.playAudio("a/hit");
 
@@ -306,6 +308,7 @@ class PlayerCharacter {
                 }
 
             }
+
         });
 
     }
@@ -315,7 +318,7 @@ class PlayerCharacter {
         if ((this.state == 1 || this.state == 2 || this.state == 6) && this.lastStep <= 0) {
 
             if (this.state == 2) this.lastStep = 20;
-            else this.lastStep = 25;
+            else this.lastStep = 30;
     
             let walkSound = Math.floor(Math.random() * 10) % 3 + 1;
 
@@ -324,7 +327,7 @@ class PlayerCharacter {
             else ASSETS.playAudio("a/walk-three");
     
         }
-        else this.lastStep--;
+        this.lastStep--;
         
     }
 
@@ -353,6 +356,8 @@ class PlayerCharacter {
             this.state = 7;
             this.iFrames = 60;
             this.rollCooldown = 180;
+            if (this.model == 0) ASSETS.playAudio("a/dodge-zero");
+            else ASSETS.playAudio("a/dodge-one");
         } 
    
         if (GAME.keyClick["w"] && GAME.keyClick["d"]) {
