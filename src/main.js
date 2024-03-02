@@ -25,7 +25,7 @@ ASSETS.queueDownload("i/machete", "./res/item/machete.png");
 ASSETS.queueDownload("i/pickaxe", "./res/item/pickaxe.png");
 
 // Music
-ASSETS.queueDownload("i/dalarnia", "./res/music/dalarnia.mp3");
+ASSETS.queueDownload("m/overworld", "./res/music/overworld.mp3");
 
 // Sound Effects
 ASSETS.queueDownload("a/slash", "./res/audio/slash.mp3");
@@ -39,6 +39,8 @@ ASSETS.queueDownload("a/dodge-zero", "./res/audio/dodge-zero.mp3");
 ASSETS.queueDownload("a/dodge-one", "./res/audio/dodge-one.mp3");
 
 ASSETS.downloadAll(() => {
+
+	ASSETS.autoRepeat("m/overworld")
 
 	GAME.addEntity(new WinScreen());
 	GAME.addEntity(new EndScreen());

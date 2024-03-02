@@ -62,6 +62,7 @@ class GameEngine {
     init() {
         this.startInput();
         this.timer = new Timer();
+        ASSETS.playAudio("m/overworld");
     };
 
     #updateMouseLocation = e => (this.mouseLocation = {
@@ -210,7 +211,7 @@ class GameEngine {
 
     updateAudio() {
         const mute = document.getElementById("mute").checked;
-        
+
         const volume = document.getElementById("volume").value;
 
         ASSETS.muteAllAudio(mute);

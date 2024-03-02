@@ -292,7 +292,7 @@ class PlayerCharacter {
         
         GAME.getEntities().forEach(entity => {
 
-            if (entity instanceof Enemy && this.bb.collide(entity.bb)) {
+            if (entity instanceof Enemy && this.bb.collide(entity.bb) && !GAME.player.win) {
 
                 if (this.iFrames == 0 && this.health.health != 0) {
 
