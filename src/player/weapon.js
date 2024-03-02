@@ -5,7 +5,7 @@ class Sword {
     state;
 
     attackAngle = 45;
-    attackReach = 40;
+    attackReach = 65;
 
     scale = 1;
 
@@ -68,12 +68,13 @@ class Sword {
     }
 
     setItem(item) {
+        this.item = item;
         if (item.asset != undefined) {
             this.width = 32;
             this.height = 32;
             const spritesheet = ASSETS.getImage(item.asset);
-            this.animations[0] = new Animator(spritesheet, 0, 0, 32, 32, 1, item.attackCooldown || 1, 1, false, true);
-            this.animations[1] = new Animator(spritesheet, 0, 32, 32, 32, 4, (item.attackCooldown || 1) / 4, 1, false, false);
+            this.animations[0] = new Animator(spritesheet, 0, 0, 32, 32, 1, Math.min(item.attack_cooldown, 1), 1, false, true);
+            this.animations[1] = new Animator(spritesheet, 0, 32, 32, 32, 4, Math.min(item.attack_cooldown, 1) / 4, 1, false, false);
             this.scale = 1;
         } else {
             const loc = item.location;
@@ -82,8 +83,8 @@ class Sword {
             this.height = size[1];
             const spritesheet = ASSETS.getImage("i/*");
             this.scale = 0.5;
-            this.animations[0] = new Animator(spritesheet, loc[0], loc[1], size[0], size[1], 1, item.attackCooldown || 1, 1, false, true);
-            this.animations[1] = new Animator(spritesheet, loc[0], loc[1], size[0], size[1], 1, item.attackCooldown || 1, 1, false, false);
+            this.animations[0] = new Animator(spritesheet, loc[0], loc[1], size[0], size[1], 1, Math.min(item.attack_cooldown, 1), 1, false, true);
+            this.animations[1] = new Animator(spritesheet, loc[0], loc[1], size[0], size[1], 1, Math.min(item.attack_cooldown, 1), 1, false, false);
         }
     }
 

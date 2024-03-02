@@ -50,18 +50,20 @@ class PlayerCharacter {
 
         this.loadInventories();
 
-        this.inventory.inventory[0][0].itemData = env.ITEMS[20];
-        this.inventory.inventory[1][0].itemData = env.ITEMS[21];
-        this.inventory.inventory[2][0].itemData = env.ITEMS[22];
-        this.inventory.inventory[3][0].itemData = env.ITEMS[23];
-        this.inventory.inventory[0][1].itemData = env.ITEMS[24];
-        this.inventory.inventory[1][1].itemData = env.ITEMS[25];
-        this.inventory.inventory[2][1].itemData = env.ITEMS[26];
-        this.inventory.inventory[3][1].itemData = env.ITEMS[27];
-        this.inventory.inventory[0][2].itemData = env.ITEMS[30];
-        this.inventory.inventory[1][2].itemData = env.ITEMS[31];
-        this.inventory.inventory[2][2].itemData = env.ITEMS[3];
-        this.inventory.inventory[3][2].itemData = env.ITEMS[4];
+        this.inventory.inventory[0][0].itemData = env.ITEMS[3];
+        this.inventory.inventory[1][0].itemData = env.ITEMS[4];
+        this.inventory.inventory[2][0].itemData = env.ITEMS[5];
+        this.inventory.inventory[3][0].itemData = env.ITEMS[6];
+        this.inventory.inventory[0][1].itemData = env.ITEMS[7];
+        this.inventory.inventory[1][1].itemData = env.ITEMS[8];
+        this.inventory.inventory[2][1].itemData = env.ITEMS[9];
+        this.inventory.inventory[3][1].itemData = env.ITEMS[10];
+        this.inventory.inventory[0][2].itemData = env.ITEMS[11];
+        this.inventory.inventory[1][2].itemData = env.ITEMS[12];
+        this.inventory.inventory[2][2].itemData = env.ITEMS[13];
+        this.inventory.inventory[3][2].itemData = env.ITEMS[14];
+
+
 
         this.hotbarGeneral.inventory[0][0].itemData = env.ITEMS[23];
 
