@@ -67,7 +67,8 @@ class Inventory {
         if (this.togglable) {
             if (GAME.keyClick['e']) {
                 this.visible = !this.visible;
-
+                ASSETS.playAudio("a/inventory-click");
+                
             } else if (GAME.keyClick['escape']) {
                 this.visible = false;
 

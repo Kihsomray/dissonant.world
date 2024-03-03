@@ -22,6 +22,11 @@
         <!-- canvas -->
         <canvas id="game" tabindex="0" autofocus></canvas>
 
+        <div id="vol-control">
+            Volume <input type="range" id="volume" min="0" max="1" value="0.25" step="0.05"> <br>
+            Mute <input type="checkbox" id="mute">  
+        </div>
+
         <!-- footer -->
         <div id="footer">
             <p>
@@ -71,6 +76,12 @@
 
     <!-- Starter scripts-->
     <script src="./src/main.js"></script>
+
+    <script>document.getElementById("slider").oninput = function() {
+        let value = (this.value-this.min)/(this.max-this.min)
+        this.style.background = 'linear-gradient(to right, #deb887 0%, #deb887 ' + value + '%, #fff ' + value + '%, white 100%)'
+    };
+    </script>
 
 </body>
 

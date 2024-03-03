@@ -67,6 +67,7 @@ class GameEngine {
     init() {
         this.startInput();
         this.timer = new Timer();
+        ASSETS.playAudio("m/overworld");
     };
 
     #updateMouseLocation = e => {
@@ -223,7 +224,19 @@ class GameEngine {
             if (Number.isInteger(key)) this.mouseClick[key] = false;
             else this.keyClick[key] = false;
         });
+
+        this.updateAudio();
+        
     };
+
+    updateAudio() {
+        const mute = document.getElementById("mute").checked;
+
+        const volume = document.getElementById("volume").value;
+
+        ASSETS.muteAllAudio(mute);
+        ASSETS.adjustVolume(volume);
+    }
 
     loop() {
         this.clockTick = this.timer.tick();

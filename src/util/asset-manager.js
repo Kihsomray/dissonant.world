@@ -37,6 +37,8 @@ class AssetManager {
 
             case 'wav':
             case 'mp3':
+                this.audio[name] = this.#downloadAudio(path, callback);
+                break;
             case 'mp4':
                 this.audio[name] = this.#downloadAudio(path, callback);
                 break;
@@ -139,15 +141,17 @@ class AssetManager {
     muteAllAudio(mute) {
 
         // mute all audio
-        for (let name in this.images) {
+        for (let name in this.audio) {
             this.muteAudio(name, mute);
         }
     };
 
-    adjustVolume(name, volume) {
+    adjustVolume(volume) {
 
         // adjust volume
-        this.getAudio(name).volume = volume;
+        for (let name in this.audio) {
+            this.getAudio(name).volume = volume;
+        }
     };
 
     adjustAllVolume(volume) {
