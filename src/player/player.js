@@ -25,6 +25,10 @@ class PlayerCharacter {
     hotbarGeneral;
     hotbarTools;
 
+    knockback = 2;
+    velocity = 1 * this.knockback;
+    hitEntity = this;
+
     constructor() {
 
         if (Math.floor(Math.random() * 10) % 2 == 0) {
@@ -53,18 +57,20 @@ class PlayerCharacter {
 
         this.loadInventories();
 
-        this.inventory.inventory[0][0].itemData = env.ITEMS[20];
-        this.inventory.inventory[1][0].itemData = env.ITEMS[21];
-        this.inventory.inventory[2][0].itemData = env.ITEMS[22];
-        this.inventory.inventory[3][0].itemData = env.ITEMS[23];
-        this.inventory.inventory[0][1].itemData = env.ITEMS[24];
-        this.inventory.inventory[1][1].itemData = env.ITEMS[25];
-        this.inventory.inventory[2][1].itemData = env.ITEMS[26];
-        this.inventory.inventory[3][1].itemData = env.ITEMS[27];
-        this.inventory.inventory[0][2].itemData = env.ITEMS[30];
-        this.inventory.inventory[1][2].itemData = env.ITEMS[31];
-        this.inventory.inventory[2][2].itemData = env.ITEMS[3];
-        this.inventory.inventory[3][2].itemData = env.ITEMS[4];
+        this.inventory.inventory[0][0].itemData = env.ITEMS[3];
+        this.inventory.inventory[1][0].itemData = env.ITEMS[4];
+        this.inventory.inventory[2][0].itemData = env.ITEMS[5];
+        this.inventory.inventory[3][0].itemData = env.ITEMS[6];
+        this.inventory.inventory[0][1].itemData = env.ITEMS[7];
+        this.inventory.inventory[1][1].itemData = env.ITEMS[8];
+        this.inventory.inventory[2][1].itemData = env.ITEMS[9];
+        this.inventory.inventory[3][1].itemData = env.ITEMS[10];
+        this.inventory.inventory[0][2].itemData = env.ITEMS[11];
+        this.inventory.inventory[1][2].itemData = env.ITEMS[12];
+        this.inventory.inventory[2][2].itemData = env.ITEMS[13];
+        this.inventory.inventory[3][2].itemData = env.ITEMS[14];
+
+
 
         this.hotbarGeneral.inventory[0][0].itemData = env.ITEMS[23];
 
@@ -209,64 +215,66 @@ class PlayerCharacter {
 
         // Idling animation for state = 0.
         // Facing right = 0.
-        this.animations[0][0] = new Animator(this.spritesheet, 0, 1, 24, 24, 4, 0.25, 1, false, true)
+        this.animations[0][0] = new Animator(this.spritesheet, 0, 1, 24, 24, 4, 0.25, 1, false, true);
         // Facing left = 1.
-        this.animations[0][1] = new Animator(this.spritesheet, 96, 1, 24, 24, 4, 0.25, 1, false, true)
+        this.animations[0][1] = new Animator(this.spritesheet, 96, 1, 24, 24, 4, 0.25, 1, false, true);
 
         // Walking animation for state = 1.
         // Facing right = 0.
-        this.animations[1][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.125, 1, false, true)
+        this.animations[1][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.125, 1, false, true);
         // Facing left = 1.
-        this.animations[1][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.125, 1, false, true)
+        this.animations[1][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.125, 1, false, true);
 
 
         // Running animation for state = 2.
         // Facing right = 0.
-        this.animations[2][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.1, 1, false, true)
+        this.animations[2][0] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.1, 1, false, true);
         // Facing left = 1.
-        this.animations[2][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.1, 1, false, true)
+        this.animations[2][1] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.1, 1, false, true);
 
 
         // Turning animation for state = 3.
         // Facing right = 0.
-        this.animations[3][0] = new Animator(this.spritesheet, 0, 73, 24, 24, 4, 0.1, 1, false, true)
+        this.animations[3][0] = new Animator(this.spritesheet, 0, 73, 24, 24, 4, 0.1, 1, false, true);
         // Facing left = 1.
-        this.animations[3][1] = new Animator(this.spritesheet, 96, 73, 24, 24, 4, 0.1, 1, false, true)
+        this.animations[3][1] = new Animator(this.spritesheet, 96, 73, 24, 24, 4, 0.1, 1, false, true);
 
 
         // Player damaged animation for state = 4.
         // Facing right = 0.
-        this.animations[4][0] = new Animator(this.spritesheet, 0, 97, 24, 24, 4, 0.22, 1, false, true)
+        this.animations[4][0] = new Animator(this.spritesheet, 0, 97, 24, 24, 4, 0.15, 1, true, false);
         // Facing left = 1.
-        this.animations[4][1] = new Animator(this.spritesheet, 96, 97, 24, 24, 4, 0.22, 1, false, true)
+        this.animations[4][1] = new Animator(this.spritesheet, 96, 97, 24, 24, 4, 0.15, 1, true, false);
 
 
         // Player death animation for state = 5.
         // Facing right = 0.
-        this.animations[5][0] = new Animator(this.spritesheet, 0, 121, 24, 24, 4, 0.35, 1, false, true)
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 121, 24, 24, 4, 0.35, 1, false, true);
         // Facing left = 1.
-        this.animations[5][1] = new Animator(this.spritesheet, 96, 121, 24, 24, 4, 0.35, 1, false, true)
+        this.animations[5][1] = new Animator(this.spritesheet, 96, 121, 24, 24, 4, 0.35, 1, false, true);
 
         // Reverse walking animation for state = 6.
-        this.animations[6][0] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.125, 1, true, true)
-        this.animations[6][1] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.125, 1, true, true)
+        this.animations[6][0] = new Animator(this.spritesheet, 96, 49, 24, 24, 4, 0.125, 1, true, true);
+        this.animations[6][1] = new Animator(this.spritesheet, 0, 49, 24, 24, 4, 0.125, 1, true, true);
 
 
         // Dodge roll animation for state = 7.
         // Right roll = 0 
-        this.animations[7][0] = new Animator(this.dodgeAnimations, 24, 1, 24, 24, 5, 0.15, 1, false, true)
+        this.animations[7][0] = new Animator(this.dodgeAnimations, 24, 1, 24, 24, 5, 0.15, 1, false, true);
         // Left roll = 1
-        this.animations[7][1] = new Animator(this.dodgeAnimations, 24, 32, 24, 24, 5, 0.15, 1, false, true)
+        this.animations[7][1] = new Animator(this.dodgeAnimations, 24, 32, 24, 24, 5, 0.15, 1, false, true);
 
         // Reverse dodge roll animation for state = 8.
         // Right roll = 0 
-        this.animations[8][0] = new Animator(this.dodgeAnimations, 24, 32, 24, 24, 5, 0.15, 1, true, true)
+        this.animations[8][0] = new Animator(this.dodgeAnimations, 24, 32, 24, 24, 5, 0.15, 1, true, true);
         // Left roll = 1 
-        this.animations[8][1] = new Animator(this.dodgeAnimations, 24, 1, 24, 24, 5, 0.15, 1, true, true)
+        this.animations[8][1] = new Animator(this.dodgeAnimations, 24, 1, 24, 24, 5, 0.15, 1, true, true);
 
     }
 
     update() {
+        this.hit = false;
+
         if (this.counter++ % 10 == 0) this.pause = !this.pause;
 
         this.updateLocation();
@@ -282,10 +290,6 @@ class PlayerCharacter {
         if (this.hotbarGeneral.clickedSlot) this.hotbarGeneral.swap(this.cursorInventory, this.hotbarGeneral.clickedSlot.i, this.hotbarGeneral.clickedSlot.j, 0, 0);
         if (this.hotbarTools.clickedSlot) this.hotbarTools.swap(this.cursorInventory, this.hotbarTools.clickedSlot.i, this.hotbarTools.clickedSlot.j, 0, 0);
 
-        
-        if (this.iFrames > 0) this.iFrames--; 
-        else if (this.iFrames <= 0) this.rolling = false;
-
         if (this.rollCooldown > 0) this.rollCooldown--;
 
         this.updateBB();
@@ -294,22 +298,43 @@ class PlayerCharacter {
 
             if (entity instanceof Enemy && this.bb.collide(entity.bb) && !GAME.player.win) {
 
-                if (this.iFrames == 0 && this.health.health != 0) {
 
+                if (this.state !== 4 && !this.rolling) {
                     ASSETS.playAudio("a/hit");
-
-                    if (this.health.health > 0) this.state = 4;
-
-                    if (entity.name == "daemon") this.health.health -= 2;
-                    else this.health.health--;
-    
-                    this.iFrames = 60;
-
+                    this.health.health -= 1;
+                    this.state = 4;
+                    this.hit = true;
+                    this.hitEntity = entity;
                 }
-
+                
             }
 
         });
+
+        const entity = this.hitEntity;
+        let c = Math.sqrt((entity.x - this.x) ** 2 + (entity.y - this.y) ** 2);
+        c = c == 0 ? 0.001 : c;
+
+        if (this.animations[4][0].isTruelyDone() || this.animations[4][1].isTruelyDone()) {
+            this.animations[4][0].elapsedTime = 0;
+            this.animations[4][1].elapsedTime = 0;
+            this.state = 0;
+            this.velocity = 1 * this.knockback;
+        }
+
+        if (this.state === 4) {
+
+            // launch player opposite direction of player
+            const dx = 1.5 * (this.x - entity.x) / c * this.velocity;
+            const dy = 1.5 * (this.y - entity.y) / c * this.velocity;
+
+            this.x += dx;
+            this.y += dy;
+
+
+            this.velocity -= Math.max(GAME.clockTick * this.animations[4][0].totalTime * this.knockback * 2, 0);
+
+        }
 
     }
 
@@ -333,6 +358,14 @@ class PlayerCharacter {
 
     updateLocation() {
 
+        if (this.iFrames > 0) this.iFrames--; 
+        if (this.iFrames == 0) this.rolling = false; 
+
+        if (this.state === 4) {
+            MAP.update();
+            return;
+        }
+
         const tLoc = LOCATION.getTrueLocation(this.x, this.y);
 
         const reverse = (this.goingRight && GAME.mouseLocation.x < tLoc.x + 12) || (!this.goingRight && GAME.mouseLocation.x >= tLoc.x + 12);
@@ -351,7 +384,7 @@ class PlayerCharacter {
         
         this.state = 1;
 
-        if (GAME.keyClick[" "] && this.rollCooldown == 0 && this.state != 0) {
+        if (GAME.keyClick[" "] && this.rollCooldown == 0 && this.state > 0) {
             this.rolling = true;
             this.state = 7;
             this.iFrames = 60;

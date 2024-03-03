@@ -32,7 +32,7 @@ env.ITEMS = {
 
         health: 150,
 
-        attack_damage: 6.0,
+        attack_damage: 4.5,
         attack_cooldown: 2.0,
 
         break_damage: 3.0,
@@ -134,7 +134,7 @@ env.ITEMS = {
         health: 100,
 
         attack_damage: 2.0,
-        attack_cooldown: 0.75,
+        attack_cooldown: 0.4,
 
         location: [175, 11],
         size: [8, 28]

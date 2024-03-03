@@ -10,7 +10,7 @@ class Enemy {
     state = 0;
     angle = 0.5;
     range;
-    totalHealth = 3;
+    totalHealth = 12;
     health = this.totalHealth;
     agro = false;
     dead = false;
@@ -44,7 +44,8 @@ class Enemy {
         else if (name == "knight") this.spritesheet = ASSETS.getImage("e/knight");
         else if (name == "daemon") {
             this.spritesheet = ASSETS.getImage("e/daemon");
-            this.health = 8;
+            this.health = 40;
+            this.totalHealth = 40;
         }
 
         // All of the enemies's animations.
@@ -172,8 +173,9 @@ class Enemy {
         
         if (sword.hit) { 
             if (sword.inRange(this.bb.left, this.bb.bottom, this.bb.right, this.bb.top)) {
-                this.health--;
+                
                 ASSETS.playAudio("a/hit");
+                this.health -= GAME.player.sword.item.attack_damage || 1;
         
                 if (this.health <= 0) {
                     this.state = 5;
@@ -192,7 +194,8 @@ class Enemy {
         }
 
 
-        const c = Math.sqrt((GAME.player.x - this.x) ** 2 + (GAME.player.y - this.y) ** 2);
+        let c = Math.sqrt((GAME.player.x - this.x) ** 2 + (GAME.player.y - this.y) ** 2);
+        c = c == 0 ? 0.001 : c;
 
         //console.log(this.animations[4][0].isDone() || this.animations[4][1].isDone());
 
