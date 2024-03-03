@@ -10,6 +10,9 @@ class BiomeTile {
     animated = false;
     tileX;
     tileY;
+    breaking = false;
+    breakingAnimation = new Animator(ASSETS.getImage("t/block/break"), 0, 0, 16, 16, 10, 0.1, 1, false, false);
+    broken = false;
 
     holder;
 
@@ -236,19 +239,30 @@ class BiomeTile {
     }
 
     update() {
-        // add logic for player location
+
+        this.breaking = false;
+
+        if (GAME.mouseHold[0] &&
+            GAME.mouseChunk.x == this.chunkX && GAME.mouseChunk.y == this.chunkY &&
+            GAME.mouseTile.x == this.tileX && GAME.mouseTile.y == this.tileY &&
+            this.holder != null
+        ) {
+
+            this.breaking = true;
+
+            if (this.breakingAnimation.isTruelyDone()) {
+                this.breakingAnimation.elapsedTime = 0;
+                this.breaking = false;
+                this.broken = true;
+            }
+
+        }
+
     }
 
     draw() {
 
-        const current = getCurrentChunk(GAME.player.x, GAME.player.y)
-
-        if (
-            current.x + RENDER_DISTANCE < this.chunkX ||
-            current.x - RENDER_DISTANCE > this.chunkX ||
-            current.y + RENDER_DISTANCE < this.chunkY ||
-            current.y - RENDER_DISTANCE > this.chunkY
-        ) return;
+        if (this.broken) return;
 
         const { x, y } = LOCATION.getTrueLocation(
             (this.chunkX * CHUNK_WIDTH * TILE_WIDTH + this.tileX * TILE_WIDTH) - env.MAP.OFFSET.x,
@@ -277,6 +291,18 @@ class BiomeTile {
                 y,
                 TILE_WIDTH,
                 TILE_LENGTH
+            );
+        }
+
+        if (this.breaking) {
+
+            console.log("breaking ++");
+            this.breakingAnimation.drawFrame(
+                GAME.clockTick,
+                null,
+                x,
+                y,
+                1
             );
         }
     }

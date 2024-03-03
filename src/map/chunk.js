@@ -134,6 +134,14 @@ class Chunk {
 
     }
 
+    update() {
+        for (let i = 0; i < this.tiles.length; i++) {
+            for (let j = 0; j < this.tiles[i].length; j++) {
+                this.tiles[i][j].update();
+            }
+        }
+    }
+
     draw(ctx) {
         for (let i = 0; i < this.tiles.length; i++) {
             for (let j = 0; j < this.tiles[i].length; j++) {

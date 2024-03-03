@@ -28,8 +28,13 @@ class GameEngine {
     // Clicked: left, middle, right
     mouseClick = [false, false, false];
 
+    mouseHold = [false, false, false];
+
     // Mouse location: x, y
     mouseLocation = { x: env.X_CENTER, y: env.Y_CENTER };
+
+    mouseTile = { x: 0, y: 0 };
+    mouseChunk = { x: 0, y: 0 };
 
     // Constructor
     constructor() {
@@ -64,10 +69,21 @@ class GameEngine {
         this.timer = new Timer();
     };
 
-    #updateMouseLocation = e => (this.mouseLocation = {
-        x: (e.clientX - env.CTX.canvas.getBoundingClientRect().left) / env.SCALE,
-        y: (e.clientY - env.CTX.canvas.getBoundingClientRect().top) / env.SCALE
-    });
+    #updateMouseLocation = e => {
+        const loc = this.mouseLocation = {
+            x: (e.clientX - env.CTX.canvas.getBoundingClientRect().left) / env.SCALE,
+            y: (e.clientY - env.CTX.canvas.getBoundingClientRect().top) / env.SCALE
+        };
+
+        const loc2 = LOCATION.getTrueLocation(0, 0);
+
+        const x = loc.x - loc2.x - env.OFFSET.x;
+        const y = loc.y - loc2.y - env.OFFSET.y;
+
+        this.mouseChunk = getCurrentChunk(x, y);
+        this.mouseTile = getCurrentTile(x, y);
+        console.log(x, y);
+    };
 
     start() {
         this.running = true;
@@ -79,10 +95,12 @@ class GameEngine {
     };
 
     startInput() {
+
         env.CTX.canvas.addEventListener("mousemove", this.#updateMouseLocation);
 
-
         env.CTX.canvas.addEventListener("mousedown", (e) => {
+
+            this.mouseHold[e.button] = true;
 
             if (!this.keyClickCooldownWhitelist.includes(e.button)) {
                 if (this.keyClickCooldowns.has(e.button) || !(Date.now() - this.keyClickCooldowns.get(e.button) < 100)) {
@@ -94,7 +112,7 @@ class GameEngine {
             }
         });
 
-        env.CTX.canvas.addEventListener("mouseup", (e) => this.mouseClick[e.button] = false);
+        env.CTX.canvas.addEventListener("mouseup", (e) => this.mouseClick[e.button] = this.mouseHold[e.button] = false);
 
         env.CTX.canvas.addEventListener("wheel", e => e.preventDefault());
 
@@ -184,6 +202,8 @@ class GameEngine {
     };
 
     update() {
+
+        this.chunks.forEach(chunk => chunk.update());
 
         for (let i = 0; i < this.entities.length; i++) {
             let entity = this.entities[i];
