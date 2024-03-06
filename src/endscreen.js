@@ -5,7 +5,7 @@ class EndScreen {
 
     constructor() {
 
-        this.deathBuffer = 170;
+        this.deathBuffer = 250;
 
     }
 
@@ -26,8 +26,8 @@ class EndScreen {
             this.asset,
             0,
             0,
-            1200,
-            1200,
+            2500,
+            1250,
             0,
             0,
             env.CENTER.x * 2,

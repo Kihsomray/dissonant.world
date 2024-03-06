@@ -5,7 +5,7 @@ class WinScreen {
 
     constructor() {
 
-        this.winBuffer = 120;
+        this.winBuffer = 250;
 
     }
 
@@ -25,8 +25,8 @@ class WinScreen {
             this.asset,
             0,
             0,
-            1200,
-            1200,
+            3200,
+            2800,
             0,
             0,
             env.CENTER.x * 2.5,

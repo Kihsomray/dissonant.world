@@ -296,7 +296,7 @@ class BiomeTile {
 
         if (this.breaking) {
 
-            console.log("breaking ++");
+            // console.log("breaking ++");
             this.breakingAnimation.drawFrame(
                 GAME.clockTick,
                 null,

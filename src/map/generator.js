@@ -202,9 +202,14 @@ class MapGenerator {
 
             let enemies = ["goblin", "orc", "oni", "hobgoblin", "knight", "daemon"];
 
-            let enemyChoice = Math.floor(enemies.length * randGen());
+            let enemyChoice = Math.floor((enemies.length - 1) * randGen());
+
+            // Added by Patrick to make bosses more infrequent.
+            enemyChoice = ( Math.random() >= 0.98 ? 5 : enemyChoice );
+            if (enemyChoice == 5) console.log("boss");
 
             let enemy = {};
+            
             enemy[enemies[enemyChoice]] = [x, y];
 
             next.push(enemy);

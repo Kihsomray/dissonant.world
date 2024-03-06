@@ -152,9 +152,9 @@ class Enemy {
 
         // Player death animation for state = 5.
         // Facing right = 0.
-        this.animations[5][0] = new Animator(this.spritesheet, 0, 56 * 5 + 1, 56, 56, 4, 0.3, 1, false, false);
+        this.animations[5][0] = new Animator(this.spritesheet, 0, 56 * 5 + 1, 56, 56, 4, 0.5, 1, false, false);
         // Facing left = 1.
-        this.animations[5][1] = new Animator(this.spritesheet, 220, 56 * 5 + 1, 56, 56, 4, 0.3, 1, false, false);
+        this.animations[5][1] = new Animator(this.spritesheet, 220, 56 * 5 + 1, 56, 56, 4, 0.5, 1, false, false);
 
     }
 
@@ -167,9 +167,9 @@ class Enemy {
 
         const sword = GAME.player.sword;
 
-        if (GAME.player.win == true || GAME.player.health.health <= 0) return;
+        if (GAME.player.win == true || GAME.player.state == 5) return;
 
-        if (this.state === 4) console.log(sword.hit);
+        // if (this.state === 4) console.log(sword.hit);
         
         if (sword.hit) { 
             if (sword.inRange(this.bb.left, this.bb.bottom, this.bb.right, this.bb.top)) {
