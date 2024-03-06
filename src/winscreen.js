@@ -18,15 +18,15 @@ class WinScreen {
 
     draw() {
 
-        if (this.winBuffer > 0) return;
+        // if (this.winBuffer > 0) return;
         GAME.player.state = 0;
 
         env.CTX.drawImage(
             this.asset,
             0,
             0,
-            1200,
-            1200,
+            3200,
+            2800,
             0,
             0,
             env.CENTER.x * 2.5,

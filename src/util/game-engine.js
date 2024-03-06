@@ -236,8 +236,6 @@ class GameEngine {
             if (ASSETS.getAudio("m/overworld").currentTime == 0) {
                 ASSETS.playAudio("m/overworld");
             }
-
-            // ASSETS.restartMusic("m/overworld");
         }
 
         ASSETS.muteAllAudio(mute);
