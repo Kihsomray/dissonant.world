@@ -1,4 +1,4 @@
-const SEED = 0;
+const SEED = Math.floor( Math.random() * 10000000 );
 
 // terminology:
 // tile: a tile containing data (dimensions in pixels)
@@ -56,6 +56,7 @@ const BIOME_TYPES_EXTRA = [
 ];
 
 class MapManager{
+
 
     generatorMap;
     chunks = [];

@@ -130,30 +130,30 @@ class Sword {
         const mLoc = GAME.mouseLocation;
         const anglePlayerToCursor = (Math.atan2(mLoc.y - y, mLoc.x - x) * (180 / Math.PI) + 360) % 360;
 
-        // draw a red half transparent dotted line from player to range at the angle of the cursor
-        env.CTX.strokeStyle = "rgba(100, 100, 100, 0.7)";
-        env.CTX.setLineDash([2, 4]);
-        env.CTX.beginPath();
-        env.CTX.moveTo(x, y);
-        env.CTX.lineTo(x + this.attackReach * Math.cos(anglePlayerToCursor * (Math.PI / 180)), y + this.attackReach * Math.sin(anglePlayerToCursor * (Math.PI / 180)));
-        env.CTX.stroke();
-        env.CTX.closePath();
+        // // draw a red half transparent dotted line from player to range at the angle of the cursor
+        // env.CTX.strokeStyle = "rgba(100, 100, 100, 0.7)";
+        // env.CTX.setLineDash([2, 4]);
+        // env.CTX.beginPath();
+        // env.CTX.moveTo(x, y);
+        // env.CTX.lineTo(x + this.attackReach * Math.cos(anglePlayerToCursor * (Math.PI / 180)), y + this.attackReach * Math.sin(anglePlayerToCursor * (Math.PI / 180)));
+        // env.CTX.stroke();
+        // env.CTX.closePath();
 
-        env.CTX.strokeStyle = "rgba(100, 100, 100, 0.5)";
+        // env.CTX.strokeStyle = "rgba(100, 100, 100, 0.5)";
 
-        //draw lines of the range of the sword
-        env.CTX.beginPath();
-        env.CTX.moveTo(x, y);
-        env.CTX.lineTo(x + this.attackReach * Math.cos((anglePlayerToCursor - this.attackAngle / 2) * (Math.PI / 180)), y + this.attackReach * Math.sin((anglePlayerToCursor - this.attackAngle / 2) * (Math.PI / 180)));
-        env.CTX.stroke();
-        env.CTX.closePath();
+        // //draw lines of the range of the sword
+        // env.CTX.beginPath();
+        // env.CTX.moveTo(x, y);
+        // env.CTX.lineTo(x + this.attackReach * Math.cos((anglePlayerToCursor - this.attackAngle / 2) * (Math.PI / 180)), y + this.attackReach * Math.sin((anglePlayerToCursor - this.attackAngle / 2) * (Math.PI / 180)));
+        // env.CTX.stroke();
+        // env.CTX.closePath();
 
-        // draw the lower line of the range of the sword
-        env.CTX.beginPath();
-        env.CTX.moveTo(x, y);
-        env.CTX.lineTo(x + this.attackReach * Math.cos((anglePlayerToCursor + this.attackAngle / 2) * (Math.PI / 180)), y + this.attackReach * Math.sin((anglePlayerToCursor + this.attackAngle / 2) * (Math.PI / 180)));
-        env.CTX.stroke();
-        env.CTX.closePath();
+        // // draw the lower line of the range of the sword
+        // env.CTX.beginPath();
+        // env.CTX.moveTo(x, y);
+        // env.CTX.lineTo(x + this.attackReach * Math.cos((anglePlayerToCursor + this.attackAngle / 2) * (Math.PI / 180)), y + this.attackReach * Math.sin((anglePlayerToCursor + this.attackAngle / 2) * (Math.PI / 180)));
+        // env.CTX.stroke();
+        // env.CTX.closePath();
 
     }
 

@@ -31,7 +31,7 @@ class BreakBlock {
     }
 
     newAnimation(speed) {
-        console.log(this.spritesheet, 0, 0, 16, 16, 10, speed / 10, 1, false, false)
+        // console.log(this.spritesheet, 0, 0, 16, 16, 10, speed / 10, 1, false, false)
         return new Animator(this.spritesheet, 0, 0, 16, 16, 10, speed / 10, 1, false, false);
     }
 

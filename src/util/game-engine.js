@@ -67,7 +67,6 @@ class GameEngine {
     init() {
         this.startInput();
         this.timer = new Timer();
-        ASSETS.playAudio("m/overworld");
     };
 
     #updateMouseLocation = e => {
@@ -83,7 +82,7 @@ class GameEngine {
 
         this.mouseChunk = getCurrentChunk(x, y);
         this.mouseTile = getCurrentTile(x, y);
-        console.log(x, y);
+        // console.log(x, y);
     };
 
     start() {
@@ -231,8 +230,15 @@ class GameEngine {
 
     updateAudio() {
         const mute = document.getElementById("mute").checked;
-
         const volume = document.getElementById("volume").value;
+
+        if (!mute) {
+            if (ASSETS.getAudio("m/overworld").currentTime == 0) {
+                ASSETS.playAudio("m/overworld");
+            }
+
+            // ASSETS.restartMusic("m/overworld");
+        }
 
         ASSETS.muteAllAudio(mute);
         ASSETS.adjustVolume(volume);

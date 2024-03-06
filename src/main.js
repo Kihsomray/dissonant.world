@@ -34,7 +34,6 @@ ASSETS.queueDownload("a/walk-one", "./res/audio/walk-one.mp3");
 ASSETS.queueDownload("a/walk-two", "./res/audio/walk-two.mp3");
 ASSETS.queueDownload("a/walk-three", "./res/audio/walk-three.mp3");
 ASSETS.queueDownload("a/hit", "./res/audio/hit.mp3");
-ASSETS.queueDownload("a/enemy-hit", "./res/audio/enemy-hit.mp3");
 ASSETS.queueDownload("a/dodge-zero", "./res/audio/dodge-zero.mp3");
 ASSETS.queueDownload("a/dodge-one", "./res/audio/dodge-one.mp3");
 
