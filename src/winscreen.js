@@ -5,7 +5,7 @@ class WinScreen {
 
     constructor() {
 
-        this.winBuffer = 120;
+        this.winBuffer = 250;
 
     }
 
@@ -18,7 +18,7 @@ class WinScreen {
 
     draw() {
 
-        // if (this.winBuffer > 0) return;
+        if (this.winBuffer > 0) return;
         GAME.player.state = 0;
 
         env.CTX.drawImage(
