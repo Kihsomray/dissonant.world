@@ -206,7 +206,7 @@ class MapGenerator {
 
             // Added by Patrick to make bosses more infrequent.
             enemyChoice = ( Math.random() >= 0.98 ? 5 : enemyChoice );
-            if (enemyChoice == 5) console.log("boss");
+            //if (enemyChoice == 5) console.log("boss");
 
             let enemy = {};
             

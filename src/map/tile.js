@@ -256,6 +256,8 @@ class BiomeTile {
                 this.broken = true;
             }
 
+        } else {
+            this.breakingAnimation.elapsedTime = 0;
         }
 
     }
