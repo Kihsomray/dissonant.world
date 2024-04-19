@@ -33,9 +33,10 @@ class Location {
 
 function getCurrentChunk(x, y) {
     //console.log("The loc is " + Math.floor(x + (CHUNK_WIDTH * TILE_WIDTH / 2)) + ", " + Math.floor(y + (CHUNK_LENGTH * TILE_LENGTH / 2)));
+    console.log("The loc is " + Math.floor(x / (CHUNK_WIDTH * TILE_WIDTH) + (CLUSTER_WIDTH) / 2) + ", " + Math.floor(y / (CHUNK_LENGTH * TILE_LENGTH) + (CLUSTER_LENGTH) / 2));
     return {
-        x: Math.floor(x / (CHUNK_WIDTH * TILE_WIDTH) + (CLUSTER_WIDTH) / 2),
-        y: Math.floor(y / (CHUNK_LENGTH * TILE_LENGTH) + (CLUSTER_LENGTH) / 2)
+        x: Math.floor((x + TILE_WIDTH) / (CHUNK_WIDTH * TILE_WIDTH) + (CLUSTER_WIDTH) / 2),
+        y: Math.floor((y + TILE_LENGTH) / (CHUNK_LENGTH * TILE_LENGTH) + (CLUSTER_LENGTH) / 2)
     };
 };
 
